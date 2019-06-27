@@ -5,6 +5,7 @@ const path = require('path');
 const fileUtils = require('../util/file_utils');
 const Adapter = require('./args').Adapter;
 const args0 = new Adapter(require('./args').args);
+const TemplateHandlerFactory = require('./handler/factory');
 
 module.exports = class extends Generator {
   constructor (args, opts) {
