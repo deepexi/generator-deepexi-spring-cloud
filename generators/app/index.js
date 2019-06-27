@@ -24,7 +24,7 @@ const obj = {
       type: 'input',
       message: '请输入你的基础包路径（为空则使用group id）'
     },
-    option: { desc: 'artifact id', type: String, default: '' }
+    option: { desc: '基础包路径（为空则使用group id）', type: String, default: '' }
   },
   mavenUrl: {
     prompting: {
