@@ -1,0 +1,41 @@
+{
+  "name": "generator-deepexi-spring-cloud",
+  "version": "0.0.1",
+  "description": "deepexi spring cloud scaffold tool",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^1.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "yeoman-assert": "^3.1.1",
+    "yeoman-test": "^2.0.0",
+    "nyc": "^14.1.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha generators/test/**/*.test.js --reporter spec",
+    "lint": "eslint .",
+    "cov": "nyc npm run test && nyc report --reporter=text-lcov > coverage.lcov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepexi/generator-deepexi-spring-cloud.git"
+  },
+  "bugs": {
+    "url": "https://github.com/deepexi/generator-deepexi-spring-cloud/issues"
+  },
+  "homepage": "https://github.com/deepexi/generator-deepexi-spring-cloud#readme",
+  "author": "taccisum",
+  "license": "ISC"
+}

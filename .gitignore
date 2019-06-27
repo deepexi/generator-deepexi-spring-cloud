@@ -1,0 +1,14 @@
+.DS_Store
+.DS_Store?
+
+.nyc_output/
+coverage/
+node_modules/
+run/
+logs/
+package-lock.json
+
+*.lcov
+
+push.sh
+test_proj/

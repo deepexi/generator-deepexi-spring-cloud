@@ -1,0 +1,13 @@
+sudo: false
+language: node_js
+node_js:
+  - '10'
+cache: npm
+install:
+  - npm i 
+before_script:
+  - npm i nyc mocha -g
+script:
+  - npm run cov
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -f coverage.lcov
