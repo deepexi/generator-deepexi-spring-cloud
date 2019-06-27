@@ -17,7 +17,7 @@ module.exports = {
    * @param {string} tmpl 模板文件名
    */
   tmplToFileName (tmpl) {
-    const file = tmpl.replace(/.tmpl(_.+)?/, '')
+    const file = tmpl.replace(/.tmpl(_\w+)?/, '')
     return file
   },
 

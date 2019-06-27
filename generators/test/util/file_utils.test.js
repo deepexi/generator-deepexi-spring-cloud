@@ -40,7 +40,8 @@ describe('file utils', () => {
       assert.strictEqual(fileUtils.tmplToFileName('foo.tmpl.js'), 'foo.js')
       assert.strictEqual(fileUtils.tmplToFileName('foo.tmpl'), 'foo')
       assert.strictEqual(fileUtils.tmplToFileName('app/foo.tmpl.js'), 'app/foo.js')
-      assert.strictEqual(fileUtils.tmplToFileName('foo.tmpl_foo.js'), 'foo')
+      assert.strictEqual(fileUtils.tmplToFileName('foo.tmpl_foo'), 'foo')
+      assert.strictEqual(fileUtils.tmplToFileName('foo.tmpl_foo.js'), 'foo.js')
     })
 
     it('is not template', () => {
