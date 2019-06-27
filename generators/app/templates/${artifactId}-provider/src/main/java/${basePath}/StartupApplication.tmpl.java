@@ -1,4 +1,4 @@
-package com.deepexi.devops.project;
+package ${basePackage};
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
