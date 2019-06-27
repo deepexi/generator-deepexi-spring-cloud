@@ -9,7 +9,8 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^1.1.1"
+    "yeoman-generator": "^1.1.1",
+    "yo-power-generator": "^0.0.3"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
