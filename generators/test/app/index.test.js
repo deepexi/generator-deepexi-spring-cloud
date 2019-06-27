@@ -11,7 +11,8 @@ describe('generate app', () => {
       .run(path.join(__dirname, '../../app'))
       .withPrompts({
         groupId: 'com.deepexi',
-        artifactId: 'foo-service'
+        artifactId: 'foo-service',
+        basePackage: 'com.deepexi.foo'
       })
       .then(() => {
       })
@@ -44,7 +45,7 @@ describe('generate app', () => {
 
   describe('provider', () => {
     it('should exists java files', () => {
-      assert.file('foo-service-provider/src/main/java/com/deepexi/StartupApplication.java')
+      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java')
     })
 
     it('should exists resources files', () => {
