@@ -46,6 +46,7 @@ describe('generate app', () => {
   describe('provider', () => {
     it('should exists java files', () => {
       assert.file('foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java')
+      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationConfiguration.java')
     })
 
     it('should exists resources files', () => {
