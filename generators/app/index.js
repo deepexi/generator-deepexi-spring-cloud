@@ -7,7 +7,7 @@ const Adapter = require('./args').Adapter;
 const args0 = new Adapter(require('./args').args);
 
 module.exports = class extends Generator {
-  constructor(args, opts) {
+  constructor (args, opts) {
     super(args, opts);
     const _this = this;
 
@@ -17,27 +17,28 @@ module.exports = class extends Generator {
     })
   }
 
-  catch(e) {
+  catch (e) {
     // if (e) {
     // console.log(e)
     // }
   };
 
-  async prompting() {
+  async prompting () {
     if (!this.options.command) {
       this.props = await this.prompt(args0.toPromptings());
     } else {
+      const _this = this;
       args0.toOptions().forEach(option => {
-        this.props[key] = _this.option[option.key];
+        this.props[option.key] = _this.option[option.key];
       })
     }
 
     this.props.dependencies = {
-      utils: true,
+      utils: true
     }
   }
 
-  write() {
+  write () {
     const dir = path.join(__dirname, './templates')
     const files = fileUtils.readAllFileRecursivelySync(dir)
 
