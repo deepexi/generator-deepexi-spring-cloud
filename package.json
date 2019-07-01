@@ -9,6 +9,10 @@
     "yeoman-generator"
   ],
   "dependencies": {
+    "debug": "^4.1.1",
+    "js-yaml": "^3.13.1",
+    "prettify-xml": "^1.2.0",
+    "xml": "^1.0.1",
     "yeoman-generator": "^1.1.1",
     "yo-power-generator": "^0.0.3"
   },
@@ -25,7 +29,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha generators/test/**/*.test.js --reporter spec",
+    "test": "mocha generators/test/app/*.test.js generators/test/app/**/*.test.js --reporter spec",
     "lint": "eslint .",
     "cov": "nyc npm run test && nyc report --reporter=text-lcov > coverage.lcov"
   },

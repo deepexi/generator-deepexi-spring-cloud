@@ -4,6 +4,8 @@
 const assert = require('yeoman-assert')
 const helpers = require('yeoman-test')
 const path = require('path')
+const fs = require('fs');
+const yaml = require('js-yaml');
 
 describe('generate app', () => {
   before(() => {
@@ -47,6 +49,7 @@ describe('generate app', () => {
     it('should exists java files', () => {
       assert.file('foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java')
       assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationConfiguration.java')
+      assert.file('foo-service-provider/pom.xml')
     })
 
     it('should exists resources files', () => {
@@ -64,3 +67,32 @@ describe('generate app', () => {
     })
   });
 })
+
+describe('optional dependencies', () => {
+  describe('eureka', () => {
+    before(() => {
+      return helpers
+        .run(path.join(__dirname, '../../app'))
+        .withPrompts({
+          groupId: 'com.deepexi',
+          artifactId: 'foo-service',
+          basePackage: 'com.deepexi.foo',
+          discovery: 'eureka'
+        })
+        .then(() => {
+        })
+    });
+
+    it('should have dependency', () => {
+      assert.fileContent([
+        ['foo-service-provider/pom.xml', /<groupId>org.springframework.cloud<\/groupId>/],
+        ['foo-service-provider/pom.xml', /<artifactId>spring-cloud-starter-netflix-eureka-client<\/artifactId>/]
+      ])
+    });
+
+    it('should have properties', () => {
+      assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')).eureka.client);
+      assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application-local.yml')).eureka.client);
+    });
+  });
+});

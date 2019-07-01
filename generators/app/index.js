@@ -41,18 +41,18 @@ const obj = {
     },
     option: { desc: 'API文档', type: String, default: 'swagger2' }
   },
-  // discovery: {
-  //   prompting: {
-  //     type: 'list',
-  //     choices: [
-  //       'eureka',
-  //       'zookeeper',
-  //       'none'
-  //     ],
-  //     message: '请选择你使用的注册中心类型'
-  //   },
-  //   option: { desc: '注册中心', type: String, default: 'eureka' }
-  // },
+  discovery: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'eureka',
+        // 'zookeeper',
+        'none'
+      ],
+      message: '请选择你使用的注册中心类型'
+    },
+    option: { desc: '注册中心', type: String, default: 'eureka' }
+  }
   // configservice: {
   //   prompting: {
   //     type: 'list',
