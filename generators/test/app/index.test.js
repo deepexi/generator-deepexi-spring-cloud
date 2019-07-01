@@ -20,51 +20,53 @@ describe('generate app', () => {
       })
   });
 
-  it('should exists project files', () => {
-    assert.file('pom.xml')
-    assert.file('.gitignore')
-    assert.file('filebeat.yml')
-    assert.file('start-fb.sh')
-    assert.file('start-code.sh')
-    assert.file('Dockerfile')
-    assert.file('LICENSE')
-    assert.file('README.md')
-  })
-
-  describe('api', () => {
-    it('should exists java files', () => {
+  describe('exists files', () => {
+    it('should exists project files', () => {
+      assert.file('pom.xml')
+      assert.file('.gitignore')
+      assert.file('filebeat.yml')
+      assert.file('start-fb.sh')
+      assert.file('start-code.sh')
+      assert.file('Dockerfile')
+      assert.file('LICENSE')
+      assert.file('README.md')
     })
 
-    it('should exists resources files', () => {
-    })
+    describe('api', () => {
+      it('should exists java files', () => {
+      })
 
-    it('should exists test java files', () => {
-    })
+      it('should exists resources files', () => {
+      })
 
-    it('should exists test resources files', () => {
-    })
-  });
+      it('should exists test java files', () => {
+      })
 
-  describe('provider', () => {
-    it('should exists java files', () => {
-      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java')
-      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationConfiguration.java')
-      assert.file('foo-service-provider/pom.xml')
-    })
+      it('should exists test resources files', () => {
+      })
+    });
 
-    it('should exists resources files', () => {
-      assert.file('foo-service-provider/src/main/resources/application.yml')
-      assert.file('foo-service-provider/src/main/resources/application-local.yml')
-      assert.file('foo-service-provider/src/main/resources/application-dev.yml')
-      assert.file('foo-service-provider/src/main/resources/application-qa.yml')
-      assert.file('foo-service-provider/src/main/resources/application-prod.yml')
-    })
+    describe('provider', () => {
+      it('should exists java files', () => {
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationConfiguration.java')
+        assert.file('foo-service-provider/pom.xml')
+      })
 
-    it('should exists test java files', () => {
-    })
+      it('should exists resources files', () => {
+        assert.file('foo-service-provider/src/main/resources/application.yml')
+        assert.file('foo-service-provider/src/main/resources/application-local.yml')
+        assert.file('foo-service-provider/src/main/resources/application-dev.yml')
+        assert.file('foo-service-provider/src/main/resources/application-qa.yml')
+        assert.file('foo-service-provider/src/main/resources/application-prod.yml')
+      })
 
-    it('should exists test resources files', () => {
-    })
+      it('should exists test java files', () => {
+      })
+
+      it('should exists test resources files', () => {
+      })
+    });
   });
 
   describe('required dependencies', () => {
