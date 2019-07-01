@@ -92,7 +92,7 @@ const obj = {
 module.exports = require('yo-power-generator').getGenerator(obj, {
   handlerDir: path.join(__dirname, 'handler'),
   templateDir: path.join(__dirname, 'templates'),
-  beforeWrite (props) {
+  afterPropsSet (props) {
     if (!props.basePackage) {
       props.basePackage = props.groupId;
     }
