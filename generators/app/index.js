@@ -18,7 +18,75 @@ const obj = {
   mavenUrl: {
     prompting: { type: 'input', message: '请输入你的maven仓库地址', default: 'http://nexus.deepexi.top/repository/maven-public/' },
     option: { desc: 'maven仓库url', type: String, default: 'http://nexus.deepexi.top/repository/maven-public/' }
-  }
+  },
+  db: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'mysql',
+        'none'
+      ],
+      message: '请选择你使用的数据库'
+    },
+    option: { desc: '数据库', type: String, default: 'none' }
+  },
+  apiDocs: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'swagger2',
+        'none'
+      ],
+      message: '请选择你使用的API文档类型'
+    },
+    option: { desc: 'API文档', type: String, default: 'swagger2' }
+  },
+  // discovery: {
+  //   prompting: {
+  //     type: 'list',
+  //     choices: [
+  //       'eureka',
+  //       'zookeeper',
+  //       'none'
+  //     ],
+  //     message: '请选择你使用的注册中心类型'
+  //   },
+  //   option: { desc: '注册中心', type: String, default: 'eureka' }
+  // },
+  // configservice: {
+  //   prompting: {
+  //     type: 'list',
+  //     choices: [
+  //       'apollo',
+  //       'none'
+  //     ],
+  //     message: '请选择你的配置中心类型'
+  //   },
+  //   option: { desc: '配置中心', type: String, default: 'none' }
+  // },
+  // circuit: {
+  //   prompting: {
+  //     type: 'list',
+  //     choices: [
+  //       'hystrix',
+  //       'sentinel',
+  //       'none'
+  //     ],
+  //     message: '请选择你的熔断框架类型'
+  //   },
+  //   option: { desc: '熔断降级', type: String, default: 'none' }
+  // },
+  // http: {
+  //   prompting: {
+  //     type: 'list',
+  //     choices: [
+  //       'openfeign',
+  //       'none'
+  //     ],
+  //     message: '请选择你的HTTP客户端类型'
+  //   },
+  //   option: { desc: 'HTTP客户端', type: String, default: 'none' }
+  // }
 }
 
 module.exports = require('yo-power-generator').getGenerator(obj, {
