@@ -1,3 +1,5 @@
 spring:
   application:
     name: ${artifactId}
+swagger:
+  base-package: ${basePackage}.controller

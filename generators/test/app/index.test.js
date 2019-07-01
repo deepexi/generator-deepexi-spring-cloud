@@ -66,6 +66,24 @@ describe('generate app', () => {
     it('should exists test resources files', () => {
     })
   });
+
+  describe('required dependencies', () => {
+    describe('swagger', () => {
+      it('should have dependency', () => {
+        assert.fileContent([
+          ['foo-service-provider/pom.xml', /<artifactId>swagger-spring-boot2-starter<\/artifactId>/]
+        ])
+      });
+
+      it('should have properties', () => {
+        assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')).swagger);
+      });
+
+      it('should disabled on env prod', () => {
+        assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application-prod.yml')).swagger.enabled === false);
+      });
+    });
+  });
 })
 
 describe('optional dependencies', () => {

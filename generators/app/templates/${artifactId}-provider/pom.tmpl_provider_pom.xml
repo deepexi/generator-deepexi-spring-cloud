@@ -23,6 +23,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.taccisum</groupId>
+            <artifactId>swagger-spring-boot2-starter</artifactId>
+            <version>1.0.1</version>
+        </dependency>
         ${optionalDependencies}
     </dependencies>
 

@@ -30,17 +30,6 @@ const obj = {
     },
     option: { desc: '数据库', type: String, default: 'none' }
   },
-  apiDocs: {
-    prompting: {
-      type: 'list',
-      choices: [
-        'swagger2',
-        'none'
-      ],
-      message: '请选择你使用的API文档类型'
-    },
-    option: { desc: 'API文档', type: String, default: 'swagger2' }
-  },
   discovery: {
     prompting: {
       type: 'list',
