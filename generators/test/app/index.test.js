@@ -85,6 +85,8 @@ describe('generate app', () => {
 
     it('should exists files', () => {
       assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/DemoController.java')
+      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/DemoService.java')
+      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/impl/DemoServiceImpl.java')
     });
   });
 
