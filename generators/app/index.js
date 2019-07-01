@@ -41,6 +41,14 @@ const obj = {
       message: '请选择你使用的注册中心类型'
     },
     option: { desc: '注册中心', type: String, default: 'eureka' }
+  },
+  demo: {
+    prompting: {
+      type: 'confirm',
+      message: '是否为你生成相关的demo文件（默认No）',
+      default: false
+    },
+    option: { desc: '生成demo', type: Boolean, default: false }
   }
   // configservice: {
   //   prompting: {

@@ -69,6 +69,25 @@ describe('generate app', () => {
     });
   });
 
+  describe('generate demo', () => {
+    before(() => {
+      return helpers
+        .run(path.join(__dirname, '../../app'))
+        .withPrompts({
+          groupId: 'com.deepexi',
+          artifactId: 'foo-service',
+          basePackage: 'com.deepexi.foo',
+          demo: true
+        })
+        .then(() => {
+        })
+    });
+
+    it('should exists files', () => {
+      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/DemoController.java')
+    });
+  });
+
   describe('required dependencies', () => {
     describe('swagger', () => {
       it('should have dependency', () => {
