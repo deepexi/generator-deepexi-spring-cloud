@@ -69,27 +69,6 @@ describe('generate app', () => {
     });
   });
 
-  describe('generate demo', () => {
-    before(() => {
-      return helpers
-        .run(path.join(__dirname, '../../app'))
-        .withPrompts({
-          groupId: 'com.deepexi',
-          artifactId: 'foo-service',
-          basePackage: 'com.deepexi.foo',
-          demo: true
-        })
-        .then(() => {
-        })
-    });
-
-    it('should exists files', () => {
-      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/DemoController.java')
-      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/DemoService.java')
-      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/impl/DemoServiceImpl.java')
-    });
-  });
-
   describe('required dependencies', () => {
     describe('swagger', () => {
       it('should have dependency', () => {
@@ -108,6 +87,27 @@ describe('generate app', () => {
     });
   });
 })
+
+describe('generate demo', () => {
+  before(() => {
+    return helpers
+      .run(path.join(__dirname, '../../app'))
+      .withPrompts({
+        groupId: 'com.deepexi',
+        artifactId: 'foo-service',
+        basePackage: 'com.deepexi.foo',
+        demo: true
+      })
+      .then(() => {
+      })
+  });
+
+  it('should exists files', () => {
+    assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/DemoController.java')
+    assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/DemoService.java')
+    assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/impl/DemoServiceImpl.java')
+  });
+});
 
 describe('optional dependencies', () => {
   describe('eureka', () => {
