@@ -180,5 +180,32 @@ describe('optional dependencies', () => {
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/DemoDo.java')
       });
     });
+
+    describe('druid', () => {
+      before(() => {
+        return helpers
+          .run(path.join(__dirname, '../../app'))
+          .withPrompts({
+            groupId: 'com.deepexi',
+            artifactId: 'foo-service',
+            basePackage: 'com.deepexi.foo',
+            db: 'mysql',
+            dbPool: 'druid'
+          })
+          .then(() => {
+          })
+      });
+
+      it('should have dependency', () => {
+        assert.fileContent([
+          ['foo-service-provider/pom.xml', /<groupId>com.alibaba<\/groupId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>druid-spring-boot-starter<\/artifactId>/]
+        ])
+      });
+
+      it('should have properties', () => {
+        assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')).spring.datasource.druid);
+      });
+    });
   });
 });
