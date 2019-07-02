@@ -9,44 +9,29 @@ const debug = require('debug')('generator:th:provider_pom')
 const prettifyXml = require('prettify-xml')
 
 class ProviderPomTemplateHandler extends AbstractTemplateHandler {
+  /**
+   * @param {*} optionalDependencies
+   * @param {Array} types
+   */
+  _configureOptionalDependencies (optionalDependencies, types) {
+    types.forEach(type => {
+      const typeVal = this.props[type];
+      const configurer = configurers[typeVal];
+      if (!configurer) {
+        debug(`not any configurer found for ${type}[${typeVal}]`);
+      } else {
+        if (configurer.configureProviderPomDependencies) {
+          debug(`configure provider pom dependencies for ${type}[${typeVal}]`);
+          configurer.configureProviderPomDependencies(optionalDependencies);
+        }
+      }
+    })
+  }
+
   _handle0 () {
     const optionalDependencies = []
 
-    switch (this.props.discovery) {
-      case 'eureka': {
-        debug('configure provider pom dependencies for eureka');
-        configurers.eureka.configureProviderPomDependencies(optionalDependencies);
-        break;
-      }
-      //   case 'zookeeper': {
-      //     break;
-      //   }
-      default: {
-        break;
-      }
-    }
-
-    switch (this.props.db) {
-      case 'mysql': {
-        debug('configure provider pom dependencies for mysql');
-        configurers.mysql.configureProviderPomDependencies(optionalDependencies);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-
-    switch (this.props.orm) {
-      case 'mybatis': {
-        debug('configure provider pom dependencies for mybatis');
-        configurers.mybatis.configureProviderPomDependencies(optionalDependencies);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
+    this._configureOptionalDependencies(optionalDependencies, ['discovery', 'db', 'orm', 'dbPool']);
 
     const tpl = _.template(this.generator.fs.read(this.generator.templatePath(this.tmpl)));
     const content = prettifyXml(tpl(_.merge(

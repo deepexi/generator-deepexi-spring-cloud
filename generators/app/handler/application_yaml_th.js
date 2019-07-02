@@ -9,47 +9,33 @@ const debug = require('debug')('generator:th:application_yaml')
 const configurers = require('./configurer/configurers');
 
 class ApplicationYamlTemplateHandler extends AbstractTemplateHandler {
+  /**
+   * @param {*} yamlDoc
+   * @param {String} env
+   * @param {Array} types
+   */
+  _configureApplicationYaml (yamlDoc, env, types) {
+    types.forEach(type => {
+      const typeVal = this.props[type];
+      const configurer = configurers[typeVal];
+      if (!configurer) {
+        debug(`not any configurer found for ${type}[${typeVal}]`);
+      } else {
+        if (configurer.configureApplicationYaml) {
+          debug(`configure application-${env}.yaml for ${type}[${typeVal}]`);
+          configurer.configureApplicationYaml(yamlDoc, env);
+        }
+      }
+    })
+  }
+
   _handle0 () {
     const env = myFileUtils.extractApplicationYamlEnv(this.tmpl);
     const tpl = _.template(this.generator.fs.read(this.generator.templatePath(this.tmpl)));
     const content = tpl(this.props)
     const yamlDoc = yaml.safeLoad(content) || {};
 
-    switch (this.props.discovery) {
-      case 'eureka': {
-        debug(`configure application-${env}.yaml for eureka`);
-        configurers.eureka.configureApplicationYaml(yamlDoc, env);
-        break;
-      }
-      //   case 'zookeeper': {
-      //     break;
-      //   }
-      default: {
-        break;
-      }
-    }
-
-    switch (this.props.db) {
-      case 'mysql': {
-        debug(`configure application-${env}.yaml for mysql`);
-        configurers.mysql.configureApplicationYaml(yamlDoc, env);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-
-    switch (this.props.orm) {
-      case 'mybatis': {
-        debug(`configure application-${env}.yaml for mybatis`);
-        configurers.mybatis.configureApplicationYaml(yamlDoc, env);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
+    this._configureApplicationYaml(yamlDoc, env, ['discovery', 'db', 'orm', 'dbPool']);
 
     const destTpl = _.template(fileUtils.tmplToFileName(this.tmpl));
     this.generator.fs.write(
