@@ -29,6 +29,28 @@ class ApplicationYamlTemplateHandler extends AbstractTemplateHandler {
       }
     }
 
+    switch (this.props.db) {
+      case 'mysql': {
+        debug(`configure application-${env}.yaml for mysql`);
+        configurers.mysql.configureApplicationYaml(yamlDoc, env);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
+    switch (this.props.orm) {
+      case 'mybatis': {
+        debug(`configure application-${env}.yaml for mybatis`);
+        configurers.mybatis.configureApplicationYaml(yamlDoc, env);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
     const destTpl = _.template(fileUtils.tmplToFileName(this.tmpl));
     this.generator.fs.write(
       this.generator.destinationPath(destTpl(this.props)),

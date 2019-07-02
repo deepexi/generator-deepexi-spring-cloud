@@ -26,6 +26,28 @@ class ProviderPomTemplateHandler extends AbstractTemplateHandler {
       }
     }
 
+    switch (this.props.db) {
+      case 'mysql': {
+        debug('configure provider pom dependencies for mysql');
+        configurers.mysql.configureProviderPomDependencies(optionalDependencies);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
+    switch (this.props.orm) {
+      case 'mybatis': {
+        debug('configure provider pom dependencies for mybatis');
+        configurers.mybatis.configureProviderPomDependencies(optionalDependencies);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
     const tpl = _.template(this.generator.fs.read(this.generator.templatePath(this.tmpl)));
     const content = prettifyXml(tpl(_.merge(
       {}, this.props, {

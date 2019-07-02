@@ -136,4 +136,45 @@ describe('optional dependencies', () => {
       assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application-local.yml')).eureka.client);
     });
   });
+
+  describe('mysql', () => {
+    // it('should ', () => {
+
+    // });
+
+    describe('mybatis', () => {
+      before(() => {
+        return helpers
+          .run(path.join(__dirname, '../../app'))
+          .withPrompts({
+            groupId: 'com.deepexi',
+            artifactId: 'foo-service',
+            basePackage: 'com.deepexi.foo',
+            db: 'mysql',
+            orm: 'mybatis',
+            demo: true
+          })
+          .then(() => {
+          })
+      });
+
+      it('should have dependency', () => {
+        assert.fileContent([
+          ['foo-service-provider/pom.xml', /<groupId>org.mybatis.spring.boot<\/groupId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>mybatis-spring-boot-starter<\/artifactId>/]
+        ])
+      });
+
+      it('should have properties', () => {
+      });
+
+      it('should exist demo files', () => {
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/CrudDemoController.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/CrudDemoService.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/impl/CrudDemoServiceImpl.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/mapper/DemoMapper.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/DemoDo.java')
+      });
+    });
+  });
 });

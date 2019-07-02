@@ -28,7 +28,44 @@ const obj = {
       ],
       message: '请选择你使用的数据库'
     },
-    option: { desc: '数据库', type: String, default: 'none' }
+    option: { desc: '数据库', type: String, default: 'none' },
+    child: {
+      dbPool: {
+        prompting: {
+          type: 'list',
+          choices: [
+            'druid',
+            'hikari',
+            'c3p0',
+            'none'
+          ],
+          message: '请选择你使用的数据库连接池'
+        },
+        option: { desc: '数据库连接池', type: String, default: 'none' },
+        callbacks: {
+          trigger (answers) {
+            return answers.db === 'mysql';
+          }
+        }
+      },
+      orm: {
+        prompting: {
+          type: 'list',
+          choices: [
+            'mybatis',
+            'mybatis-plus',
+            'none'
+          ],
+          message: '请选择你使用的ORM框架'
+        },
+        option: { desc: 'ORM框架', type: String, default: 'none' },
+        callbacks: {
+          trigger (answers) {
+            return answers.db === 'mysql';
+          }
+        }
+      }
+    }
   },
   discovery: {
     prompting: {
@@ -49,6 +86,13 @@ const obj = {
       default: false
     },
     option: { desc: '生成demo', type: Boolean, default: false }
+  },
+  lombok: {
+    prompting: {
+      type: 'confirm',
+      message: '是否使用lombok开发（默认true）'
+    },
+    option: { desc: '使用lombok', type: Boolean, default: true }
   }
   // configservice: {
   //   prompting: {
@@ -94,5 +138,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
       props.basePackage = props.groupId;
     }
     props.basePath = props.basePackage.replace(/\./g, '/');
+
+    props.conditions = {};
+    if (props.orm) {
+      props.conditions[props.orm] = true;
+    }
   }
 });
