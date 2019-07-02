@@ -17,7 +17,7 @@ module.exports = {
         case 'default': {
           _.merge(yaml, {
             mybatis: {
-              'mapper-locations': 'classpath:mapper/*'
+              'mapper-locations': 'classpath:mapper/*.xml'
             }
           });
           break;
