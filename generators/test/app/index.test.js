@@ -168,6 +168,10 @@ describe('optional dependencies', () => {
       it('should have properties', () => {
       });
 
+      it('should exist files', () => {
+        assert.file('foo-service-provider/src/main/resources/mapper/.gitkeep')
+      });
+
       it('should exist demo files', () => {
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/CrudDemoController.java')
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/CrudDemoService.java')
