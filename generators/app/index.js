@@ -52,8 +52,8 @@ const obj = {
         prompting: {
           type: 'list',
           choices: [
-            'mybatis',
             'mybatis-plus',
+            'mybatis',
             'none'
           ],
           message: '请选择你使用的ORM框架'
@@ -140,8 +140,11 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
     props.basePath = props.basePackage.replace(/\./g, '/');
 
     props.conditions = {};
-    if (props.orm) {
+    if (props.orm !== 'none') {
       props.conditions[props.orm] = true;
+      if (props.demo) {
+        props.conditions.crud = true;
+      }
     }
   }
 });
