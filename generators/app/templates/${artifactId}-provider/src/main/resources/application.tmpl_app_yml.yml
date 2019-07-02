@@ -1,5 +1,7 @@
 spring:
   application:
     name: ${artifactId}
+  profiles:
+    active: local
 swagger:
   base-package: ${basePackage}.controller
