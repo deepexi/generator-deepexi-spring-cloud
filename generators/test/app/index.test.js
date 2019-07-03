@@ -73,12 +73,20 @@ describe('generate app', () => {
     describe('swagger', () => {
       it('should have dependency', () => {
         assert.fileContent([
-          ['foo-service-provider/pom.xml', /<artifactId>swagger-spring-boot2-starter<\/artifactId>/]
+          ['foo-service-provider/pom.xml', /<artifactId>foo-service-api<\/artifactId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>spring-boot-starter-web<\/artifactId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>guava<\/artifactId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>commons-lang3<\/artifactId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>lombok<\/artifactId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>spring-boot-devtools<\/artifactId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>spring-boot-maven-plugin<\/artifactId>/]
         ])
       });
 
       it('should have properties', () => {
-        assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')).swagger);
+        const appYaml = yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
+        assert(appYaml.swagger);
+        assert(appYaml.spring.application.name);
       });
 
       it('should disabled on env prod', () => {
