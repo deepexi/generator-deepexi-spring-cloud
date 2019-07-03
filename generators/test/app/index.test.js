@@ -151,6 +151,13 @@ describe('optional dependencies', () => {
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/remote/DemoFeignClient.java')
       });
 
+      it('should have dependency', () => {
+        assert.fileContent([
+          ['foo-service-provider/pom.xml', /<groupId>org.springframework.cloud<\/groupId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>spring-cloud-starter-openfeign<\/artifactId>/]
+        ])
+      });
+
       it('should exist annotations', () => {
         assert.fileContent([
           ['foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java', /import org.springframework.cloud.openfeign.EnableFeignClients;/],

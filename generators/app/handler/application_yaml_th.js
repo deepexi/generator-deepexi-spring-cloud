@@ -17,13 +17,20 @@ class ApplicationYamlTemplateHandler extends AbstractTemplateHandler {
   _configureApplicationYaml (yamlDoc, env, types) {
     types.forEach(type => {
       const typeVal = this.props[type];
-      const configurer = configurers[typeVal];
-      if (!configurer) {
-        debug(`not any configurer found for ${type}[${typeVal}]`);
-      } else {
-        if (configurer.configureApplicationYaml) {
-          debug(`configure application-${env}.yaml for ${type}[${typeVal}]`);
-          configurer.configureApplicationYaml(yamlDoc, env);
+      if (typeVal) {
+        let configurer;
+        if (typeof typeVal === 'string') {
+          configurer = configurers[typeVal];
+        } else {
+          configurer = configurers[type];
+        }
+        if (!configurer) {
+          debug(`not any configurer found for ${type}[${typeVal}]`);
+        } else {
+          if (configurer.configureApplicationYaml) {
+            debug(`configure application-${env}.yaml for ${type}[${typeVal}]`);
+            configurer.configureApplicationYaml(yamlDoc, env);
+          }
         }
       }
     })
@@ -35,7 +42,7 @@ class ApplicationYamlTemplateHandler extends AbstractTemplateHandler {
     const content = tpl(this.props)
     const yamlDoc = yaml.safeLoad(content) || {};
 
-    this._configureApplicationYaml(yamlDoc, env, ['discovery', 'db', 'orm', 'dbPool']);
+    this._configureApplicationYaml(yamlDoc, env, ['discovery', 'db', 'orm', 'dbPool', 'openfeign']);
 
     const destTpl = _.template(fileUtils.tmplToFileName(this.tmpl));
     this.generator.fs.write(
