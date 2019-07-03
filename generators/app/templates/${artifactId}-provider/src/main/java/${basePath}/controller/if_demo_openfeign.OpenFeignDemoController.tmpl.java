@@ -16,4 +16,9 @@ public class OpenFeignDemoController {
     public String index() {
         return client.index();
     }
+
+    @GetMapping("/fallback")
+    public String fallback() {
+        return client.fallback();
+    }
 }
