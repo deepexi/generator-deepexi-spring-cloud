@@ -126,7 +126,8 @@ describe('optional dependencies', () => {
           groupId: 'com.deepexi',
           artifactId: 'foo-service',
           basePackage: 'com.deepexi.foo',
-          discovery: 'eureka'
+          discovery: 'eureka',
+          demo: true
         })
         .then(() => {
         })
@@ -142,6 +143,20 @@ describe('optional dependencies', () => {
     it('should have properties', () => {
       assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')).eureka.client);
       assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application-local.yml')).eureka.client);
+    });
+
+    describe('openfeign', () => {
+      it('should exist demo files', () => {
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/OpenFeignDemoController.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/remote/DemoFeignClient.java')
+      });
+
+      it('should exist annotations', () => {
+        assert.fileContent([
+          ['foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java', /import org.springframework.cloud.openfeign.EnableFeignClients;/],
+          ['foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java', /@EnableFeignClients/]
+        ])
+      });
     });
   });
 

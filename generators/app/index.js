@@ -76,7 +76,32 @@ const obj = {
       ],
       message: '请选择你使用的注册中心类型'
     },
-    option: { desc: '注册中心', type: String, default: 'eureka' }
+    option: { desc: '注册中心', type: String, default: 'eureka' },
+    child: {
+      circuit: {
+        prompting: {
+          type: 'list',
+          choices: [
+            'hystrix',
+            // 'sentinel',
+            'none'
+          ],
+          message: '请选择你的熔断框架类型（TODO）'
+        },
+        option: { desc: '熔断降级', type: String, default: 'hystrix' }
+      }
+    }
+  },
+  configservice: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'apollo',
+        'none'
+      ],
+      message: '请选择你的配置中心类型（TODO）'
+    },
+    option: { desc: '配置中心', type: String, default: 'none' }
   },
   demo: {
     prompting: {
@@ -85,48 +110,7 @@ const obj = {
       default: false
     },
     option: { desc: '生成demo', type: Boolean, default: false }
-  },
-  lombok: {
-    prompting: {
-      type: 'confirm',
-      message: '是否使用lombok开发（默认true）'
-    },
-    option: { desc: '使用lombok', type: Boolean, default: true }
   }
-  // configservice: {
-  //   prompting: {
-  //     type: 'list',
-  //     choices: [
-  //       'apollo',
-  //       'none'
-  //     ],
-  //     message: '请选择你的配置中心类型'
-  //   },
-  //   option: { desc: '配置中心', type: String, default: 'none' }
-  // },
-  // circuit: {
-  //   prompting: {
-  //     type: 'list',
-  //     choices: [
-  //       'hystrix',
-  //       'sentinel',
-  //       'none'
-  //     ],
-  //     message: '请选择你的熔断框架类型'
-  //   },
-  //   option: { desc: '熔断降级', type: String, default: 'none' }
-  // },
-  // http: {
-  //   prompting: {
-  //     type: 'list',
-  //     choices: [
-  //       'openfeign',
-  //       'none'
-  //     ],
-  //     message: '请选择你的HTTP客户端类型'
-  //   },
-  //   option: { desc: 'HTTP客户端', type: String, default: 'none' }
-  // }
 }
 
 module.exports = require('yo-power-generator').getGenerator(obj, {
@@ -145,5 +129,7 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
         props.conditions.crud = true;
       }
     }
+
+    props.openfeign = props.discovery === 'eureka';
   }
 });
