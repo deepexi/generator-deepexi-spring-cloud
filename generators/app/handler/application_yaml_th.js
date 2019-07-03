@@ -9,31 +9,8 @@ const debug = require('debug')('generator:th:application_yaml')
 const configurers = require('./configurer/configurers');
 
 class ApplicationYamlTemplateHandler extends AbstractTemplateHandler {
-  /**
-   * @param {*} yamlDoc
-   * @param {String} env
-   * @param {Array} types
-   */
-  _configureApplicationYaml (yamlDoc, env, types) {
-    types.forEach(type => {
-      const typeVal = this.props[type];
-      if (typeVal) {
-        let configurer;
-        if (typeof typeVal === 'string') {
-          configurer = configurers[typeVal];
-        } else {
-          configurer = configurers[type];
-        }
-        if (!configurer) {
-          debug(`not any configurer found for ${type}[${typeVal}]`);
-        } else {
-          if (configurer.configureApplicationYaml) {
-            debug(`configure application-${env}.yaml for ${type}[${typeVal}]`);
-            configurer.configureApplicationYaml(yamlDoc, env);
-          }
-        }
-      }
-    })
+  _notify (receiver, event, args) {
+    return receiver.receive(event, args);
   }
 
   _handle0 () {
@@ -42,7 +19,11 @@ class ApplicationYamlTemplateHandler extends AbstractTemplateHandler {
     const content = tpl(this.props)
     const yamlDoc = yaml.safeLoad(content) || {};
 
-    this._configureApplicationYaml(yamlDoc, env, ['discovery', 'db', 'orm', 'dbPool', 'openfeign']);
+    this._notify(configurers, 'configure_application_yaml', {
+      yaml: yamlDoc,
+      env,
+      props: this.props
+    });
 
     const destTpl = _.template(fileUtils.tmplToFileName(this.tmpl));
     this.generator.fs.write(
