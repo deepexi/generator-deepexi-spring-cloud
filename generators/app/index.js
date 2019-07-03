@@ -35,9 +35,8 @@ const obj = {
           type: 'list',
           choices: [
             'druid',
-            'hikari',
-            'c3p0',
-            'none'
+            // 'hikari',
+            'default'
           ],
           message: '请选择你使用的数据库连接池'
         },
