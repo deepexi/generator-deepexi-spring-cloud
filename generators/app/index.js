@@ -78,17 +78,22 @@ const obj = {
     },
     option: { desc: '注册中心', type: String, default: 'eureka' },
     child: {
-      circuit: {
+      feignCircuit: {
         prompting: {
           type: 'list',
           choices: [
             'hystrix',
-            // 'sentinel',
+            'sentinel',
             'none'
           ],
-          message: '请选择你的熔断框架类型（TODO）'
+          message: '请选择你的openfeign熔断器类型'
         },
-        option: { desc: '熔断降级', type: String, default: 'hystrix' }
+        option: { desc: 'feign熔断降级', type: String, default: 'hystrix' },
+        callbacks: {
+          trigger (answers) {
+            return answers.discovery === 'eureka';
+          }
+        }
       }
     }
   },

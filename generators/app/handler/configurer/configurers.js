@@ -31,14 +31,14 @@ configurers.receive = (event, args) => {
           case 'configure_optional_dependencies': {
             if (configurer.configureProviderPomDependencies) {
               debug(`configure provider pom dependencies for ${type}[${typeVal}]`);
-              configurer.configureProviderPomDependencies(args.optionalDependencies);
+              configurer.configureProviderPomDependencies(args.optionalDependencies, args.props);
             }
             break;
           }
           case 'configure_application_yaml': {
             if (configurer.configureApplicationYaml) {
               debug(`configure application-${args.env}.yaml for ${type}[${typeVal}]`);
-              configurer.configureApplicationYaml(args.yaml, args.env);
+              configurer.configureApplicationYaml(args.yaml, args.env, args.props);
             }
             break;
           }

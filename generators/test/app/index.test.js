@@ -127,6 +127,7 @@ describe('optional dependencies', () => {
           artifactId: 'foo-service',
           basePackage: 'com.deepexi.foo',
           discovery: 'eureka',
+          feignCircuit: 'none',
           demo: true
         })
         .then(() => {
@@ -158,17 +159,62 @@ describe('optional dependencies', () => {
         ])
       });
 
-      it('should have properties', () => {
-        const appYaml = yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
-        assert(appYaml.feign);
-        assert(appYaml.feign.hystrix);
-      });
-
       it('should exist annotations', () => {
         assert.fileContent([
           ['foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java', /import org.springframework.cloud.openfeign.EnableFeignClients;/],
           ['foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java', /@EnableFeignClients/]
         ])
+      });
+
+      describe('hystrix', () => {
+        before(() => {
+          return helpers
+            .run(path.join(__dirname, '../../app'))
+            .withPrompts({
+              groupId: 'com.deepexi',
+              artifactId: 'foo-service',
+              basePackage: 'com.deepexi.foo',
+              discovery: 'eureka',
+              feignCircuit: 'hystrix',
+              demo: true
+            })
+            .then(() => {
+            })
+        });
+
+        it('should have properties', () => {
+          const appYaml = yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
+          assert(appYaml.feign.hystrix);
+        });
+      });
+
+      describe('sentinel', () => {
+        before(() => {
+          return helpers
+            .run(path.join(__dirname, '../../app'))
+            .withPrompts({
+              groupId: 'com.deepexi',
+              artifactId: 'foo-service',
+              basePackage: 'com.deepexi.foo',
+              discovery: 'eureka',
+              feignCircuit: 'sentinel',
+              demo: true
+            })
+            .then(() => {
+            })
+        });
+
+        it('should have dependency', () => {
+          assert.fileContent([
+            ['foo-service-provider/pom.xml', /<groupId>org.springframework.cloud<\/groupId>/],
+            ['foo-service-provider/pom.xml', /<artifactId>spring-cloud-starter-alibaba-sentinel<\/artifactId>/]
+          ])
+        });
+
+        it('should have properties', () => {
+          const appYaml = yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
+          assert(appYaml.feign.sentinel);
+        });
       });
     });
   });
