@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 module.exports = {
   key: 'openfeign',
   fn: {
@@ -10,6 +12,21 @@ module.exports = {
       })
     },
     configureApplicationYaml (yaml, env) {
+      switch (env) {
+        case 'default': {
+          _.merge(yaml, {
+            feign: {
+              hystrix: {
+                enabled: true
+              }
+            }
+          });
+          break;
+        }
+        default: {
+          break;
+        }
+      }
     }
   }
 }
