@@ -158,6 +158,12 @@ describe('optional dependencies', () => {
         ])
       });
 
+      it('should have properties', () => {
+        const appYaml = yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
+        assert(appYaml.feign);
+        assert(appYaml.feign.hystrix);
+      });
+
       it('should exist annotations', () => {
         assert.fileContent([
           ['foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java', /import org.springframework.cloud.openfeign.EnableFeignClients;/],
