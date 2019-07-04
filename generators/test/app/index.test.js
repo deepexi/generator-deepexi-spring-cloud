@@ -79,7 +79,9 @@ describe('generate app', () => {
           ['foo-service-provider/pom.xml', /<artifactId>commons-lang3<\/artifactId>/],
           ['foo-service-provider/pom.xml', /<artifactId>lombok<\/artifactId>/],
           ['foo-service-provider/pom.xml', /<artifactId>spring-boot-devtools<\/artifactId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>spring-boot-maven-plugin<\/artifactId>/]
+          ['foo-service-provider/pom.xml', /<artifactId>spring-boot-maven-plugin<\/artifactId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>joda-time<\/artifactId>/],
+          ['foo-service-provider/pom.xml', /<artifactId>hutool-all<\/artifactId>/]
         ])
       });
 
