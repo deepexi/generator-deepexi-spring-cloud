@@ -295,6 +295,13 @@ describe('optional dependencies', () => {
 
       it('should exist files', () => {
         assert.file('foo-service-provider/src/main/resources/mapper/.gitkeep')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationMetaObjectHandler.java')
+      });
+
+      it('should exist contents', () => {
+        assert.fileContent([
+          ['foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationConfiguration.java', /ApplicationMetaObjectHandler.RuntimeData/]
+        ])
       });
 
       it('should exist demo files', () => {
