@@ -1,2 +1,6 @@
 swagger:
   enabled: false
+server:
+  error:
+    include-stacktrace: never
+    include-exception: false

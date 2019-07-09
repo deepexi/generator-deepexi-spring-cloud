@@ -7,3 +7,7 @@ swagger:
   base-package: ${basePackage}.controller
   info:
     title: ${artifactId}
+server:
+  error:
+    include-stacktrace: always
+    include-exception: true
