@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static ${basePackage}.util.ConverterUtils.convert;
+
 @RestController
 @RequestMapping("demo")
 @Payload
@@ -19,6 +21,11 @@ public class DemoController {
         return "welcome!";
     }
 
+    @GetMapping("convert")
+    public Model convert() {
+        return convert("welcome!", Model.class);
+    }
+
     @GetMapping("sys-error")
     public void syserror() {
         throw new RuntimeException();
@@ -27,5 +34,10 @@ public class DemoController {
     @GetMapping("biz-error")
     public void bizerror() {
         throw new DemoException();
+    }
+
+    @Data
+    public static class Model {
+        private String content;
     }
 }

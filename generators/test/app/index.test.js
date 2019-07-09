@@ -54,6 +54,8 @@ describe('generate app', () => {
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/Payload.java')
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/web/ApplicationErrorAttributes.java')
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/exception/BizErrorResponseStatus.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/web/ConverterConfigurer.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/util/ConverterUtils.java')
         assert.file('foo-service-provider/pom.xml')
       })
 
@@ -121,6 +123,7 @@ describe('generate demo', () => {
     assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/DemoService.java')
     assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/impl/DemoServiceImpl.java')
     assert.file('foo-service-provider/src/main/java/com/deepexi/foo/exception/DemoException.java')
+    assert.file('foo-service-provider/src/main/java/com/deepexi/foo/converter/String2DemoControllerModelConverter.java')
   });
 });
 
