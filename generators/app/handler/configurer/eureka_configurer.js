@@ -17,6 +17,7 @@ module.exports = {
           _.merge(yaml, {
             eureka: {
               client: {
+                'enabled': false,
                 'fetch-registry': true,
                 'register-with-eureka': false
               }
