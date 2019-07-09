@@ -50,6 +50,8 @@ describe('generate app', () => {
       it('should exists java files', () => {
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java')
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationConfiguration.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/web/ReturnValueConfigurer.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/Payload.java')
         assert.file('foo-service-provider/pom.xml')
       })
 

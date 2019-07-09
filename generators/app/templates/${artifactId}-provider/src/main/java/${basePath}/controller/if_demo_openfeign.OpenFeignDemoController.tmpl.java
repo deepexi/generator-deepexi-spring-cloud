@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("demo/openfeign")
+@Payload
 public class OpenFeignDemoController {
     @Autowired
     private DemoFeignClient client;

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("demo")
+@Payload
 public class DemoController {
     @Autowired
     private DemoService service;

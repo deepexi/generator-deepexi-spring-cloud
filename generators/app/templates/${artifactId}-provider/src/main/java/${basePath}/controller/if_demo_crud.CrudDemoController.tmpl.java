@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("demo/mybatis")
+@Payload
 public class CrudDemoController {
     @Autowired
     private CrudDemoService service;
