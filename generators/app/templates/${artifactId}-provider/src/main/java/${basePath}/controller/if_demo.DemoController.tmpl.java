@@ -1,7 +1,8 @@
 package ${basePackage}.controller;
 
+import lombok.Data;
 import ${basePackage}.service.DemoService;
-import ${basePackage}.exception.DemoController;
+import ${basePackage}.exception.DemoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class DemoController {
     }
 
     @GetMapping("convert")
-    public Model convert() {
+    public Model doConvert() {
         return convert("welcome!", Model.class);
     }
 
