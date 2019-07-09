@@ -5,3 +5,5 @@ spring:
     active: local
 swagger:
   base-package: ${basePackage}.controller
+  info:
+    title: ${artifactId}
