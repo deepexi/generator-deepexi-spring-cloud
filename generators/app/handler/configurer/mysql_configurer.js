@@ -10,6 +10,12 @@ module.exports = {
           { artifactId: 'mysql-connector-java' }
         ]
       })
+      optionalDependencies.push({
+        dependency: [
+          { groupId: 'com.h2database' },
+          { artifactId: 'h2' }
+        ]
+      })
     },
     configureApplicationYaml (yaml, env) {
       switch (env) {
@@ -18,6 +24,26 @@ module.exports = {
             spring: {
               datasource: {
                 'driver-class-name': 'com.mysql.jdbc.Driver'
+              }
+            }
+          });
+          break;
+        }
+        case 'local': {
+          _.merge(yaml, {
+            spring: {
+              datasource: {
+                'driver-class-name': 'org.h2.Driver',
+                username: 'root',
+                password: 'root',
+                url: 'jdbc:h2:mem:test',
+                schema: 'classpath:db/sql/demo_schema.sql',
+                data: 'classpath:db/sql/demo_data.sql'
+              },
+              h2: {
+                console: {
+                  enabled: true
+                }
               }
             }
           });
