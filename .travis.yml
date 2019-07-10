@@ -11,3 +11,4 @@ script:
   - npm run cov
 after_success:
   - bash <(curl -s https://codecov.io/bash) -f coverage.lcov
+ 
