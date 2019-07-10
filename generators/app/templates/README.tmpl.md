@@ -6,12 +6,8 @@
 
 通过IDE运行[StartupApplication](${artifactId}-provider/src/main/java/${basePath}/StartupApplication.java)
 
-<%
-if(dependencies.swagger){
-    print(`swagger地址：http://127.0.0.1:8080/swagger-ui.html  \n`);
-    print(`swagger json：http://127.0.0.1:8080/v2/api-docs  \n`);
-}
-%>
+**swagger地址**：http://127.0.0.1:8080/swagger-ui.html  
+**swagger json**：http://127.0.0.1:8080/v2/api-docs
 
 ### 部署
 
