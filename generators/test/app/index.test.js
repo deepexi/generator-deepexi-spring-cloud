@@ -30,6 +30,7 @@ describe('generate app', () => {
       assert.file('Dockerfile')
       assert.file('LICENSE')
       assert.file('README.md')
+      assert.file('scaffold.md')
     })
 
     describe('api', () => {

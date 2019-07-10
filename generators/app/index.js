@@ -97,17 +97,46 @@ const obj = {
       }
     }
   },
-  configservice: {
-    prompting: {
-      type: 'list',
-      choices: [
-        'apollo',
-        'none'
-      ],
-      message: '请选择你的配置中心类型（TODO）'
-    },
-    option: { desc: '配置中心', type: String, default: 'none' }
-  },
+  // configservice: {
+  //   prompting: {
+  //     type: 'list',
+  //     choices: [
+  //       'apollo',
+  //       'none'
+  //     ],
+  //     message: '请选择你的配置中心类型（TODO）'
+  //   },
+  //   option: { desc: '配置中心', type: String, default: 'none' }
+  // },
+  // authentication: {
+  //   prompting: {
+  //     type: 'list',
+  //     choices: [
+  //       'token',
+  //       // 'session',
+  //       'none'
+  //     ],
+  //     message: '请选择你采用的认证机制类型'
+  //   },
+  //   option: { desc: '认证机制', type: String, default: 'token' },
+  //   child: {
+  //     token: {
+  //       prompting: {
+  //         type: 'list',
+  //         choices: [
+  //           'jwt'
+  //         ],
+  //         message: '请选择你使用的token类型'
+  //       },
+  //       option: { desc: 'token类型', type: String, default: 'jwt' },
+  //       callbacks: {
+  //         trigger (answers) {
+  //           return answers.authentication === 'token';
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
   demo: {
     prompting: {
       type: 'confirm',
@@ -122,6 +151,9 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
   handlerDir: path.join(__dirname, 'handler'),
   templateDir: path.join(__dirname, 'templates'),
   afterPropsSet (props) {
+    props.version = require('../../package.json').version
+    props.cli = `yo generator-deepexi-spring-cloud -c ${props.cli}`;
+
     if (!props.basePackage) {
       props.basePackage = props.groupId;
     }
