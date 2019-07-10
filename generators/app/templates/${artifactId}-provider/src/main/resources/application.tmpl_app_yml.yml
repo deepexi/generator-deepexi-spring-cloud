@@ -11,3 +11,5 @@ server:
   error:
     include-stacktrace: always
     include-exception: true
+logging:
+  file: <%='${spring.application.name}.log'%>
