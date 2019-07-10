@@ -17,7 +17,8 @@ class DefaultTemplateHandler extends AbstractTemplateHandler {
         yoVersion: 'v' + cp.execSync('yo --version', { encoding: 'utf-8' }).replace('\r', '').replace('\n', ''),
         nodeVersion: process.version,
         date: moment().format('YYYY-MM-DD hh:mm:ss'),
-        propsJson: JSON.stringify(this.props)
+        propsJson: JSON.stringify(this.props),
+        generationType: this.props.mode === 'command' ? '命令模式' : '交互模式'
       }, this.props))
     )
   }

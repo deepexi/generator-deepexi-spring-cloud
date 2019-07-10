@@ -8,7 +8,7 @@
 **node版本**: ${nodeVersion}
 **yeoman版本**: ${yoVersion}
 **生成时间**: ${date}
-**生成方式**: ${mode==='command'?'命令模式':'交互模式'}
+**生成方式**: ${generationType}
 **生成参数**: ${propsJson}
 **生成命令**: ${cli}
 
