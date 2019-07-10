@@ -30,9 +30,13 @@ public class ApplicationErrorAttributes extends DefaultErrorAttributes {
         int status = Integer.parseInt(attributes.get("status").toString());
         if (status >= 400 && status < 500) {
             Throwable error = getError(webRequest);
-            BizErrorResponseStatus annotation = AnnotationUtils.findAnnotation(error.getClass(), BizErrorResponseStatus.class);
-            if (annotation != null) {
-                resultAttributes.put("code", annotation.value());
+            if (error != null) {
+                BizErrorResponseStatus annotation = AnnotationUtils.findAnnotation(error.getClass(), BizErrorResponseStatus.class);
+                if (annotation != null) {
+                    resultAttributes.put("code", annotation.value());
+                } else {
+                    resultAttributes.put("code", "-1");
+                }
             } else {
                 resultAttributes.put("code", "-1");
             }
