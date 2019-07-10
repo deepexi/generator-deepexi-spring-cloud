@@ -6,7 +6,13 @@
     "generators"
   ],
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator",
+    "scaffold",
+    "generator",
+    "deepexi",
+    "java",
+    "spring cloud",
+    "sc"
   ],
   "dependencies": {
     "debug": "^4.1.1",
