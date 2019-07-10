@@ -24,19 +24,8 @@ $ npm install -g yo
 
 #### 2. 安装generator-deepexi-spring-cloud
 
-通过npm安装
-
 ```bash
 $ npm install -g generator-deepexi-spring-cloud
-```
-
-本地安装
-
-```bash
-$ git clone https://github.com/deepexi/generator-deepexi-spring-cloud.git
-$ cd generator-deepexi-spring-cloud
-$ npm i
-$ npm link
 ```
 
 #### 3. 创建你的应用
