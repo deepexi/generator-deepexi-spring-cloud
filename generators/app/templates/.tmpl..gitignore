@@ -4,5 +4,6 @@
 .idea/
 *.log
 *.log.zip
+*.log.*.gz
 target/
 .DS_Store
