@@ -349,4 +349,42 @@ describe('optional dependencies', () => {
       });
     });
   });
+
+  describe('mq', () => {
+    before(() => {
+      return helpers
+        .run(path.join(__dirname, '../../app'))
+        .withPrompts({
+          groupId: 'com.deepexi',
+          artifactId: 'foo-service',
+          basePackage: 'com.deepexi.foo',
+          mq: 'rabbitmq',
+          demo: true
+        })
+        .then(() => {
+        })
+    });
+
+    it('should have dependency', () => {
+      assert.fileContent([
+        ['foo-service-provider/pom.xml', /<groupId>org.springframework.boot<\/groupId>/],
+        ['foo-service-provider/pom.xml', /<artifactId>spring-boot-starter-amqp<\/artifactId>/]
+      ])
+    });
+
+    it('should have properties', () => {
+      assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application-local.yml')).spring.rabbitmq);
+    });
+
+    it('should exist files', () => {
+      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/RabbitMQConfiguration.java')
+    });
+
+    it('should exist demo files', () => {
+      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/MQDemoController.java')
+      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/MQDemoService.java')
+      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/impl/RabbitMQDemoServiceImpl.java')
+      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/RabbitMQDemoConfiguration.java')
+    });
+  });
 });

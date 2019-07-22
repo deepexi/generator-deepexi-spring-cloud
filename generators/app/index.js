@@ -97,6 +97,18 @@ const obj = {
       }
     }
   },
+  mq: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'rabbitmq',
+        // 'rocketmq',
+        'none'
+      ],
+      message: '请选择你使用的消息中间件类型'
+    },
+    option: { desc: '消息中间件', type: String, default: 'none' }
+  },
   // configservice: {
   //   prompting: {
   //     type: 'list',
@@ -167,6 +179,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
           props.conditions.crud = true;
         }
       }
+    }
+
+    if (props.mq !== 'none') {
+      props.conditions[props.mq] = true;
     }
 
     props.openfeign = props.discovery === 'eureka';
