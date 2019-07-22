@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.0.0...v1.1.0) (2019-07-22)
+
+
+### Features
+
+* **scaffold:** support integration with rabbitmq ([92277bf](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/92277bf))
+
+
+
 ## 0.1.0 (2019-07-10)
 
 
