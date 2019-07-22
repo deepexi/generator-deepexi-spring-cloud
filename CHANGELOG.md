@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.1.0...v1.2.0) (2019-07-22)
+
+
+### Features
+
+* **scaffold:** support integration with apollo ([8a0190c](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/8a0190c))
+
+
+
 ## [1.1.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.0.0...v1.1.0) (2019-07-22)
 
 
