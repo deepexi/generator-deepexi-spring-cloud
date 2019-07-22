@@ -109,17 +109,17 @@ const obj = {
     },
     option: { desc: '消息中间件', type: String, default: 'none' }
   },
-  // configservice: {
-  //   prompting: {
-  //     type: 'list',
-  //     choices: [
-  //       'apollo',
-  //       'none'
-  //     ],
-  //     message: '请选择你的配置中心类型（TODO）'
-  //   },
-  //   option: { desc: '配置中心', type: String, default: 'none' }
-  // },
+  configservice: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'apollo',
+        'none'
+      ],
+      message: '请选择你的配置中心类型'
+    },
+    option: { desc: '配置中心', type: String, default: 'none' }
+  },
   // authentication: {
   //   prompting: {
   //     type: 'list',
@@ -183,6 +183,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
 
     if (props.mq !== 'none') {
       props.conditions[props.mq] = true;
+    }
+
+    if (props.configservice !== 'none') {
+      props.conditions[props.configservice] = true;
     }
 
     props.openfeign = props.discovery === 'eureka';

@@ -14,12 +14,21 @@ class ApplicationYamlTemplateHandler extends AbstractTemplateHandler {
   }
 
   _handle0 () {
-    const env = myFileUtils.extractApplicationYamlEnv(this.tmpl);
+    let env;
+    let isBootstrap = false;
+    debug(`${this.tmpl} is bootstrap: ${myFileUtils.isBootstrapYaml(this.tmpl)}`);
+    if (myFileUtils.isBootstrapYaml(this.tmpl)) {
+      isBootstrap = true;
+      env = 'none';
+    } else {
+      env = myFileUtils.extractApplicationYamlEnv(this.tmpl);
+    }
     const tpl = _.template(this.generator.fs.read(this.generator.templatePath(this.tmpl)));
     const content = tpl(this.props)
     const yamlDoc = yaml.safeLoad(content) || {};
 
     this._notify(configurers, 'configure_application_yaml', {
+      isBootstrap,
       yaml: yamlDoc,
       env,
       props: this.props

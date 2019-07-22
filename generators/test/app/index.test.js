@@ -387,4 +387,38 @@ describe('optional dependencies', () => {
       assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/RabbitMQDemoConfiguration.java')
     });
   });
+
+  describe('configservice', () => {
+    before(() => {
+      return helpers
+        .run(path.join(__dirname, '../../app'))
+        .withPrompts({
+          groupId: 'com.deepexi',
+          artifactId: 'foo-service',
+          basePackage: 'com.deepexi.foo',
+          configservice: 'apollo',
+          demo: true
+        })
+        .then(() => {
+        })
+    });
+
+    it('should have dependency', () => {
+      assert.fileContent([
+        ['foo-service-provider/pom.xml', /<groupId>com.ctrip.framework.apollo<\/groupId>/],
+        ['foo-service-provider/pom.xml', /<artifactId>apollo-client<\/artifactId>/]
+      ])
+    });
+
+    it('should have properties', () => {
+      assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/bootstrap.yml')).apollo);
+    });
+
+    it('should exist files', () => {
+      assert.file('foo-service-provider/src/main/resources/META-INF/app.properties')
+    });
+
+    it('should exist demo files', () => {
+    });
+  });
 });

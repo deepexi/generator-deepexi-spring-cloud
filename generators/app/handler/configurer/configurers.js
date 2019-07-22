@@ -12,7 +12,7 @@ files.forEach(file => {
   }
 })
 
-const types = ['discovery', 'db', 'orm', 'dbPool', 'openfeign', 'mq'];
+const types = ['discovery', 'db', 'orm', 'dbPool', 'openfeign', 'mq', 'configservice'];
 
 configurers.receive = (event, args) => {
   types.forEach(type => {
@@ -36,10 +36,18 @@ configurers.receive = (event, args) => {
             break;
           }
           case 'configure_application_yaml': {
-            if (configurer.configureApplicationYaml) {
-              debug(`configure application-${args.env}.yaml for ${type}[${typeVal}]`);
-              configurer.configureApplicationYaml(args.yaml, args.env, args.props);
+            if (args.isBootstrap) {
+              if (configurer.configureBootstrapYaml) {
+                debug(`configure bootstrap.yaml for ${type}[${typeVal}]`);
+                configurer.configureBootstrapYaml(args.yaml, args.props);
+              }
+            } else {
+              if (configurer.configureApplicationYaml) {
+                debug(`configure application-${args.env}.yaml for ${type}[${typeVal}]`);
+                configurer.configureApplicationYaml(args.yaml, args.env, args.props, args.isBootstrap);
+              }
             }
+
             break;
           }
           default: {
