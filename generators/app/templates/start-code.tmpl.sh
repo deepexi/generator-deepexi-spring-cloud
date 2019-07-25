@@ -34,7 +34,7 @@ version='1.0.0'
 
 proj_home=$PWD                              # the project root dir
 img_output=$project_name:v$version          # output image tag
-container_name=$img_output                  # container name
+container_name=$project_name                  # container name
 
 h1 '准备启动应用'$project_name'（基于Docker）'
 
