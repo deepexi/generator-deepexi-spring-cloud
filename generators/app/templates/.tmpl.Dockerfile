@@ -2,7 +2,7 @@ FROM openjdk:8
 
 WORKDIR /home
 
-COPY ./target/app.jar /home
+COPY ./${artifactId}-provider/target/app.jar /home
 
 ADD entrypoint.sh /
 
