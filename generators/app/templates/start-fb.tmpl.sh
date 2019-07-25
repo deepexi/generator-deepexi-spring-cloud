@@ -15,8 +15,8 @@ h1 '准备启动filebeat['$img_fb']'
 h2 '修改filebeat.yml配置'
 
 git checkout -- filebeat.yml
-<%= "sed -i '' s/{{elk_env}}/$elk_env/ filebeat.yml" %>
-<%= "sed -i '' s/{{elk_logstash}}/$elk_logstash/ filebeat.yml" %>
+<%= "sed -i s/{{elk_env}}/$elk_env/ filebeat.yml" %>
+<%= "sed -i s/{{elk_logstash}}/$elk_logstash/ filebeat.yml" %>
 
 h2 '准备启动容器'
 
