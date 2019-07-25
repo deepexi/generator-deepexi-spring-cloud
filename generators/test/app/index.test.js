@@ -28,6 +28,8 @@ describe('generate app', () => {
       assert.file('start-fb.sh')
       assert.file('start-code.sh')
       assert.file('Dockerfile')
+      assert.file('entrypoint.sh')
+      assert.file('run.sh')
       assert.file('LICENSE')
       assert.file('README.md')
       assert.file('scaffold.md')
