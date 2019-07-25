@@ -44,14 +44,14 @@ if [ ! -z $build ];then
 
     if which mvn ; then
         info '使用本地maven构建项目'
-        mvn clean package
+        mvn clean package -DskipTests
     else
         info '使用maven镜像['$img_mvn']构建项目'
         docker run --rm \
             -v $m2_cache:/root/.m2 \
             -v $proj_home:/usr/src/mymaven \
             -w /usr/src/mymaven \
-            $img_mvn mvn clean package
+            $img_mvn mvn clean package -DskipTests
     fi
     if [ $? -eq 0 ];then
         success '项目构建成功'
