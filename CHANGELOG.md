@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.2.0...v1.3.0) (2019-07-25)
+
+
+### Bug Fixes
+
+* error container name ([a28bdee](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/a28bdee))
+* log command not found ([1cde339](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/1cde339))
+* **scaffold:** remove redundant demo classes on mq none ([31fcc0d](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/31fcc0d))
+* can not find app.jar on build image ([6161a54](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/6161a54))
+* error sed command on linux ([3171ed6](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/3171ed6))
+* redundant content on db none ([16a5084](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/16a5084))
+* run.sh permission denied ([1d13738](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/1d13738))
+* should skip test on package ([fb82a20](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/fb82a20))
+
+
+### Features
+
+* **scaffold:** provide build.sh ([6f5c1fd](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/6f5c1fd))
+* **scaffold:** provide run.sh & entrypoint.sh ([58594b7](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/58594b7))
+
+
+### Tests
+
+* missing test cases ([7792587](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/7792587))
+
+
+
 ## [1.2.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.1.0...v1.2.0) (2019-07-22)
 
 
