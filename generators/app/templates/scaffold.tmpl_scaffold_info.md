@@ -2,6 +2,8 @@
 
 此项目由[generator-deepexi-spring-cloud](https://github.com/deepexi/generator-deepexi-spring-cloud)生成。
 
+如何你有任何问题或优化建议，请到[Github Issues](https://github.com/deepexi/generator-deepexi-spring-cloud/issues)进行反馈，我们需要你宝贵的意见:-)。
+
 ## 项目信息
 
 **工具版本**: ${toolVersion}
