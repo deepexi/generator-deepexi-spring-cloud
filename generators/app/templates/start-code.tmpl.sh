@@ -7,8 +7,9 @@ source ./common.sh
 output_log=
 build=
 port=8080
+version='1.0.0'
 
-while getopts lbp: opt
+while getopts lbp:v: opt
 do
     case $opt in
         l)
@@ -20,8 +21,11 @@ do
         p)
             port=$OPTARG
             ;;
+        v)
+            version=$OPTARG
+            ;;
         ?)
-            error "Usage: %s: [-b] [-l] [-p] args\n" $0
+            error "Usage: %s: [-b] [-l] [-p port] [-v version] args\n" $0
             exit 2
             ;;
     esac
@@ -30,7 +34,6 @@ done
 
 #----------------- 启动逻辑 start -----------------#
 project_name='${artifactId}'
-version='1.0.0'
 
 proj_home=$PWD                              # the project root dir
 img_output=$project_name:v$version          # output image tag
