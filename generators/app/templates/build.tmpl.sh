@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source common.sh
+
 img_mvn="maven:3.3.3-jdk-8"                 # docker image of maven
 m2_cache=~/.m2                              # the local maven cache dir
 
