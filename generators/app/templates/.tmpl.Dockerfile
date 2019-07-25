@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM deepexi/java:v0.0.1
 
 WORKDIR /home
 
