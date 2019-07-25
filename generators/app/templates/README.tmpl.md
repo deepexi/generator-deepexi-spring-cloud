@@ -28,6 +28,8 @@ $ sh start-code.sh [-bl] [-p port]
 - -l: 是否在启动后输出容器日志
 - -p: 指定容器映射端口号
 
+如果需要自定义启动命令，可以自行修改[`run.sh`](./run.sh)。
+
 ## 开发参考
 
 ## Release Notes

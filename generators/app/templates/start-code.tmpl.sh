@@ -76,14 +76,10 @@ info '删除已存在的容器' && docker rm -f $container_name
 
 info '准备启动docker容器'
 
-docker run \
-  --name $container_name \
-  --restart=on-failure:5 \
-  --privileged \
-  -p $port:8080 \
-  -v $PWD/logs:/home/logs \
-  -d $img_output \
-    java -jar app.jar
+CONTAINER_NAME=$container_name \
+PORT=$port \
+IMG_NAME=$img_output \
+./run.sh
 
 if [ $? -eq 0 ];then
     success '容器启动成功'
