@@ -30,40 +30,21 @@ done
 
 #----------------- 启动逻辑 start -----------------#
 project_name='${artifactId}'
+version='1.0.0'
 
-img_mvn="maven:3.3.3-jdk-8"                 # docker image of maven
-m2_cache=~/.m2                              # the local maven cache dir
 proj_home=$PWD                              # the project root dir
-img_output=$project_name                    # output image tag
+img_output=$project_name:v$version          # output image tag
 container_name=$img_output                  # container name
 
 h1 '准备启动应用'$project_name'（基于Docker）'
 
 if [ ! -z $build ];then
-    h2 '准备构建项目'
+    PROJECT_HOME=$proj_home \
+    IMAGE_NAME=$img_output \
+    APP_NAME=$project_name \
+    VERSION=$version \
+    sh build.sh
 
-    if which mvn ; then
-        info '使用本地maven构建项目'
-        mvn clean package -DskipTests
-    else
-        info '使用maven镜像['$img_mvn']构建项目'
-        docker run --rm \
-            -v $m2_cache:/root/.m2 \
-            -v $proj_home:/usr/src/mymaven \
-            -w /usr/src/mymaven \
-            $img_mvn mvn clean package -DskipTests
-    fi
-    if [ $? -eq 0 ];then
-        success '项目构建成功'
-    else
-        error '项目构建失败'
-        exit 1
-    fi
-
-    h2 '准备构建Docker镜像'
-
-    sudo mv $proj_home/$project_name-provider/target/$project_name-*.jar $proj_home/$project_name-provider/target/app.jar
-    docker build --rm -t $img_output .
     if [ $? -eq 0 ];then
         success '镜像构建成功'
     else

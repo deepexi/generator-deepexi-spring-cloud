@@ -1,6 +1,6 @@
 # ${artifactId}
 
-## 如何运行
+## 如何使用
 
 ### 本地开发
 
@@ -8,6 +8,31 @@
 
 **swagger地址**：http://127.0.0.1:8080/swagger-ui.html  
 **swagger json**：http://127.0.0.1:8080/v2/api-docs
+
+### 构建
+
+#### jar包
+
+```bash
+$ mvn clean package -DskipTests
+```
+
+#### 镜像
+
+```bash
+$ PROJECT_HOME=$PWD \
+APP_NAME=${artifactId} \
+VERSION=1.0.0 \
+sh build.sh
+```
+
+或者
+
+```bash
+$ PROJECT_HOME=$PWD \
+IMAGE_NAME=${artifactId}:v1.0.0 \
+sh build.sh
+```
 
 ### 部署
 
