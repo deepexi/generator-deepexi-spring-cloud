@@ -18,7 +18,7 @@ public class ApplicationConfiguration implements InitializingBean {
         ConverterUtils.setConversionService(conversionService);
     }
     <%
-        if(['mybatis-plus']){
+        if(conditions['mybatis-plus']){
             print(`
     @Bean
     public ApplicationMetaObjectHandler.RuntimeData runtimeData() {
