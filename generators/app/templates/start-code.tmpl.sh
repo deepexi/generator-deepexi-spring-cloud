@@ -79,7 +79,7 @@ info '准备启动docker容器'
 CONTAINER_NAME=$container_name \
 PORT=$port \
 IMG_NAME=$img_output \
-./run.sh
+sh run.sh
 
 if [ $? -eq 0 ];then
     success '容器启动成功'
