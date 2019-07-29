@@ -29,7 +29,7 @@ h2 '准备构建Docker镜像'
 
 sudo mv $PROJECT_HOME/$APP_NAME-provider/target/$APP_NAME-*.jar $PROJECT_HOME/$APP_NAME-provider/target/app.jar
 
-if [ -z $IMAGE_NAME ];then
+if [ ! -z $IMAGE_NAME ];then
     docker build --rm -t $IMAGE_NAME .
 else
     docker build --rm -t $APP_NAME:v$VERSION .
