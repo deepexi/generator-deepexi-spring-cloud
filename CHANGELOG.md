@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.3.1...v1.4.0) (2019-07-30)
+
+
+### Bug Fixes
+
+* reversed condition ([ed02ecc](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/ed02ecc))
+
+
+### Features
+
+* **scaffold:** support arg -v ([ac98029](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/ac98029))
+
+
+
 ### [1.3.1](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.3.0...v1.3.1) (2019-07-25)
 
 
