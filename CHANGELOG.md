@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.4.1...v1.4.2) (2019-07-31)
+
+
+### Bug Fixes
+
+* **scaffold:** do not exec demo sql on disbale demo ([f9caff6](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/f9caff6))
+* **scaffold:** do not generate DemoDo on disbale demo ([b9b5063](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/b9b5063))
+* unexpected demo file on disable demo ([a336c62](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/a336c62))
+
+
+
 ### [1.4.1](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.4.0...v1.4.1) (2019-07-31)
 
 
