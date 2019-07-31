@@ -1,4 +1,4 @@
-package com.deepexi.devops.project.config;
+package ${basePackage}.config;
 
 import org.springframework.amqp.core.Exchange;
 import org.springframework.amqp.core.ExchangeBuilder;
