@@ -17,7 +17,7 @@ module.exports = {
         ]
       })
     },
-    configureApplicationYaml (yaml, env) {
+    configureApplicationYaml (yaml, env, props) {
       switch (env) {
         case 'default': {
           _.merge(yaml, {
@@ -36,9 +36,7 @@ module.exports = {
                 'driver-class-name': 'org.h2.Driver',
                 username: 'root',
                 password: 'root',
-                url: 'jdbc:h2:mem:test',
-                schema: 'classpath:db/sql/demo_schema.sql',
-                data: 'classpath:db/sql/demo_data.sql'
+                url: 'jdbc:h2:mem:test'
               },
               h2: {
                 console: {
@@ -47,6 +45,16 @@ module.exports = {
               }
             }
           });
+          if (props.demo) {
+            _.merge(yaml, {
+              spring: {
+                datasource: {
+                  schema: 'classpath:db/sql/demo_schema.sql',
+                  data: 'classpath:db/sql/demo_data.sql'
+                }
+              }
+            });
+          }
           break;
         }
         default: {
