@@ -7,4 +7,4 @@ docker run \
   -p $PORT:8080 \
   -v $PWD/logs:/home/logs \
   -d $IMG_NAME \
-    java -jar app.jar
+    --spring.profiles.active=prod
