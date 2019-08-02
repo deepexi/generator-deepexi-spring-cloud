@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.4.3...v1.5.0) (2019-08-02)
+
+
+### Features
+
+* **scaffold:** add dependency spring-boot-starter-test by default ([a84f015](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/a84f015))
+* **scaffold:** integrate maven versions plugin by default ([c54879a](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/c54879a))
+* **scaffold:** introduce commitlint & standard-version via nodejs ([8aeb5e4](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/8aeb5e4))
+
+
+### Tests
+
+* supplement missing test cases ([5a98d71](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/5a98d71))
+* supplement missing test cases about dependencies ([e2a5d8d](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/e2a5d8d))
+
+
+
 ### [1.4.3](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.4.2...v1.4.3) (2019-08-01)
 
 
