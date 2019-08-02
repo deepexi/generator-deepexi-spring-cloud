@@ -85,6 +85,8 @@ describe('generate app', () => {
     describe('swagger', () => {
       it('should have dependency', () => {
         assert.fileContent([
+          ['pom.xml', /<artifactId>versions-maven-plugin<\/artifactId>/],
+
           ['foo-service-provider/pom.xml', /<artifactId>foo-service-api<\/artifactId>/],
           ['foo-service-provider/pom.xml', /<artifactId>spring-boot-starter-web<\/artifactId>/],
           ['foo-service-provider/pom.xml', /<artifactId>guava<\/artifactId>/],
@@ -94,6 +96,12 @@ describe('generate app', () => {
           ['foo-service-provider/pom.xml', /<artifactId>spring-boot-maven-plugin<\/artifactId>/],
           ['foo-service-provider/pom.xml', /<artifactId>joda-time<\/artifactId>/],
           ['foo-service-provider/pom.xml', /<artifactId>hutool-all<\/artifactId>/]
+        ])
+      });
+
+      it('should have test dependency', () => {
+        assert.fileContent([
+          ['foo-service-provider/pom.xml', /<artifactId>spring-boot-starter-test<\/artifactId>/]
         ])
       });
 
