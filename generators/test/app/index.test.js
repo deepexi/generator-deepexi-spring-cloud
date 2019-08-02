@@ -33,6 +33,9 @@ describe('generate app', () => {
       assert.file('LICENSE')
       assert.file('README.md')
       assert.file('scaffold.md')
+
+      assert.file('package.json')
+      assert.file('commitlint.config.js')
     })
 
     describe('api', () => {
