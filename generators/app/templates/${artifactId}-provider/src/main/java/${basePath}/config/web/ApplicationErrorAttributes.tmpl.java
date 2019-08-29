@@ -23,6 +23,10 @@ public class ApplicationErrorAttributes extends DefaultErrorAttributes {
     public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
         Map<String, Object> attributes = super.getErrorAttributes(webRequest, includeStackTrace);
 
+        if (webRequest.getHeader("Accept").matches(".*text/html.*")) {
+            return attributes;
+        }
+
         Map<String, Object> resultAttributes = new LinkedHashMap<>();
         resultAttributes.put("success", false);
         resultAttributes.put("message", attributes.get("message"));
