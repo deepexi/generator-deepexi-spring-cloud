@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.5.0...v1.5.1) (2019-08-29)
+
+
+### Bug Fixes
+
+* **scaffolod:** can not resolve error page on accept text/html ([eb8d233](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/eb8d233))
+
+
+
 ## [1.5.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.4.3...v1.5.0) (2019-08-02)
 
 
