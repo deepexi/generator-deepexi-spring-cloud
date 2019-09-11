@@ -32,6 +32,9 @@ describe('generate app', () => {
       assert.file('run.sh')
       assert.file('LICENSE')
       assert.file('README.md')
+      assert.file('1.docs/guides/quickly_start.md')
+      assert.file('1.docs/guides/reference.md')
+      assert.file('1.docs/guides/dev_reference.md')
       assert.file('scaffold.md')
 
       assert.file('package.json')
