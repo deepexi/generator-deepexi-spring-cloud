@@ -35,6 +35,8 @@ describe('generate app', () => {
       assert.file('1.docs/guides/quickly_start.md')
       assert.file('1.docs/guides/reference.md')
       assert.file('1.docs/guides/dev_reference.md')
+      assert.file('1.docs/sql/v1.0.0/schema.sql')
+      assert.file('1.docs/sql/v1.0.0/data.sql')
       assert.file('scaffold.md')
 
       assert.file('package.json')
