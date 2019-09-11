@@ -1,6 +1,6 @@
 {
   "name": "generator-deepexi-spring-cloud",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "deepexi spring cloud scaffold tool",
   "files": [
     "generators"
