@@ -1,6 +1,6 @@
-## Development reference
+# Development reference
 
-### Project Structure
+## Project Structure
 
 ```txt
 .
@@ -68,7 +68,7 @@
 └── pom.xml
 ```
 
-### Node.JS相关
+## Node.JS相关
 
 以下功能均基于Node.JS，使用前请先确保安装了[Node.JS](https://nodejs.org/zh-cn/download/)并在项目根目录下执行`npm install`。
 
