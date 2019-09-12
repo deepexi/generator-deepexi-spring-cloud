@@ -11,4 +11,6 @@ script:
   - npm run cov
 after_success:
   - bash <(curl -s https://codecov.io/bash) -f coverage.lcov
+notifications:
+   webhooks: https://oapi.dingtalk.com/robot/send?access_token=827bf66d14bb896937e787ba5b6d7214b39fdede0e515acf5b959eaa1350763a
  
