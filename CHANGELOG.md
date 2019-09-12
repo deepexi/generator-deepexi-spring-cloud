@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.5.2...v1.6.0) (2019-09-12)
+
+
+### Features
+
+* **scaffold:** add common folders and classes ([8d44d05](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/8d44d05))
+
+
+
 ### [1.5.2](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.5.1...v1.5.2) (2019-09-11)
 
 
