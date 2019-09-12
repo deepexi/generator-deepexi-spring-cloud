@@ -33,12 +33,17 @@
 │           │           ├── controller  // controller层
 │           │           ├── converter   // bean转换器
 │           │           ├── domain      // 领域模型
+│           │           │   ├── dto     // 数据传输对象（data transfer object）
+│           │           │   ├── entity  // 数据库对象
+│           │           │   ├── query   // 查询对象
+│           │           │   └── vo      // 视图对象（view object）
 │           │           ├── enums       // 枚举类
 │           │           ├── exception   // 异常类
 │           │           ├── manager     // 领域逻辑层
 │           │           ├── mapper      // mapper层
 │           │           ├── remote      // 与远程调用相关的类
-│           │           ├── service     // service层
+│           │           ├── repo        // 仓储层（repository）
+│           │           ├── service     // 业务逻辑层
 │           │           │   └── impl
 │           │           ├── util        // 工具类
 │           │           └── StartupApplication.java     // 应用启动入口

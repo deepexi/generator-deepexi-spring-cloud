@@ -67,6 +67,13 @@ describe('generate app', () => {
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/exception/BizErrorResponseStatus.java')
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/web/ConverterConfigurer.java')
         assert.file('foo-service-provider/src/main/java/com/deepexi/foo/util/ConverterUtils.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/.gitkeep')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/dto/.gitkeep')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/entity/.gitkeep')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/query/.gitkeep')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/query/PaginationRequest.java')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/vo/.gitkeep')
+        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/vo/Pagination.java')
         assert.file('foo-service-provider/pom.xml')
       })
 

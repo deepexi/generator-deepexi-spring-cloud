@@ -1,4 +1,4 @@
-package ${basePackage}.domain;
+package ${basePackage}.domain.query;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiParam;
