@@ -81,7 +81,7 @@ describe('generate app', () => {
         'filebeat.yml',
         'start-fb.sh',
         'start-code.sh',
-        'dockerfile',
+        'Dockerfile',
         'entrypoint.sh',
         'run.sh',
         'license',
