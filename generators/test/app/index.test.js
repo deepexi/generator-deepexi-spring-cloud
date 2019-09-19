@@ -6,6 +6,56 @@ const helpers = require('yeoman-test')
 const path = require('path')
 const fs = require('fs');
 const yaml = require('js-yaml');
+const _ = require('lodash');
+
+function generate (prompts) {
+  const def = {
+    groupId: 'com.deepexi',
+    artifactId: 'foo-service',
+    basePackage: 'com.deepexi.foo'
+  }
+  _.assignIn(def, prompts);
+  return helpers
+    .run(path.join(__dirname, '../../app'))
+    .withPrompts(def)
+    .then(() => {
+    })
+}
+
+function assertProviderArtifacts (artifacts) {
+  assert.fileContent(
+    artifacts.map(artifact => {
+      return ['foo-service-provider/pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
+    })
+  )
+}
+
+function assertNoProviderArtifact (artifacts) {
+  assert.noFileContent(
+    artifacts.map(artifact => {
+      return ['foo-service-provider/pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
+    })
+  )
+}
+
+function assertClasses (classes) {
+  assert.file(classes.map(clazz => {
+    return `foo-service-provider/src/main/java/com/deepexi/foo/${clazz}`;
+  }))
+}
+
+function assertNoClasses (classes) {
+  assert.noFile(classes.map(clazz => {
+    return `foo-service-provider/src/main/java/com/deepexi/foo/${clazz}`;
+  }))
+}
+
+function readYamlConfigs (env) {
+  if (env) {
+    return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/application-${env}.yml`));
+  }
+  return yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
+}
 
 describe('generate app', () => {
   before(() => {
@@ -78,6 +128,7 @@ describe('generate app', () => {
       })
 
       it('should exists resources files', () => {
+        assert.file('foo-service-provider/src/main/resources/application.properties')
         assert.file('foo-service-provider/src/main/resources/application.yml')
         assert.file('foo-service-provider/src/main/resources/application-local.yml')
         assert.file('foo-service-provider/src/main/resources/application-dev.yml')
@@ -444,6 +495,84 @@ describe('optional dependencies', () => {
     });
 
     it('should exist demo files', () => {
+    });
+  });
+
+  describe('authentication', () => {
+    const expects = {
+      jwtAndShiro: {
+        artifact: {
+          provider: [
+            'shiro-starter',
+            'java-jwt'
+          ]
+        },
+        classes: [
+          'config/ShiroConfiguration.java',
+          'util/AuthUtils.java'
+        ]
+      }
+    }
+    describe('jwt & shiro', () => {
+      const expect = expects.jwtAndShiro;
+
+      before(() => {
+        return generate({
+          authentication: 'jwt',
+          security: 'shiro',
+          demo: true
+        })
+      });
+
+      it('should have dependency', () => {
+        assertProviderArtifacts(expect.artifact.provider);
+      });
+
+      it('should have properties', () => {
+        const yaml = readYamlConfigs();
+        assert(yaml.shiro);
+        assert.strictEqual(yaml.shiro.web.mode, 'stateless');
+      });
+
+      it('should exist classes', () => {
+        assertClasses(expect.classes);
+      });
+
+      it('should exist demo files', () => {
+      });
+    });
+
+    describe('none', () => {
+      const expect = {
+        artifact: {
+          provider: []
+        },
+        classes: []
+      };
+      for (const key in expects) {
+        expect.artifact.provider.push(expects[key].artifact.provider);
+        expect.classes.push(expects[key].classes);
+      }
+
+      before(() => {
+        return generate({
+          authentication: 'none',
+          demo: true
+        })
+      });
+
+      it('should not have dependency', () => {
+        assertNoProviderArtifact(expect.artifact.provider);
+      });
+
+      it('should not have properties', () => {
+        const yaml = readYamlConfigs();
+        assert(!yaml.shiro);
+      });
+
+      it('should not exist classes', () => {
+        assertNoClasses(expect.classes);
+      });
     });
   });
 });

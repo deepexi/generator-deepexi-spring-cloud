@@ -120,35 +120,44 @@ const obj = {
     },
     option: { desc: '配置中心', type: String, default: 'none' }
   },
-  // authentication: {
-  //   prompting: {
-  //     type: 'list',
-  //     choices: [
-  //       'token',
-  //       // 'session',
-  //       'none'
-  //     ],
-  //     message: '请选择你采用的认证机制类型'
-  //   },
-  //   option: { desc: '认证机制', type: String, default: 'token' },
-  //   child: {
-  //     token: {
-  //       prompting: {
-  //         type: 'list',
-  //         choices: [
-  //           'jwt'
-  //         ],
-  //         message: '请选择你使用的token类型'
-  //       },
-  //       option: { desc: 'token类型', type: String, default: 'jwt' },
-  //       callbacks: {
-  //         trigger (answers) {
-  //           return answers.authentication === 'token';
-  //         }
-  //       }
-  //     }
-  //   }
-  // },
+  authentication: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'jwt',
+        'none'
+      ],
+      message: '请选择你采用的认证机制类型'
+    },
+    option: { desc: '认证机制', type: String, default: 'jwt' },
+    child: {
+      jwtIssue: {
+        prompting: { type: 'input', default: 'deepexi', message: '请填写你的jwt issue' },
+        option: { desc: 'jwt issue', type: String, default: 'deepexi' },
+        callbacks: {
+          trigger (answers) {
+            return answers.authentication === 'jwt';
+          }
+        }
+      },
+      security: {
+        prompting: {
+          type: 'list',
+          choices: [
+            'shiro'
+            // 'spring-security'
+          ],
+          message: '请选择你使用认证框架类型'
+        },
+        option: { desc: '认证框架', type: String, default: 'shiro' },
+        callbacks: {
+          trigger (answers) {
+            return answers.authentication !== 'none';
+          }
+        }
+      }
+    }
+  },
   demo: {
     prompting: {
       type: 'confirm',
@@ -160,6 +169,7 @@ const obj = {
 }
 
 module.exports = require('yo-power-generator').getGenerator(obj, {
+  description: 'deepexi spring cloud scaffold',
   handlerDir: path.join(__dirname, 'handler'),
   templateDir: path.join(__dirname, 'templates'),
   afterPropsSet (props) {
@@ -187,6 +197,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
 
     if (props.configservice !== 'none') {
       props.conditions[props.configservice] = true;
+    }
+
+    if (props.security !== 'none') {
+      props.conditions[props.security] = true;
     }
 
     props.openfeign = props.discovery === 'eureka';
