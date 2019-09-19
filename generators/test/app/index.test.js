@@ -22,6 +22,14 @@ function generate (prompts) {
     })
 }
 
+function assertRootArtifacts (artifacts) {
+  assert.fileContent(
+    artifacts.map(artifact => {
+      return ['pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
+    })
+  )
+}
+
 function assertProviderArtifacts (artifacts) {
   assert.fileContent(
     artifacts.map(artifact => {
@@ -52,6 +60,9 @@ function assertNoClasses (classes) {
 
 function readYamlConfigs (env) {
   if (env) {
+    if (env === 'bootstrap' || env === 'boot') {
+      return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/bootstrap.yml`));
+    }
     return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/application-${env}.yml`));
   }
   return yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
@@ -59,38 +70,32 @@ function readYamlConfigs (env) {
 
 describe('generate app', () => {
   before(() => {
-    return helpers
-      .run(path.join(__dirname, '../../app'))
-      .withPrompts({
-        groupId: 'com.deepexi',
-        artifactId: 'foo-service',
-        basePackage: 'com.deepexi.foo'
-      })
-      .then(() => {
-      })
+    return generate()
   });
 
-  describe('exists files', () => {
+  describe('project root', () => {
     it('should exists project files', () => {
-      assert.file('pom.xml')
-      assert.file('.gitignore')
-      assert.file('filebeat.yml')
-      assert.file('start-fb.sh')
-      assert.file('start-code.sh')
-      assert.file('Dockerfile')
-      assert.file('entrypoint.sh')
-      assert.file('run.sh')
-      assert.file('LICENSE')
-      assert.file('README.md')
-      assert.file('1.docs/guides/quickly_start.md')
-      assert.file('1.docs/guides/reference.md')
-      assert.file('1.docs/guides/dev_reference.md')
-      assert.file('1.docs/sql/v1.0.0/schema.sql')
-      assert.file('1.docs/sql/v1.0.0/data.sql')
-      assert.file('scaffold.md')
+      assert.file([
+        'pom.xml',
+        '.gitignore',
+        'filebeat.yml',
+        'start-fb.sh',
+        'start-code.sh',
+        'dockerfile',
+        'entrypoint.sh',
+        'run.sh',
+        'license',
+        'readme.md',
+        '1.docs/guides/quickly_start.md',
+        '1.docs/guides/reference.md',
+        '1.docs/guides/dev_reference.md',
+        '1.docs/sql/v1.0.0/schema.sql',
+        '1.docs/sql/v1.0.0/data.sql',
+        'scaffold.md',
 
-      assert.file('package.json')
-      assert.file('commitlint.config.js')
+        'package.json',
+        'commitlint.config.js'
+      ])
     })
 
     describe('api', () => {
@@ -109,32 +114,37 @@ describe('generate app', () => {
 
     describe('provider', () => {
       it('should exists java files', () => {
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationConfiguration.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/web/ReturnValueConfigurer.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/Payload.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/web/ApplicationErrorAttributes.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/exception/BizErrorResponseStatus.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/web/ConverterConfigurer.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/util/ConverterUtils.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/.gitkeep')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/dto/.gitkeep')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/entity/.gitkeep')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/query/.gitkeep')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/query/PaginationRequest.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/vo/.gitkeep')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/vo/Pagination.java')
-        assert.file('foo-service-provider/pom.xml')
+        assertClasses([
+          'StartupApplication.java',
+          'config/ApplicationConfiguration.java',
+          'config/web/ReturnValueConfigurer.java',
+          'controller/Payload.java',
+          'config/web/ApplicationErrorAttributes.java',
+          'exception/BizErrorResponseStatus.java',
+          'config/web/ConverterConfigurer.java',
+          'util/ConverterUtils.java',
+          'domain/.gitkeep',
+          'domain/dto/.gitkeep',
+          'domain/entity/.gitkeep',
+          'domain/query/.gitkeep',
+          'domain/query/PaginationRequest.java',
+          'domain/vo/.gitkeep',
+          'domain/vo/Pagination.java'
+        ])
       })
 
-      it('should exists resources files', () => {
-        assert.file('foo-service-provider/src/main/resources/application.properties')
-        assert.file('foo-service-provider/src/main/resources/application.yml')
-        assert.file('foo-service-provider/src/main/resources/application-local.yml')
-        assert.file('foo-service-provider/src/main/resources/application-dev.yml')
-        assert.file('foo-service-provider/src/main/resources/application-qa.yml')
-        assert.file('foo-service-provider/src/main/resources/application-prod.yml')
-      })
+      it('should exists files', () => {
+        assert.file([
+          'foo-service-provider/pom.xml',
+
+          'foo-service-provider/src/main/resources/application.properties',
+          'foo-service-provider/src/main/resources/application.yml',
+          'foo-service-provider/src/main/resources/application-local.yml',
+          'foo-service-provider/src/main/resources/application-dev.yml',
+          'foo-service-provider/src/main/resources/application-qa.yml',
+          'foo-service-provider/src/main/resources/application-prod.yml'
+        ])
+      });
 
       it('should exists test java files', () => {
       })
@@ -147,35 +157,38 @@ describe('generate app', () => {
   describe('required dependencies', () => {
     describe('swagger', () => {
       it('should have dependency', () => {
-        assert.fileContent([
-          ['pom.xml', /<artifactId>versions-maven-plugin<\/artifactId>/],
+        assertRootArtifacts([
+          'versions-maven-plugin'
+        ])
 
-          ['foo-service-provider/pom.xml', /<artifactId>foo-service-api<\/artifactId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>spring-boot-starter-web<\/artifactId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>guava<\/artifactId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>commons-lang3<\/artifactId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>lombok<\/artifactId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>spring-boot-devtools<\/artifactId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>spring-boot-maven-plugin<\/artifactId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>joda-time<\/artifactId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>hutool-all<\/artifactId>/]
+        assertProviderArtifacts([
+          'foo-service-api',
+          'spring-boot-starter-web',
+          'guava',
+          'commons-lang3',
+          'lombok',
+          'spring-boot-devtools',
+          'spring-boot-maven-plugin',
+          'joda-time',
+          'hutool-all'
         ])
       });
 
       it('should have test dependency', () => {
-        assert.fileContent([
-          ['foo-service-provider/pom.xml', /<artifactId>spring-boot-starter-test<\/artifactId>/]
+        assertProviderArtifacts([
+          'spring-boot-starter-test'
         ])
       });
 
       it('should have properties', () => {
-        const appYaml = yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
-        assert(appYaml.swagger);
-        assert(appYaml.spring.application.name);
+        const yaml = readYamlConfigs();
+        assert(yaml.swagger);
+        assert(yaml.spring.application.name);
       });
 
       it('should disabled on env prod', () => {
-        assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application-prod.yml')).swagger.enabled === false);
+        const yaml = readYamlConfigs('prod');
+        assert(yaml.swagger.enabled === false);
       });
     });
   });
@@ -183,66 +196,54 @@ describe('generate app', () => {
 
 describe('generate demo', () => {
   before(() => {
-    return helpers
-      .run(path.join(__dirname, '../../app'))
-      .withPrompts({
-        groupId: 'com.deepexi',
-        artifactId: 'foo-service',
-        basePackage: 'com.deepexi.foo',
-        demo: true
-      })
-      .then(() => {
-      })
+    return generate({
+      demo: true
+    })
   });
 
-  it('should exists files', () => {
-    assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/DemoController.java')
-    assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/DemoService.java')
-    assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/impl/DemoServiceImpl.java')
-    assert.file('foo-service-provider/src/main/java/com/deepexi/foo/exception/DemoException.java')
-    assert.file('foo-service-provider/src/main/java/com/deepexi/foo/converter/String2DemoControllerModelConverter.java')
+  it('should exists classes', () => {
+    assertClasses([
+      'controller/DemoController.java',
+      'service/DemoService.java',
+      'service/impl/DemoServiceImpl.java',
+      'exception/DemoException.java',
+      'converter/String2DemoControllerModelConverter.java'
+    ])
   });
 });
 
 describe('optional dependencies', () => {
   describe('eureka', () => {
     before(() => {
-      return helpers
-        .run(path.join(__dirname, '../../app'))
-        .withPrompts({
-          groupId: 'com.deepexi',
-          artifactId: 'foo-service',
-          basePackage: 'com.deepexi.foo',
-          discovery: 'eureka',
-          feignCircuit: 'none',
-          demo: true
-        })
-        .then(() => {
-        })
+      return generate({
+        discovery: 'eureka',
+        feignCircuit: 'none',
+        demo: true
+      })
     });
 
     it('should have dependency', () => {
-      assert.fileContent([
-        ['foo-service-provider/pom.xml', /<groupId>org.springframework.cloud<\/groupId>/],
-        ['foo-service-provider/pom.xml', /<artifactId>spring-cloud-starter-netflix-eureka-client<\/artifactId>/]
+      assertProviderArtifacts([
+        'spring-cloud-starter-netflix-eureka-client'
       ])
     });
 
     it('should have properties', () => {
-      assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')).eureka.client);
-      assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application-local.yml')).eureka.client);
+      assert(readYamlConfigs().eureka.client);
+      assert(readYamlConfigs('local').eureka.client);
     });
 
     describe('openfeign', () => {
       it('should exist demo files', () => {
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/OpenFeignDemoController.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/remote/DemoFeignClient.java')
+        assertClasses([
+          'controller/OpenFeignDemoController.java',
+          'remote/DemoFeignClient.java'
+        ])
       });
 
       it('should have dependency', () => {
-        assert.fileContent([
-          ['foo-service-provider/pom.xml', /<groupId>org.springframework.cloud<\/groupId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>spring-cloud-starter-openfeign<\/artifactId>/]
+        assertProviderArtifacts([
+          'spring-cloud-starter-openfeign'
         ])
       });
 
@@ -255,87 +256,60 @@ describe('optional dependencies', () => {
 
       describe('hystrix', () => {
         before(() => {
-          return helpers
-            .run(path.join(__dirname, '../../app'))
-            .withPrompts({
-              groupId: 'com.deepexi',
-              artifactId: 'foo-service',
-              basePackage: 'com.deepexi.foo',
-              discovery: 'eureka',
-              feignCircuit: 'hystrix',
-              demo: true
-            })
-            .then(() => {
-            })
+          return generate({
+            discovery: 'eureka',
+            feignCircuit: 'hystrix',
+            demo: true
+          })
         });
 
         it('should have properties', () => {
-          const appYaml = yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
-          assert(appYaml.feign.hystrix);
+          const yaml = readYamlConfigs();
+          assert(yaml.feign.hystrix);
         });
       });
 
       describe('sentinel', () => {
         before(() => {
-          return helpers
-            .run(path.join(__dirname, '../../app'))
-            .withPrompts({
-              groupId: 'com.deepexi',
-              artifactId: 'foo-service',
-              basePackage: 'com.deepexi.foo',
-              discovery: 'eureka',
-              feignCircuit: 'sentinel',
-              demo: true
-            })
-            .then(() => {
-            })
+          return generate({
+            discovery: 'eureka',
+            feignCircuit: 'sentinel',
+            demo: true
+          })
         });
 
         it('should have dependency', () => {
-          assert.fileContent([
-            ['foo-service-provider/pom.xml', /<groupId>org.springframework.cloud<\/groupId>/],
-            ['foo-service-provider/pom.xml', /<artifactId>spring-cloud-starter-alibaba-sentinel<\/artifactId>/]
+          assertProviderArtifacts([
+            'spring-cloud-starter-alibaba-sentinel'
           ])
         });
 
         it('should have properties', () => {
-          const appYaml = yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
-          assert(appYaml.feign.sentinel);
+          const yaml = readYamlConfigs();
+          assert(yaml.feign.sentinel);
         });
       });
     });
   });
 
   describe('mysql', () => {
-    // it('should ', () => {
-
-    // });
-
     describe('mybatis', () => {
       before(() => {
-        return helpers
-          .run(path.join(__dirname, '../../app'))
-          .withPrompts({
-            groupId: 'com.deepexi',
-            artifactId: 'foo-service',
-            basePackage: 'com.deepexi.foo',
-            db: 'mysql',
-            orm: 'mybatis',
-            demo: true
-          })
-          .then(() => {
-          })
+        return generate({
+          db: 'mysql',
+          orm: 'mybatis',
+          demo: true
+        })
       });
 
       it('should have dependency', () => {
-        assert.fileContent([
-          ['foo-service-provider/pom.xml', /<groupId>org.mybatis.spring.boot<\/groupId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>mybatis-spring-boot-starter<\/artifactId>/]
+        assertProviderArtifacts([
+          'mybatis-spring-boot-starter'
         ])
       });
 
       it('should have properties', () => {
-        assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')).mybatis);
+        assert(readYamlConfigs().mybatis);
       });
 
       it('should exist files', () => {
@@ -343,44 +317,40 @@ describe('optional dependencies', () => {
       });
 
       it('should exist demo files', () => {
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/CrudDemoController.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/CrudDemoService.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/impl/CrudDemoServiceImpl.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/mapper/DemoMapper.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/DemoDo.java')
+        assertClasses([
+          'controller/CrudDemoController.java',
+          'service/CrudDemoService.java',
+          'service/impl/CrudDemoServiceImpl.java',
+          'mapper/DemoMapper.java',
+          'domain/DemoDo.java'
+        ])
       });
     });
 
     describe('mybatis-plus', () => {
       before(() => {
-        return helpers
-          .run(path.join(__dirname, '../../app'))
-          .withPrompts({
-            groupId: 'com.deepexi',
-            artifactId: 'foo-service',
-            basePackage: 'com.deepexi.foo',
-            db: 'mysql',
-            orm: 'mybatis-plus',
-            demo: true
-          })
-          .then(() => {
-          })
+        return generate({
+          db: 'mysql',
+          orm: 'mybatis-plus',
+          demo: true
+        })
       });
 
       it('should have dependency', () => {
-        assert.fileContent([
-          ['foo-service-provider/pom.xml', /<groupId>com.baomidou<\/groupId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>mybatis-plus-boot-starter<\/artifactId>/]
+        assertProviderArtifacts([
+          'mybatis-plus-boot-starter'
         ])
       });
 
       it('should have properties', () => {
-        assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')).mybatis);
+        assert(readYamlConfigs().mybatis);
       });
 
       it('should exist files', () => {
         assert.file('foo-service-provider/src/main/resources/mapper/.gitkeep')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationMetaObjectHandler.java')
+        assertClasses([
+          'config/ApplicationMetaObjectHandler.java'
+        ])
       });
 
       it('should exist contents', () => {
@@ -390,104 +360,86 @@ describe('optional dependencies', () => {
       });
 
       it('should exist demo files', () => {
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/CrudDemoController.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/CrudDemoService.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/impl/CrudDemoServiceImpl.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/mapper/DemoMapper.java')
-        assert.file('foo-service-provider/src/main/java/com/deepexi/foo/domain/DemoDo.java')
+        assertClasses([
+          'controller/CrudDemoController.java',
+          'service/CrudDemoService.java',
+          'service/impl/CrudDemoServiceImpl.java',
+          'mapper/DemoMapper.java',
+          'domain/DemoDo.java'
+        ])
       });
     });
 
     describe('druid', () => {
       before(() => {
-        return helpers
-          .run(path.join(__dirname, '../../app'))
-          .withPrompts({
-            groupId: 'com.deepexi',
-            artifactId: 'foo-service',
-            basePackage: 'com.deepexi.foo',
-            db: 'mysql',
-            dbPool: 'druid'
-          })
-          .then(() => {
-          })
+        return generate({
+          db: 'mysql',
+          dbPool: 'druid'
+        })
       });
 
       it('should have dependency', () => {
-        assert.fileContent([
-          ['foo-service-provider/pom.xml', /<groupId>com.alibaba<\/groupId>/],
-          ['foo-service-provider/pom.xml', /<artifactId>druid-spring-boot-starter<\/artifactId>/]
+        assertProviderArtifacts([
+          'druid-spring-boot-starter'
         ])
       });
 
       it('should have properties', () => {
-        assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')).spring.datasource.druid);
+        assert(readYamlConfigs().spring.datasource.druid);
       });
     });
   });
 
   describe('mq', () => {
     before(() => {
-      return helpers
-        .run(path.join(__dirname, '../../app'))
-        .withPrompts({
-          groupId: 'com.deepexi',
-          artifactId: 'foo-service',
-          basePackage: 'com.deepexi.foo',
-          mq: 'rabbitmq',
-          demo: true
-        })
-        .then(() => {
-        })
+      return generate({
+        mq: 'rabbitmq',
+        demo: true
+      })
     });
 
     it('should have dependency', () => {
-      assert.fileContent([
-        ['foo-service-provider/pom.xml', /<groupId>org.springframework.boot<\/groupId>/],
-        ['foo-service-provider/pom.xml', /<artifactId>spring-boot-starter-amqp<\/artifactId>/]
+      assertProviderArtifacts([
+        'spring-boot-starter-amqp'
       ])
     });
 
     it('should have properties', () => {
-      assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application-local.yml')).spring.rabbitmq);
+      assert(readYamlConfigs('local').spring.rabbitmq);
     });
 
     it('should exist files', () => {
-      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/RabbitMQConfiguration.java')
+      assertClasses([
+        'config/RabbitMQConfiguration.java'
+      ])
     });
 
     it('should exist demo files', () => {
-      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/controller/MQDemoController.java')
-      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/MQDemoService.java')
-      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/service/impl/RabbitMQDemoServiceImpl.java')
-      assert.file('foo-service-provider/src/main/java/com/deepexi/foo/config/RabbitMQDemoConfiguration.java')
+      assertClasses([
+        'controller/MQDemoController.java',
+        'service/MQDemoService.java',
+        'service/impl/RabbitMQDemoServiceImpl.java',
+        'config/RabbitMQDemoConfiguration.java'
+      ])
     });
   });
 
   describe('configservice', () => {
     before(() => {
-      return helpers
-        .run(path.join(__dirname, '../../app'))
-        .withPrompts({
-          groupId: 'com.deepexi',
-          artifactId: 'foo-service',
-          basePackage: 'com.deepexi.foo',
-          configservice: 'apollo',
-          demo: true
-        })
-        .then(() => {
-        })
+      return generate({
+        configservice: 'apollo',
+        demo: true
+      })
     });
 
     it('should have dependency', () => {
-      assert.fileContent([
-        ['foo-service-provider/pom.xml', /<groupId>com.ctrip.framework.apollo<\/groupId>/],
-        ['foo-service-provider/pom.xml', /<artifactId>apollo-client<\/artifactId>/]
+      assertProviderArtifacts([
+        'apollo-client'
       ])
     });
 
     it('should have properties', () => {
-      assert(yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/bootstrap.yml')).apollo);
+      assert(readYamlConfigs('bootstrap').apollo);
     });
 
     it('should exist files', () => {
