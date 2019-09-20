@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.7.0...v1.8.0) (2019-09-20)
+
+
+### Bug Fixes
+
+* can not render path template on direct_th ([b7e3e18](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/b7e3e18))
+
+
+### Features
+
+* support integrate with thymeleaf ([a3d60d6](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/a3d60d6))
+
+
+### Tests
+
+* fix test case ([24ae322](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/24ae322))
+* fix test case ([5a003cf](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/5a003cf))
+* reduce repeat code ([b3e51fd](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/b3e51fd))
+
+
+
 ## [1.7.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.6.0...v1.7.0) (2019-09-19)
 
 
