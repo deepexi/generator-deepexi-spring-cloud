@@ -58,4 +58,44 @@ $ yo deepexi-spring-cloud --help
 
 脚手架对自动集成的第三方依赖都提供了默认的配置，但是有一些外部资源依赖（如mysql db, eureka server, rabbit mq等）可能需要你在生成项目后手动进行配置，否则项目可能无法直接运行。
 
+## 功能一览
+
+### 可选项
+
+|**类型**||||||
+|:-:|--|--|--|--|--|
+|注册中心|✅eureka|☑️consul|☑️nacos|
+|配置中心|✅Apollo|☑️Disconfig|☑️Config|
+|消息队列|✅RabbitMQ|☑️RocketMQ|
+|任务调度|☑️ES Job|☑️XXL-Job|☑️SiaTask|☑️Quartz|
+|RDBMS|✅MySQL|☑️PG SQL|☑️SQL Server|
+|NoSQL|☑️Redis|☑️MongoDB|
+|连接池|✅Druid|☑️Hikari|
+|权限控制|✅Shiro|☑️Spring Security|
+|分布式事务|☑️TCC-Transaction|☑️LCN|
+|APM|☑️SkyWalking|☑️Zipkin|☑️PinPoint|
+|分库分表|☑️Sharding-JDBC|☑️MyCAT|
+|服务器|✅Tomcat|☑️Jetty|☑️Undertow|
+|JSON解析|✅Jackson|☑️FastJson|☑️Gson|
+|模板引擎|☑️Thymeleaf|☑️Freemarker|
+|对象存储|☑️AliOSS|☑️FastDFS|
+|ORM|✅MybatisPlus|✅Mapper|☑️JPA|
+|日志系统|✅Logback|☑️Log4j2|
+|DDD|
+|WebSocket|☑️Spring Boot Websocket|
+|Bean转换器|✅SpringMVC Converter|☑️MapStruct|
+|DeepEXI产品|☑️sPaaS|
+
+
+
+
+### 固有项
+
+|**类型**||||||
+|:-:|--|--|--|--|--|
+|Java版本|✅jdk8|
+|开发框架|✅springfox(swagger)|✅lombok|✅guava|✅common-lang3|
+|测试框架|✅jacoco|☑️mockserver|☑️mockneat|
+|部署相关|✅docker|✅filebeat|
+
 ## Development Reference
