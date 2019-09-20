@@ -58,6 +58,18 @@ function assertNoClasses (classes) {
   }))
 }
 
+function assertResources (resources) {
+  assert.file(resources.map(resource => {
+    return `foo-service-provider/src/main/resources/${resource}`;
+  }))
+}
+
+function assertNoResources (resources) {
+  assert.noFile(resources.map(resource => {
+    return `foo-service-provider/src/main/resources/${resource}`;
+  }))
+}
+
 function readYamlConfigs (env) {
   if (env) {
     if (env === 'bootstrap' || env === 'boot') {
@@ -524,6 +536,90 @@ describe('optional dependencies', () => {
 
       it('should not exist classes', () => {
         assertNoClasses(expect.classes);
+      });
+    });
+  });
+
+  describe('template engine', () => {
+    const expects = {
+      thymeleaf: {
+        artifact: {
+          provider: [
+            'spring-boot-starter-thymeleaf'
+          ]
+        },
+        classes: [
+          'controller/ThymeleafDemoController.java'
+        ],
+        resources: [
+          'templates/demo_page.html'
+        ]
+      }
+    }
+    describe('thymeleaf', () => {
+      const expect = expects.thymeleaf;
+
+      before(() => {
+        return generate({
+          templateEngine: 'thymeleaf',
+          demo: true
+        })
+      });
+
+      it('should have dependency', () => {
+        assertProviderArtifacts(expect.artifact.provider);
+      });
+
+      it('should have properties', () => {
+        assert.strictEqual(readYamlConfigs().spring.thymeleaf.cache, false);
+        assert.strictEqual(readYamlConfigs('prod').spring.thymeleaf.cache, true);
+      });
+
+      it('should exist classes', () => {
+        assertClasses(expect.classes);
+      });
+
+      it('should exist resources', () => {
+        assertResources(expect.resources);
+      });
+    });
+
+    describe('none', () => {
+      const expect = {
+        artifact: {
+          provider: []
+        },
+        classes: [],
+        resources: []
+      };
+      for (const key in expects) {
+        expect.artifact.provider.push(expects[key].artifact.provider);
+        expect.classes.push(expects[key].classes);
+        expect.resources.push(expects[key].resources);
+      }
+
+      before(() => {
+        return generate({
+          templateEngine: 'none',
+          demo: true
+        })
+      });
+
+      it('should not have dependency', () => {
+        assertNoProviderArtifact(expect.artifact.provider);
+      });
+
+      it('should not have properties', () => {
+        assert(!readYamlConfigs().spring.thymeleaf);
+        assert(!readYamlConfigs('prod').spring.thymeleaf);
+      });
+
+      it('should not exist classes', () => {
+        assertNoClasses(expect.classes);
+      });
+
+      it('should not exist resources', () => {
+        assertNoResources(expect.resources);
       });
     });
   });

@@ -19,6 +19,18 @@ const obj = {
     prompting: { type: 'input', message: '请输入你的maven仓库地址', default: 'http://nexus.deepexi.top/repository/maven-public/' },
     option: { desc: 'maven仓库url', type: String, default: 'http://nexus.deepexi.top/repository/maven-public/' }
   },
+  templateEngine: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'thymeleaf',
+        // 'freemarker',
+        'none'
+      ],
+      message: '请选择你使用的模板引擎'
+    },
+    option: { desc: '模板引擎', type: String, default: 'none' }
+  },
   db: {
     prompting: {
       type: 'list',
@@ -201,6 +213,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
 
     if (props.security !== 'none') {
       props.conditions[props.security] = true;
+    }
+
+    if (props.templateEngine !== 'none') {
+      props.conditions[props.templateEngine] = true;
     }
 
     props.openfeign = props.discovery === 'eureka';
