@@ -69,7 +69,7 @@ $ yo deepexi-spring-cloud --help
 |消息队列|✅RabbitMQ|☑️RocketMQ|
 |任务调度|☑️ES Job|☑️XXL-Job|☑️SiaTask|☑️Quartz|
 |RDBMS|✅MySQL|☑️PG SQL|☑️SQL Server|
-|NoSQL|☑️Redis|☑️MongoDB|
+|NoSQL|✅Redis|☑️MongoDB|
 |连接池|✅Druid|☑️Hikari|
 |权限控制|✅Shiro|☑️Spring Security|
 |分布式事务|☑️TCC-Transaction|☑️LCN|
@@ -96,6 +96,8 @@ $ yo deepexi-spring-cloud --help
 |Java版本|✅jdk8|
 |开发框架|✅springfox(swagger)|✅lombok|✅guava|✅common-lang3|
 |测试框架|✅jacoco|☑️mockserver|☑️mockneat|
+|开发相关|✅devtools|
 |部署相关|✅docker|✅filebeat|
+|其它|✅actuator|
 
 ## Development Reference

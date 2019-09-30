@@ -23,61 +23,75 @@ function generate (prompts) {
 }
 
 function assertRootArtifacts (artifacts) {
-  assert.fileContent(
-    artifacts.map(artifact => {
-      return ['pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
-    })
-  )
+  if (_.isArray(artifacts) && artifacts.length > 0) {
+    assert.fileContent(
+      artifacts.map(artifact => {
+        return ['pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
+      })
+    )
+  }
 }
 
 function assertProviderArtifacts (artifacts) {
-  assert.fileContent(
-    artifacts.map(artifact => {
-      return ['foo-service-provider/pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
-    })
-  )
+  if (_.isArray(artifacts) && artifacts.length > 0) {
+    assert.fileContent(
+      artifacts.map(artifact => {
+        return ['foo-service-provider/pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
+      })
+    )
+  }
 }
 
 function assertNoProviderArtifact (artifacts) {
-  assert.noFileContent(
-    artifacts.map(artifact => {
-      return ['foo-service-provider/pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
-    })
-  )
+  if (_.isArray(artifacts) && artifacts.length > 0) {
+    assert.noFileContent(
+      artifacts.map(artifact => {
+        return ['foo-service-provider/pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
+      })
+    )
+  }
 }
 
 function assertClasses (classes) {
-  assert.file(classes.map(clazz => {
-    return `foo-service-provider/src/main/java/com/deepexi/foo/${clazz}`;
-  }))
+  if (_.isArray(classes) && classes.length > 0) {
+    assert.file(classes.map(clazz => {
+      return `foo-service-provider/src/main/java/com/deepexi/foo/${clazz}`;
+    }))
+  }
 }
 
 function assertNoClasses (classes) {
-  assert.noFile(classes.map(clazz => {
-    return `foo-service-provider/src/main/java/com/deepexi/foo/${clazz}`;
-  }))
+  if (_.isArray(classes) && classes.length > 0) {
+    assert.noFile(classes.map(clazz => {
+      return `foo-service-provider/src/main/java/com/deepexi/foo/${clazz}`;
+    }))
+  }
 }
 
 function assertResources (resources) {
-  assert.file(resources.map(resource => {
-    return `foo-service-provider/src/main/resources/${resource}`;
-  }))
+  if (_.isArray(resources) && resources.length > 0) {
+    assert.file(resources.map(resource => {
+      return `foo-service-provider/src/main/resources/${resource}`;
+    }))
+  }
 }
 
 function assertNoResources (resources) {
-  assert.noFile(resources.map(resource => {
-    return `foo-service-provider/src/main/resources/${resource}`;
-  }))
+  if (_.isArray(resources) && resources.length > 0) {
+    assert.noFile(resources.map(resource => {
+      return `foo-service-provider/src/main/resources/${resource}`;
+    }))
+  }
 }
 
 function readYamlConfigs (env) {
   if (env) {
     if (env === 'bootstrap' || env === 'boot') {
-      return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/bootstrap.yml`));
+      return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/bootstrap.yml`)) || {};
     }
-    return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/application-${env}.yml`));
+    return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/application-${env}.yml`)) || {};
   }
-  return yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml'));
+  return yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')) || {};
 }
 
 describe('generate app', () => {
@@ -613,6 +627,96 @@ describe('optional dependencies', () => {
         // TODO::
         assert(!readYamlConfigs().spring.thymeleaf);
         // assert(!readYamlConfigs('prod').spring.thymeleaf);
+      });
+
+      it('should not exist classes', () => {
+        assertNoClasses(expect.classes);
+      });
+
+      it('should not exist resources', () => {
+        assertNoResources(expect.resources);
+      });
+    });
+  });
+
+  describe('cache', () => {
+    const expects = {
+      redis: {
+        artifact: {
+          provider: [
+            'spring-boot-starter-data-redis',
+            'spring-boot-starter-cache'
+          ]
+        },
+        classes: [
+          'config/CacheConfiguration.java',
+          'controller/CacheDemoController.java',
+          'service/ObjectCacheDemoService.java',
+          'service/StringCacheDemoService.java'
+        ],
+        resources: [
+
+        ]
+      }
+    }
+    describe('redis', () => {
+      const expect = expects.redis;
+
+      before(() => {
+        return generate({
+          cache: 'redis',
+          demo: true
+        })
+      });
+
+      it('should have dependency', () => {
+        assertProviderArtifacts(expect.artifact.provider);
+      });
+
+      it('should have properties', () => {
+        assert(readYamlConfigs().spring.redis);
+        assert(readYamlConfigs('local').spring.redis);
+      });
+
+      it('should exist classes', () => {
+        assertClasses(expect.classes);
+      });
+
+      it('should exist resources', () => {
+        assertResources(expect.resources);
+      });
+    });
+
+    describe('none', () => {
+      const expect = {
+        artifact: {
+          provider: []
+        },
+        classes: [],
+        resources: []
+      };
+      for (const key in expects) {
+        expect.artifact.provider.push(...expects[key].artifact.provider);
+        expect.classes.push(...expects[key].classes);
+        expect.resources.push(...expects[key].resources);
+      }
+
+      before(() => {
+        return generate({
+          cache: 'none',
+          demo: true
+        })
+      });
+
+      it('should not have dependency', () => {
+        assertNoProviderArtifact(expect.artifact.provider);
+      });
+
+      it('should not have properties', () => {
+        const yaml = readYamlConfigs('local')
+        if (yaml.spring) {
+          assert(!yaml.spring.cache);
+        }
       });
 
       it('should not exist classes', () => {

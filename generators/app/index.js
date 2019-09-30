@@ -170,6 +170,29 @@ const obj = {
       }
     }
   },
+  cache: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'redis',
+        'ehcache',
+        'none'
+      ],
+      message: '请选择你使用的缓存类型'
+    },
+    option: { desc: '缓存', type: String, default: 'none' },
+    child: {
+      // redisAddress: {
+      //   prompting: { type: 'input', default: '127.0.0.1:6379', message: '请填写你的redis地址' },
+      //   option: { desc: 'redis地址', type: String, default: '127.0.0.1:6379' },
+      //   callbacks: {
+      //     trigger (answers) {
+      //       return answers.cache === 'redis';
+      //     }
+      //   }
+      // }
+    }
+  },
   demo: {
     prompting: {
       type: 'confirm',
@@ -217,6 +240,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
 
     if (props.templateEngine !== 'none') {
       props.conditions[props.templateEngine] = true;
+    }
+
+    if (props.cache !== 'none') {
+      props.conditions[props.cache] = true;
     }
 
     props.openfeign = props.discovery === 'eureka';
