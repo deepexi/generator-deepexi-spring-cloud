@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.8.1...v1.9.0) (2019-09-30)
+
+
+### Features
+
+* support cache enabling with redis ([b21f948](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/b21f948))
+
+
+
 ### [1.8.1](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.8.0...v1.8.1) (2019-09-20)
 
 
