@@ -217,8 +217,8 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
     props.basePath = props.basePackage.replace(/\./g, '/');
 
     props.conditions = {};
-    if (props.db !== 'none') {
-      if (props.orm !== 'none') {
+    if (props.db && props.db !== 'none') {
+      if (props.orm && props.orm !== 'none') {
         props.conditions[props.orm] = true;
         if (props.demo) {
           props.conditions.crud = true;

@@ -32,6 +32,16 @@ function assertRootArtifacts (artifacts) {
   }
 }
 
+function assertNoRootArtifacts (artifacts) {
+  if (_.isArray(artifacts) && artifacts.length > 0) {
+    assert.noFileContent(
+      artifacts.map(artifact => {
+        return ['pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
+      })
+    )
+  }
+}
+
 function assertProviderArtifacts (artifacts) {
   if (_.isArray(artifacts) && artifacts.length > 0) {
     assert.fileContent(
@@ -42,7 +52,7 @@ function assertProviderArtifacts (artifacts) {
   }
 }
 
-function assertNoProviderArtifact (artifacts) {
+function assertNoProviderArtifacts (artifacts) {
   if (_.isArray(artifacts) && artifacts.length > 0) {
     assert.noFileContent(
       artifacts.map(artifact => {
@@ -94,148 +104,536 @@ function readYamlConfigs (env) {
   return yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')) || {};
 }
 
-describe('generate app', () => {
+class Expect {
+  addFiles (name, files) {
+    if (!_.isArray(this[name])) {
+      this[name] = [];
+    }
+    this[name].push(...files);
+  }
+
+  getFiles (name) {
+    return this[name];
+  }
+
+  // project files
+
+  addProjectFiles (files) {
+    this.addFiles('project_files', files);
+  }
+
+  getProjectFiles () {
+    return this.getFiles('project_files');
+  }
+
+  assertProjectFiles () {
+    if (this.getProjectFiles()) {
+      it('should exist project files', () => {
+        assert.file(this.getProjectFiles())
+      });
+    }
+  }
+
+  assertNoProjectFiles () {
+    if (this.getProjectFiles()) {
+      it('should not exist project files', () => {
+        assert.noFile(this.getProjectFiles())
+      });
+    }
+  }
+
+  // provider classes
+
+  addProviderClasses (classes) {
+    this.addFiles('provider_classes', classes);
+  }
+
+  getProviderClasses () {
+    return this.getFiles('provider_classes');
+  }
+
+  assertProviderClasses () {
+    if (this.getProviderClasses()) {
+      it('should exist provider classes', () => {
+        assertClasses(this.getProviderClasses());
+      });
+    }
+  }
+
+  assertNoProviderClasses () {
+    if (this.getProviderClasses()) {
+      it('should not exist provider classes', () => {
+        assertNoClasses(this.getProviderClasses());
+      });
+    }
+  }
+
+  // provider resources
+
+  addProviderResources (resources) {
+    this.addFiles('provider_resources', resources);
+  }
+
+  getProviderResources () {
+    return this.getFiles('provider_resources');
+  }
+
+  assertProviderResources () {
+    if (this.getProviderResources()) {
+      it('should exist provider resources', () => {
+        assertResources(this.getProviderResources());
+      });
+    }
+  }
+
+  assertNoProviderResources () {
+    if (this.getProviderResources()) {
+      it('should not exist provider resources', () => {
+        assertNoResources(this.getProviderResources());
+      });
+    }
+  }
+
+  // root artifacts
+
+  addRootArtifacts (artifact) {
+    this.addFiles('root_artifacts', artifact);
+  }
+
+  getRootArtifacts () {
+    return this.getFiles('root_artifacts');
+  }
+
+  assertRootArtifacts () {
+    if (this.getRootArtifacts()) {
+      it('should exist root artifacts', () => {
+        assertRootArtifacts(this.getRootArtifacts());
+      });
+    }
+  }
+
+  assertNoRootArtifacts () {
+    if (this.getRootArtifacts()) {
+      it('should not exist root artifacts', () => {
+        assertNoRootArtifacts(this.getRootArtifacts());
+      });
+    }
+  }
+
+  // provider artifacts
+
+  addProviderArtifacts (artifact) {
+    this.addFiles('provider_artifacts', artifact);
+  }
+
+  getProviderArtifacts () {
+    return this.getFiles('provider_artifacts');
+  }
+
+  assertProviderArtifacts () {
+    if (this.getProviderArtifacts()) {
+      it('should exist provider artifacts', () => {
+        assertProviderArtifacts(this.getProviderArtifacts());
+      });
+    }
+  }
+
+  assertNoProviderArtifacts () {
+    if (this.getProviderArtifacts()) {
+      it('should not exist provider artifacts', () => {
+        assertNoProviderArtifacts(this.getProviderArtifacts());
+      });
+    }
+  }
+
+  assertAll () {
+    const keys = [];
+    Object.getOwnPropertyNames(Object.getPrototypeOf(this)).map(name => {
+      keys.push(name);
+    })
+    Object.keys(this).map(key => {
+      keys.push(key);
+    })
+
+    keys.map(key => {
+      if (key.match(/^assert.*/) && !key.startsWith('assertNo')) {
+        if (key === 'assertAll') {
+          return;
+        }
+        const func = this[key];
+        if (func && typeof func === 'function') {
+          this[key]();
+        }
+      }
+    })
+  }
+
+  assertNoAll () {
+    const keys = [];
+    Object.getOwnPropertyNames(Object.getPrototypeOf(this)).map(name => {
+      keys.push(name);
+    })
+    Object.keys(this).map(key => {
+      keys.push(key);
+    })
+
+    keys.map(key => {
+      if (key.match(/^assertNo.*/)) {
+        if (key === 'assertNoAll') {
+          return;
+        }
+        const func = this[key];
+        if (func && typeof func === 'function') {
+          this[key]();
+        }
+      }
+    })
+  }
+}
+
+const expects = {
+  required: new Expect(),
+  demo: new Expect(),
+  eureka: new Expect(),
+  feign: new Expect(),
+  hystrix: new Expect(),
+  sentinel: new Expect(),
+  mybatis: new Expect(),
+  mybatisplus: new Expect(),
+  rabbitmq: new Expect(),
+  druid: new Expect(),
+  apollo: new Expect(),
+  jwtShiro: new Expect(),
+  thymeleaf: new Expect(),
+  redis: new Expect()
+};
+
+const required = expects.required;
+required.addProjectFiles([
+  'pom.xml',
+  '.gitignore',
+  'filebeat.yml',
+  'start-fb.sh',
+  'start-code.sh',
+  'Dockerfile',
+  'entrypoint.sh',
+  'run.sh',
+  'LICENSE',
+  'README.md',
+  '1.docs/guides/quickly_start.md',
+  '1.docs/guides/reference.md',
+  '1.docs/guides/dev_reference.md',
+  '1.docs/sql/v1.0.0/schema.sql',
+  '1.docs/sql/v1.0.0/data.sql',
+  'scaffold.md',
+
+  'package.json',
+  'commitlint.config.js'
+])
+required.addProviderClasses([
+  'StartupApplication.java',
+  'config/ApplicationConfiguration.java',
+  'config/web/ReturnValueConfigurer.java',
+  'controller/Payload.java',
+  'config/web/ApplicationErrorAttributes.java',
+  'exception/BizErrorResponseStatus.java',
+  'config/web/ConverterConfigurer.java',
+  'util/ConverterUtils.java',
+  'domain/.gitkeep',
+  'domain/dto/.gitkeep',
+  'domain/entity/.gitkeep',
+  'domain/query/.gitkeep',
+  'domain/query/PaginationRequest.java',
+  'domain/vo/.gitkeep',
+  'domain/vo/Pagination.java'
+]);
+required.addProviderResources([
+  // 'pom.xml',   // TODO::
+
+  'application.properties',
+  'application.yml',
+  'application-local.yml',
+  'application-dev.yml',
+  'application-qa.yml',
+  'application-prod.yml'
+])
+required.addRootArtifacts([
+  'versions-maven-plugin'
+])
+required.addProviderArtifacts([
+  'foo-service-api',
+  'spring-boot-starter-web',
+  'guava',
+  'commons-lang3',
+  'lombok',
+  'spring-boot-devtools',
+  'spring-boot-maven-plugin',
+  'joda-time',
+  'hutool-all',
+
+  // test dependencies
+  'spring-boot-starter-test'
+]);
+required.assertProperties = () => {
+  it('should have properties', () => {
+    const yaml = readYamlConfigs();
+    assert(yaml.swagger);
+    assert(yaml.spring.application.name);
+  });
+
+  it('should disabled swagger on env prod', () => {
+    const yaml = readYamlConfigs('prod');
+    assert(yaml.swagger.enabled === false);
+  });
+}
+
+const demo = expects.demo;
+demo.addProviderClasses([
+  'controller/DemoController.java',
+  'service/DemoService.java',
+  'service/impl/DemoServiceImpl.java',
+  'exception/DemoException.java',
+  'converter/String2DemoControllerModelConverter.java'
+]);
+
+const eureka = expects.eureka;
+eureka.addProviderArtifacts([
+  'spring-cloud-starter-netflix-eureka-client'
+])
+eureka.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs().eureka.client);
+    assert(readYamlConfigs('local').eureka.client);
+  });
+}
+
+const feign = expects.feign;
+feign.addProviderClasses([
+  'controller/OpenFeignDemoController.java',
+  'remote/DemoFeignClient.java'
+])
+feign.addProviderArtifacts([
+  'spring-cloud-starter-openfeign'
+])
+
+const hystrix = expects.hystrix;
+hystrix.assertProperties = () => {
+  it('should have properties', () => {
+    const yaml = readYamlConfigs();
+    assert(yaml.feign.hystrix);
+  });
+}
+
+const sentinel = expects.sentinel;
+sentinel.addProviderArtifacts([
+  'spring-cloud-starter-alibaba-sentinel'
+])
+sentinel.assertProperties = () => {
+  it('should have properties', () => {
+    const yaml = readYamlConfigs();
+    assert(yaml.feign.sentinel);
+  });
+}
+
+const mybatis = expects.mybatis;
+mybatis.addProviderArtifacts([
+  'mybatis-spring-boot-starter'
+])
+mybatis.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs().mybatis);
+  });
+}
+mybatis.assertOthers = () => {
+  describe('other', () => {
+    it('should have provider classes', () => {
+      assertClasses([
+        'controller/CrudDemoController.java',
+        'service/CrudDemoService.java',
+        'service/impl/CrudDemoServiceImpl.java',
+        'mapper/DemoMapper.java',
+        'domain/DemoDo.java'
+      ])
+    });
+    it('should have provider resources', () => {
+      assertResources(['mapper/.gitkeep'])
+    });
+  });
+}
+
+const mybatisplus = expects.mybatisplus;
+mybatisplus.addProviderArtifacts([
+  'mybatis-plus-boot-starter'
+])
+mybatisplus.assertProperties = () => {
+  it('should have configs', () => {
+    assert(readYamlConfigs().mybatis);
+  });
+}
+mybatisplus.addProviderClasses([
+  'config/ApplicationMetaObjectHandler.java'
+])
+mybatisplus.assertContent = () => {
+  it('should exist contents', () => {
+    assert.fileContent([
+      ['foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationConfiguration.java', /ApplicationMetaObjectHandler.RuntimeData/]
+    ])
+  });
+}
+
+mybatisplus.assertOthers = () => {
+  describe('other', () => {
+    it('should have provider classes', () => {
+      assertClasses([
+        'controller/CrudDemoController.java',
+        'service/CrudDemoService.java',
+        'service/impl/CrudDemoServiceImpl.java',
+        'mapper/DemoMapper.java',
+        'domain/DemoDo.java'
+      ])
+    });
+    it('should have provider resources', () => {
+      assertResources(['mapper/.gitkeep'])
+    });
+  });
+}
+
+const rabbitmq = expects.rabbitmq;
+rabbitmq.addProviderArtifacts([
+  'spring-boot-starter-amqp'
+])
+rabbitmq.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs('local').spring.rabbitmq);
+  });
+}
+rabbitmq.addProviderClasses([
+  'config/RabbitMQConfiguration.java'
+])
+rabbitmq.assertDemoFiles = () => {
+  it('should exist demo files', () => {
+    assertClasses([
+      'controller/MQDemoController.java',
+      'service/MQDemoService.java',
+      'service/impl/RabbitMQDemoServiceImpl.java',
+      'config/RabbitMQDemoConfiguration.java'
+    ])
+  });
+}
+
+const druid = expects.druid;
+druid.addProviderArtifacts([
+  'druid-spring-boot-starter'
+])
+druid.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs().spring.datasource.druid);
+  });
+}
+
+const apollo = expects.apollo;
+apollo.addProviderArtifacts([
+  'apollo-client'
+])
+apollo.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs('bootstrap').apollo);
+  });
+}
+apollo.addProviderResources([
+  'META-INF/app.properties'
+])
+
+const jwtShiro = expects.jwtShiro;
+jwtShiro.addProviderArtifacts([
+  'shiro-starter',
+  'java-jwt'
+])
+jwtShiro.addProviderClasses([
+  'config/ShiroConfiguration.java',
+  'util/AuthUtils.java'
+])
+jwtShiro.assertProperties = () => {
+  it('should have properties', () => {
+    const yaml = readYamlConfigs();
+    assert(yaml.shiro);
+    assert.strictEqual(yaml.shiro.web.mode, 'stateless');
+  });
+}
+
+const thymeleaf = expects.thymeleaf;
+thymeleaf.addProviderArtifacts([
+  'spring-boot-starter-thymeleaf'
+])
+thymeleaf.addProviderClasses([
+  'controller/ThymeleafDemoController.java'
+])
+thymeleaf.addProviderResources([
+  'templates/demo_page.html'
+])
+thymeleaf.assertProperties = () => {
+  it('should have properties', () => {
+    assert.strictEqual(readYamlConfigs().spring.thymeleaf.cache, false);
+    assert.strictEqual(readYamlConfigs('prod').spring.thymeleaf.cache, true);
+  });
+}
+
+const redis = expects.redis;
+redis.addProviderArtifacts([
+  'spring-boot-starter-data-redis',
+  'spring-boot-starter-cache'
+])
+redis.addProviderClasses([
+  'config/CacheConfiguration.java',
+  'controller/CacheDemoController.java',
+  'service/ObjectCacheDemoService.java',
+  'service/StringCacheDemoService.java'
+])
+redis.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs().spring.redis);
+    assert(readYamlConfigs('local').spring.redis);
+  });
+}
+
+function assertByExpected (expected, expects) {
+  describe('required files or classes', () => {
+    for (const key in expects) {
+      if (expected.includes(key)) {
+        describe(key, () => {
+          expects[key].assertAll();
+        });
+      }
+    }
+  });
+
+  describe('needless files or classes', () => {
+    for (const key in expects) {
+      if (!expected.includes(key)) {
+        describe(key, () => {
+          expects[key].assertNoAll();
+        });
+      }
+    }
+  });
+}
+
+describe('minimum app', () => {
   before(() => {
     return generate()
   });
 
-  describe('project root', () => {
-    it('should exists project files', () => {
-      assert.file([
-        'pom.xml',
-        '.gitignore',
-        'filebeat.yml',
-        'start-fb.sh',
-        'start-code.sh',
-        'Dockerfile',
-        'entrypoint.sh',
-        'run.sh',
-        'LICENSE',
-        'README.md',
-        '1.docs/guides/quickly_start.md',
-        '1.docs/guides/reference.md',
-        '1.docs/guides/dev_reference.md',
-        '1.docs/sql/v1.0.0/schema.sql',
-        '1.docs/sql/v1.0.0/data.sql',
-        'scaffold.md',
-
-        'package.json',
-        'commitlint.config.js'
-      ])
-    })
-
-    describe('api', () => {
-      it('should exists java files', () => {
-      })
-
-      it('should exists resources files', () => {
-      })
-
-      it('should exists test java files', () => {
-      })
-
-      it('should exists test resources files', () => {
-      })
-    });
-
-    describe('provider', () => {
-      it('should exists java files', () => {
-        assertClasses([
-          'StartupApplication.java',
-          'config/ApplicationConfiguration.java',
-          'config/web/ReturnValueConfigurer.java',
-          'controller/Payload.java',
-          'config/web/ApplicationErrorAttributes.java',
-          'exception/BizErrorResponseStatus.java',
-          'config/web/ConverterConfigurer.java',
-          'util/ConverterUtils.java',
-          'domain/.gitkeep',
-          'domain/dto/.gitkeep',
-          'domain/entity/.gitkeep',
-          'domain/query/.gitkeep',
-          'domain/query/PaginationRequest.java',
-          'domain/vo/.gitkeep',
-          'domain/vo/Pagination.java'
-        ])
-      })
-
-      it('should exists files', () => {
-        assert.file([
-          'foo-service-provider/pom.xml',
-
-          'foo-service-provider/src/main/resources/application.properties',
-          'foo-service-provider/src/main/resources/application.yml',
-          'foo-service-provider/src/main/resources/application-local.yml',
-          'foo-service-provider/src/main/resources/application-dev.yml',
-          'foo-service-provider/src/main/resources/application-qa.yml',
-          'foo-service-provider/src/main/resources/application-prod.yml'
-        ])
-      });
-
-      it('should exists test java files', () => {
-      })
-
-      it('should exists test resources files', () => {
-      })
-    });
-  });
-
-  describe('required dependencies', () => {
-    describe('swagger', () => {
-      it('should have dependency', () => {
-        assertRootArtifacts([
-          'versions-maven-plugin'
-        ])
-
-        assertProviderArtifacts([
-          'foo-service-api',
-          'spring-boot-starter-web',
-          'guava',
-          'commons-lang3',
-          'lombok',
-          'spring-boot-devtools',
-          'spring-boot-maven-plugin',
-          'joda-time',
-          'hutool-all'
-        ])
-      });
-
-      it('should have test dependency', () => {
-        assertProviderArtifacts([
-          'spring-boot-starter-test'
-        ])
-      });
-
-      it('should have properties', () => {
-        const yaml = readYamlConfigs();
-        assert(yaml.swagger);
-        assert(yaml.spring.application.name);
-      });
-
-      it('should disabled on env prod', () => {
-        const yaml = readYamlConfigs('prod');
-        assert(yaml.swagger.enabled === false);
-      });
-    });
-  });
+  assertByExpected(['required'], expects);
 })
 
-describe('generate demo', () => {
+describe('minimun app with demo', () => {
   before(() => {
     return generate({
       demo: true
     })
   });
 
-  it('should exists classes', () => {
-    assertClasses([
-      'controller/DemoController.java',
-      'service/DemoService.java',
-      'service/impl/DemoServiceImpl.java',
-      'exception/DemoException.java',
-      'converter/String2DemoControllerModelConverter.java'
-    ])
-  });
+  assertByExpected(['required', 'demo'], expects)
 });
 
 describe('optional dependencies', () => {
@@ -248,38 +646,9 @@ describe('optional dependencies', () => {
       })
     });
 
-    it('should have dependency', () => {
-      assertProviderArtifacts([
-        'spring-cloud-starter-netflix-eureka-client'
-      ])
-    });
+    assertByExpected(['required', 'demo', 'eureka', 'feign'], expects)
 
-    it('should have properties', () => {
-      assert(readYamlConfigs().eureka.client);
-      assert(readYamlConfigs('local').eureka.client);
-    });
-
-    describe('openfeign', () => {
-      it('should exist demo files', () => {
-        assertClasses([
-          'controller/OpenFeignDemoController.java',
-          'remote/DemoFeignClient.java'
-        ])
-      });
-
-      it('should have dependency', () => {
-        assertProviderArtifacts([
-          'spring-cloud-starter-openfeign'
-        ])
-      });
-
-      it('should exist annotations', () => {
-        assert.fileContent([
-          ['foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java', /import org.springframework.cloud.openfeign.EnableFeignClients;/],
-          ['foo-service-provider/src/main/java/com/deepexi/foo/StartupApplication.java', /@EnableFeignClients/]
-        ])
-      });
-
+    describe('openfeign circuit', () => {
       describe('hystrix', () => {
         before(() => {
           return generate({
@@ -289,10 +658,7 @@ describe('optional dependencies', () => {
           })
         });
 
-        it('should have properties', () => {
-          const yaml = readYamlConfigs();
-          assert(yaml.feign.hystrix);
-        });
+        assertByExpected(['required', 'demo', 'hystrix', 'eureka', 'feign'], expects)
       });
 
       describe('sentinel', () => {
@@ -304,16 +670,7 @@ describe('optional dependencies', () => {
           })
         });
 
-        it('should have dependency', () => {
-          assertProviderArtifacts([
-            'spring-cloud-starter-alibaba-sentinel'
-          ])
-        });
-
-        it('should have properties', () => {
-          const yaml = readYamlConfigs();
-          assert(yaml.feign.sentinel);
-        });
+        assertByExpected(['required', 'demo', 'sentinel', 'eureka', 'feign'], expects)
       });
     });
   });
@@ -328,29 +685,7 @@ describe('optional dependencies', () => {
         })
       });
 
-      it('should have dependency', () => {
-        assertProviderArtifacts([
-          'mybatis-spring-boot-starter'
-        ])
-      });
-
-      it('should have properties', () => {
-        assert(readYamlConfigs().mybatis);
-      });
-
-      it('should exist files', () => {
-        assert.file('foo-service-provider/src/main/resources/mapper/.gitkeep')
-      });
-
-      it('should exist demo files', () => {
-        assertClasses([
-          'controller/CrudDemoController.java',
-          'service/CrudDemoService.java',
-          'service/impl/CrudDemoServiceImpl.java',
-          'mapper/DemoMapper.java',
-          'domain/DemoDo.java'
-        ])
-      });
+      assertByExpected(['required', 'demo', 'mybatis'], expects)
     });
 
     describe('mybatis-plus', () => {
@@ -362,57 +697,19 @@ describe('optional dependencies', () => {
         })
       });
 
-      it('should have dependency', () => {
-        assertProviderArtifacts([
-          'mybatis-plus-boot-starter'
-        ])
-      });
-
-      it('should have properties', () => {
-        assert(readYamlConfigs().mybatis);
-      });
-
-      it('should exist files', () => {
-        assert.file('foo-service-provider/src/main/resources/mapper/.gitkeep')
-        assertClasses([
-          'config/ApplicationMetaObjectHandler.java'
-        ])
-      });
-
-      it('should exist contents', () => {
-        assert.fileContent([
-          ['foo-service-provider/src/main/java/com/deepexi/foo/config/ApplicationConfiguration.java', /ApplicationMetaObjectHandler.RuntimeData/]
-        ])
-      });
-
-      it('should exist demo files', () => {
-        assertClasses([
-          'controller/CrudDemoController.java',
-          'service/CrudDemoService.java',
-          'service/impl/CrudDemoServiceImpl.java',
-          'mapper/DemoMapper.java',
-          'domain/DemoDo.java'
-        ])
-      });
+      assertByExpected(['required', 'demo', 'mybatisplus'], expects)
     });
 
     describe('druid', () => {
       before(() => {
         return generate({
           db: 'mysql',
-          dbPool: 'druid'
+          dbPool: 'druid',
+          demo: true
         })
       });
 
-      it('should have dependency', () => {
-        assertProviderArtifacts([
-          'druid-spring-boot-starter'
-        ])
-      });
-
-      it('should have properties', () => {
-        assert(readYamlConfigs().spring.datasource.druid);
-      });
+      assertByExpected(['required', 'demo', 'druid'], expects)
     });
   });
 
@@ -424,30 +721,7 @@ describe('optional dependencies', () => {
       })
     });
 
-    it('should have dependency', () => {
-      assertProviderArtifacts([
-        'spring-boot-starter-amqp'
-      ])
-    });
-
-    it('should have properties', () => {
-      assert(readYamlConfigs('local').spring.rabbitmq);
-    });
-
-    it('should exist files', () => {
-      assertClasses([
-        'config/RabbitMQConfiguration.java'
-      ])
-    });
-
-    it('should exist demo files', () => {
-      assertClasses([
-        'controller/MQDemoController.java',
-        'service/MQDemoService.java',
-        'service/impl/RabbitMQDemoServiceImpl.java',
-        'config/RabbitMQDemoConfiguration.java'
-      ])
-    });
+    assertByExpected(['required', 'demo', 'rabbitmq'], expects)
   });
 
   describe('configservice', () => {
@@ -458,42 +732,11 @@ describe('optional dependencies', () => {
       })
     });
 
-    it('should have dependency', () => {
-      assertProviderArtifacts([
-        'apollo-client'
-      ])
-    });
-
-    it('should have properties', () => {
-      assert(readYamlConfigs('bootstrap').apollo);
-    });
-
-    it('should exist files', () => {
-      assert.file('foo-service-provider/src/main/resources/META-INF/app.properties')
-    });
-
-    it('should exist demo files', () => {
-    });
+    assertByExpected(['required', 'demo', 'apollo'], expects)
   });
 
   describe('authentication', () => {
-    const expects = {
-      jwtAndShiro: {
-        artifact: {
-          provider: [
-            'shiro-starter',
-            'java-jwt'
-          ]
-        },
-        classes: [
-          'config/ShiroConfiguration.java',
-          'util/AuthUtils.java'
-        ]
-      }
-    }
     describe('jwt & shiro', () => {
-      const expect = expects.jwtAndShiro;
-
       before(() => {
         return generate({
           authentication: 'jwt',
@@ -502,77 +745,12 @@ describe('optional dependencies', () => {
         })
       });
 
-      it('should have dependency', () => {
-        assertProviderArtifacts(expect.artifact.provider);
-      });
-
-      it('should have properties', () => {
-        const yaml = readYamlConfigs();
-        assert(yaml.shiro);
-        assert.strictEqual(yaml.shiro.web.mode, 'stateless');
-      });
-
-      it('should exist classes', () => {
-        assertClasses(expect.classes);
-      });
-
-      it('should exist demo files', () => {
-      });
-    });
-
-    describe('none', () => {
-      const expect = {
-        artifact: {
-          provider: []
-        },
-        classes: []
-      };
-      for (const key in expects) {
-        expect.artifact.provider.push(expects[key].artifact.provider);
-        expect.classes.push(expects[key].classes);
-      }
-
-      before(() => {
-        return generate({
-          authentication: 'none',
-          demo: true
-        })
-      });
-
-      it('should not have dependency', () => {
-        assertNoProviderArtifact(expect.artifact.provider);
-      });
-
-      it('should not have properties', () => {
-        const yaml = readYamlConfigs();
-        assert(!yaml.shiro);
-      });
-
-      it('should not exist classes', () => {
-        assertNoClasses(expect.classes);
-      });
+      assertByExpected(['required', 'demo', 'jwtShiro'], expects)
     });
   });
 
   describe('template engine', () => {
-    const expects = {
-      thymeleaf: {
-        artifact: {
-          provider: [
-            'spring-boot-starter-thymeleaf'
-          ]
-        },
-        classes: [
-          'controller/ThymeleafDemoController.java'
-        ],
-        resources: [
-          'templates/demo_page.html'
-        ]
-      }
-    }
     describe('thymeleaf', () => {
-      const expect = expects.thymeleaf;
-
       before(() => {
         return generate({
           templateEngine: 'thymeleaf',
@@ -580,88 +758,12 @@ describe('optional dependencies', () => {
         })
       });
 
-      it('should have dependency', () => {
-        assertProviderArtifacts(expect.artifact.provider);
-      });
-
-      it('should have properties', () => {
-        assert.strictEqual(readYamlConfigs().spring.thymeleaf.cache, false);
-        assert.strictEqual(readYamlConfigs('prod').spring.thymeleaf.cache, true);
-      });
-
-      it('should exist classes', () => {
-        assertClasses(expect.classes);
-      });
-
-      it('should exist resources', () => {
-        assertResources(expect.resources);
-      });
-    });
-
-    describe('none', () => {
-      const expect = {
-        artifact: {
-          provider: []
-        },
-        classes: [],
-        resources: []
-      };
-      for (const key in expects) {
-        expect.artifact.provider.push(expects[key].artifact.provider);
-        expect.classes.push(expects[key].classes);
-        expect.resources.push(expects[key].resources);
-      }
-
-      before(() => {
-        return generate({
-          templateEngine: 'none',
-          demo: true
-        })
-      });
-
-      it('should not have dependency', () => {
-        assertNoProviderArtifact(expect.artifact.provider);
-      });
-
-      it('should not have properties', () => {
-        // TODO::
-        assert(!readYamlConfigs().spring.thymeleaf);
-        // assert(!readYamlConfigs('prod').spring.thymeleaf);
-      });
-
-      it('should not exist classes', () => {
-        assertNoClasses(expect.classes);
-      });
-
-      it('should not exist resources', () => {
-        assertNoResources(expect.resources);
-      });
+      assertByExpected(['required', 'demo', 'thymeleaf'], expects)
     });
   });
 
   describe('cache', () => {
-    const expects = {
-      redis: {
-        artifact: {
-          provider: [
-            'spring-boot-starter-data-redis',
-            'spring-boot-starter-cache'
-          ]
-        },
-        classes: [
-          'config/CacheConfiguration.java',
-          'controller/CacheDemoController.java',
-          'service/ObjectCacheDemoService.java',
-          'service/StringCacheDemoService.java'
-        ],
-        resources: [
-
-        ]
-      }
-    }
     describe('redis', () => {
-      const expect = expects.redis;
-
       before(() => {
         return generate({
           cache: 'redis',
@@ -669,63 +771,7 @@ describe('optional dependencies', () => {
         })
       });
 
-      it('should have dependency', () => {
-        assertProviderArtifacts(expect.artifact.provider);
-      });
-
-      it('should have properties', () => {
-        assert(readYamlConfigs().spring.redis);
-        assert(readYamlConfigs('local').spring.redis);
-      });
-
-      it('should exist classes', () => {
-        assertClasses(expect.classes);
-      });
-
-      it('should exist resources', () => {
-        assertResources(expect.resources);
-      });
-    });
-
-    describe('none', () => {
-      const expect = {
-        artifact: {
-          provider: []
-        },
-        classes: [],
-        resources: []
-      };
-      for (const key in expects) {
-        expect.artifact.provider.push(...expects[key].artifact.provider);
-        expect.classes.push(...expects[key].classes);
-        expect.resources.push(...expects[key].resources);
-      }
-
-      before(() => {
-        return generate({
-          cache: 'none',
-          demo: true
-        })
-      });
-
-      it('should not have dependency', () => {
-        assertNoProviderArtifact(expect.artifact.provider);
-      });
-
-      it('should not have properties', () => {
-        const yaml = readYamlConfigs('local')
-        if (yaml.spring) {
-          assert(!yaml.spring.cache);
-        }
-      });
-
-      it('should not exist classes', () => {
-        assertNoClasses(expect.classes);
-      });
-
-      it('should not exist resources', () => {
-        assertNoResources(expect.resources);
-      });
+      assertByExpected(['required', 'demo', 'redis'], expects)
     });
   });
 });
