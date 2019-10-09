@@ -175,7 +175,7 @@ const obj = {
       type: 'list',
       choices: [
         'redis',
-        'ehcache',
+        // 'ehcache',
         'none'
       ],
       message: '请选择你使用的缓存类型'
