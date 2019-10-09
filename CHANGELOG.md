@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.9.1...v1.10.0) (2019-10-09)
+
+
+### Bug Fixes
+
+* hide not implement choice ([06679be](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/06679be))
+* needless AuthUtils on some case ([f23a843](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/f23a843))
+
+
+### Features
+
+* provide ValidationUtils by default ([c3baa40](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/c3baa40))
+
+
+
 ### [1.9.1](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.9.0...v1.9.1) (2019-10-09)
 
 
