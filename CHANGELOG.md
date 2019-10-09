@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.9.0...v1.9.1) (2019-10-09)
+
+
+### Tests
+
+* refactor test cases ([809caa1](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/809caa1))
+
+
+
 ## [1.9.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.8.1...v1.9.0) (2019-09-30)
 
 
