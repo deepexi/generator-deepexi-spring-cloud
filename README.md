@@ -71,6 +71,7 @@ $ yo deepexi-spring-cloud --help
 |RDBMS|✅MySQL|☑️PG SQL|☑️SQL Server|
 |NoSQL|✅Redis|☑️MongoDB|
 |连接池|✅Druid|☑️Hikari|
+|认证机制|✅JWT|
 |权限控制|✅Shiro|☑️Spring Security|
 |分布式事务|☑️TCC-Transaction|☑️LCN|
 |APM|☑️SkyWalking|☑️Zipkin|☑️PinPoint|

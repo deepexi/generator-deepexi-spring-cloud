@@ -234,6 +234,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
       props.conditions[props.configservice] = true;
     }
 
+    if (props.authentication !== 'none') {
+      props.conditions[props.authentication] = true;
+    }
+
     if (props.security !== 'none') {
       props.conditions[props.security] = true;
     }

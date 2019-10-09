@@ -1,9 +1,5 @@
 package ${basePackage}.util;
 
-<%
-switch (authentication) {
-    case 'jwt':
-        print(`
 import com.github.taccisum.shiro.web.autoconfigure.stateless.support.jwt.JWTPrincipal;
 import com.github.taccisum.shiro.web.autoconfigure.stateless.support.jwt.Payload;
 import org.apache.shiro.SecurityUtils;
@@ -21,10 +17,3 @@ public abstract class AuthUtils {
         return (JWTPrincipal) SecurityUtils.getSubject().getPrincipal();
     }
 }
-        `)
-        break;
-
-    default:
-        break;
-}
-%>
