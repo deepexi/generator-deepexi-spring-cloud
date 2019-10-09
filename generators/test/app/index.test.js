@@ -339,6 +339,7 @@ required.addProviderClasses([
   'exception/BizErrorResponseStatus.java',
   'config/web/ConverterConfigurer.java',
   'util/ConverterUtils.java',
+  'util/ValidationUtils.java',
   'domain/.gitkeep',
   'domain/dto/.gitkeep',
   'domain/entity/.gitkeep',
