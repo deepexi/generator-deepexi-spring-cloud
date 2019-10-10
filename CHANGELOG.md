@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.1](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.10.0...v1.10.1) (2019-10-10)
+
+
+### Bug Fixes
+
+* remove unnecessary version of some artifacts ([5b0d105](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/5b0d105))
+* use trigger instead function for form description ([5e4ce88](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/5e4ce88))
+
+
+
 ## [1.10.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.9.1...v1.10.0) (2019-10-09)
 
 
