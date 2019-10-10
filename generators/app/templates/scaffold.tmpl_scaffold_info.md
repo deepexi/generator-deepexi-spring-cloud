@@ -6,13 +6,19 @@
 
 ## 项目信息
 
-**工具版本**: ${toolVersion}
-**node版本**: ${nodeVersion}
-**yeoman版本**: ${yoVersion}
-**生成时间**: ${date}
-**生成方式**: ${generationType}
-**生成参数**: ${propsJson}
-**生成命令**: ${cli}
+- **工具版本**: ${toolVersion}
+- **node版本**: ${nodeVersion}
+- **yeoman版本**: ${yoVersion}
+- **生成时间**: ${date}
+- **生成方式**: ${generationType}
+- **生成参数**: 
+```json
+${propsJson}
+```
+- **生成命令**: 
+```text
+${cli}
+```
 
 ## 项目参考
 
