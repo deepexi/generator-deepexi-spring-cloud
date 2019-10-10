@@ -1,6 +1,7 @@
 'use strict'
 
 const path = require('path');
+const Trigger = require('yo-power-generator').Trigger;
 
 const obj = {
   groupId: {
@@ -54,9 +55,9 @@ const obj = {
         },
         option: { desc: '数据库连接池', type: String, default: 'none' },
         callbacks: {
-          trigger (answers) {
-            return answers.db === 'mysql';
-          }
+          trigger: [
+            new Trigger.AnyAnswerTrigger('db', 'mysql')
+          ]
         }
       },
       orm: {
@@ -71,9 +72,9 @@ const obj = {
         },
         option: { desc: 'ORM框架', type: String, default: 'none' },
         callbacks: {
-          trigger (answers) {
-            return answers.db === 'mysql';
-          }
+          trigger: [
+            new Trigger.AnyAnswerTrigger('db', 'mysql')
+          ]
         }
       }
     }
@@ -102,9 +103,9 @@ const obj = {
         },
         option: { desc: 'feign熔断降级', type: String, default: 'hystrix' },
         callbacks: {
-          trigger (answers) {
-            return answers.discovery === 'eureka';
-          }
+          trigger: [
+            new Trigger.AnyAnswerTrigger('discovery', 'eureka')
+          ]
         }
       }
     }
@@ -147,9 +148,9 @@ const obj = {
         prompting: { type: 'input', default: 'deepexi', message: '请填写你的jwt issue' },
         option: { desc: 'jwt issue', type: String, default: 'deepexi' },
         callbacks: {
-          trigger (answers) {
-            return answers.authentication === 'jwt';
-          }
+          trigger: [
+            new Trigger.AnyAnswerTrigger('authentication', 'jwt')
+          ]
         }
       },
       security: {
@@ -163,9 +164,9 @@ const obj = {
         },
         option: { desc: '认证框架', type: String, default: 'shiro' },
         callbacks: {
-          trigger (answers) {
-            return answers.authentication !== 'none';
-          }
+          trigger: [
+            new Trigger.NoAnyAnswerTrigger('authentication', 'none')
+          ]
         }
       }
     }
@@ -180,19 +181,30 @@ const obj = {
       ],
       message: '请选择你使用的缓存类型'
     },
-    option: { desc: '缓存', type: String, default: 'none' },
-    child: {
-      // redisAddress: {
-      //   prompting: { type: 'input', default: '127.0.0.1:6379', message: '请填写你的redis地址' },
-      //   option: { desc: 'redis地址', type: String, default: '127.0.0.1:6379' },
-      //   callbacks: {
-      //     trigger (answers) {
-      //       return answers.cache === 'redis';
-      //     }
-      //   }
-      // }
-    }
+    option: { desc: '缓存', type: String, default: 'none' }
+    // child: {
+    //   redisAddress: {
+    //     prompting: { type: 'input', default: '127.0.0.1:6379', message: '请填写你的redis地址' },
+    //     option: { desc: 'redis地址', type: String, default: '127.0.0.1:6379' },
+    //     callbacks: {
+    //       trigger: [
+    //         new Trigger.AnyAnswerTrigger('cache', 'redis')
+    //       ]
+    //     }
+    //   }
+    // }
   },
+  // log: {
+  //   prompting: {
+  //     type: 'list',
+  //     choices: [
+  //       'logback',
+  //       'log4j2'
+  //     ],
+  //     message: '请选择你使用的日志框架类型'
+  //   },
+  //   option: { desc: '日志框架', type: String, default: 'logback' }
+  // },
   demo: {
     prompting: {
       type: 'confirm',
