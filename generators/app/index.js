@@ -205,6 +205,29 @@ const obj = {
   //   },
   //   option: { desc: '日志框架', type: String, default: 'logback' }
   // },
+  apm: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'skywalking',
+        // 'pinpoint',
+        'none'
+      ],
+      message: '请选择你使用的APM类型'
+    },
+    option: { desc: '缓存', type: String, default: 'skywalking' },
+    child: {
+      swVersion: {
+        prompting: { type: 'input', default: '6.4.0', message: '请填写你使用的skywalking版本' },
+        option: { desc: 'skywalking版本', type: String, default: '6.4.0' },
+        callbacks: {
+          trigger: [
+            new Trigger.AnyAnswerTrigger('apm', 'skywalking')
+          ]
+        }
+      }
+    }
+  },
   demo: {
     prompting: {
       type: 'confirm',
@@ -260,6 +283,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
 
     if (props.cache !== 'none') {
       props.conditions[props.cache] = true;
+    }
+
+    if (props.apm !== 'none') {
+      props.conditions[props.apm] = true;
     }
 
     props.openfeign = props.discovery === 'eureka';

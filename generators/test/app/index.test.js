@@ -305,7 +305,8 @@ const expects = {
   apollo: new Expect(),
   jwtShiro: new Expect(),
   thymeleaf: new Expect(),
-  redis: new Expect()
+  redis: new Expect(),
+  skywalking: new Expect()
 };
 
 const required = expects.required;
@@ -597,6 +598,27 @@ redis.assertProperties = () => {
   });
 }
 
+const skywalking = expects.skywalking;
+skywalking.addProjectFiles([
+  '1.docs/guides/integrate_skywalking.md'
+])
+skywalking.assertREADME = () => {
+  it('should contain content', () => {
+    assert.fileContent('README.md', /接入SkyWalking/)
+    assert.fileContent('entrypoint.sh', /javaagent/)
+    assert.fileContent('entrypoint.sh', /skywalking/)
+    assert.fileContent('run.sh', /-e SW_SERVICE_ADDR=/)
+  });
+}
+skywalking.assertNoREADME = () => {
+  it('should not contain content', () => {
+    assert.noFileContent('README.md', /接入SkyWalking/)
+    assert.noFileContent('entrypoint.sh', /javaagent/)
+    assert.noFileContent('entrypoint.sh', /skywalking/)
+    assert.noFileContent('run.sh', /-e SW_SERVICE_ADDR=/)
+  });
+}
+
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
     for (const key in expects) {
@@ -773,6 +795,19 @@ describe('optional dependencies', () => {
       });
 
       assertByExpected(['required', 'demo', 'redis'], expects)
+    });
+  });
+
+  describe('apm', () => {
+    describe('skywalking', () => {
+      before(() => {
+        return generate({
+          apm: 'skywalking',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'skywalking'], expects)
     });
   });
 });

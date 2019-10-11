@@ -100,7 +100,7 @@ $ yo deepexi-spring-cloud --help
 |:-:|--|--|--|--|--|
 |Java版本|✅jdk8|
 |开发框架|✅springfox(swagger)|✅lombok|✅guava|✅common-lang3|
-|测试框架|✅jacoco|☑️mockserver|☑️mockneat|
+|测试框架|✅junit|✅mockito|✅assertj|☑️jacoco|☑️mockserver|☑️mockneat|
 |开发相关|✅devtools|
 |部署相关|✅docker|✅filebeat|
 |其它|✅actuator|
