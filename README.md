@@ -78,7 +78,7 @@ $ yo deepexi-spring-cloud --help
 |认证机制|✅JWT|
 |权限控制|✅Shiro|☑️Spring Security|
 |分布式事务|☑️TCC-Transaction|☑️LCN|
-|APM|☑️SkyWalking|☑️Zipkin|☑️PinPoint|
+|APM|✅️SkyWalking|☑️Zipkin|☑️PinPoint|
 |分库分表|☑️Sharding-JDBC|☑️MyCAT|
 |服务器|✅Tomcat|☑️Jetty|☑️Undertow|
 |JSON解析|✅Jackson|☑️FastJson|☑️Gson|
@@ -90,9 +90,6 @@ $ yo deepexi-spring-cloud --help
 |WebSocket|☑️Spring Boot Websocket|
 |Bean转换器|✅SpringMVC Converter|☑️MapStruct|
 |DeepEXI产品|☑️sPaaS|
-
-
-
 
 ### 固有项
 
