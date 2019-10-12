@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.11.0...v1.12.0) (2019-10-12)
+
+
+### Features
+
+* **scaffold:** support integration with fastjson ([16c77b7](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/16c77b7))
+
+
+
 ## [1.11.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.10.1...v1.11.0) (2019-10-11)
 
 
