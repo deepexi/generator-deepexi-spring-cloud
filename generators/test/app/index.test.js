@@ -308,7 +308,8 @@ const expects = {
   redis: new Expect(),
   skywalking: new Expect(),
   fastjson: new Expect(),
-  gson: new Expect()
+  gson: new Expect(),
+  log4j2: new Expect()
 };
 
 const required = expects.required;
@@ -650,6 +651,12 @@ gson.assertNoProperties = () => {
   });
 }
 
+const log4j2 = expects.log4j2;
+log4j2.addProviderArtifacts([
+  'spring-boot-starter-log4j2',
+  'spring-boot-starter-logging'
+])
+
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
     for (const key in expects) {
@@ -863,6 +870,19 @@ describe('optional dependencies', () => {
       });
 
       assertByExpected(['required', 'demo', 'gson'], expects)
+    });
+  });
+
+  describe('log', () => {
+    describe('log4j2', () => {
+      before(() => {
+        return generate({
+          log: 'log4j2',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'log4j2'], expects)
     });
   });
 });

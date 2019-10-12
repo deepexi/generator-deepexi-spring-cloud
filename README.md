@@ -85,7 +85,7 @@ $ yo deepexi-spring-cloud --help
 |模板引擎|✅Thymeleaf|☑️Freemarker|
 |对象存储|☑️AliOSS|☑️FastDFS|
 |ORM|✅MybatisPlus|✅Mapper|☑️JPA|
-|日志系统|✅Logback|☑️Log4j2|
+|日志系统|✅Logback|✅Log4j2|
 |DDD|
 |WebSocket|☑️Spring Boot Websocket|
 |Bean转换器|✅SpringMVC Converter|☑️MapStruct|

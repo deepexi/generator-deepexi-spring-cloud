@@ -22,6 +22,22 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <%
+            let exclusions = '';
+
+            if (log === 'log4j2') {
+                exclusions += `<exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>`
+            }
+            if (exclusions) {
+                exclusions = `<exclusions>
+                ${exclusions}
+                </exclusions>`
+                print(exclusions);
+            }
+            %>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

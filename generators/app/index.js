@@ -32,6 +32,17 @@ const obj = {
     },
     option: { desc: '模板引擎', type: String, default: 'none' }
   },
+  log: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'logback',
+        'log4j2'
+      ],
+      message: '请选择你使用的日志框架类型'
+    },
+    option: { desc: '日志框架', type: String, default: 'logback' }
+  },
   jsonParser: {
     prompting: {
       type: 'list',
@@ -206,17 +217,6 @@ const obj = {
     //   }
     // }
   },
-  // log: {
-  //   prompting: {
-  //     type: 'list',
-  //     choices: [
-  //       'logback',
-  //       'log4j2'
-  //     ],
-  //     message: '请选择你使用的日志框架类型'
-  //   },
-  //   option: { desc: '日志框架', type: String, default: 'logback' }
-  // },
   apm: {
     prompting: {
       type: 'list',

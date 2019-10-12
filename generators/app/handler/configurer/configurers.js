@@ -12,7 +12,20 @@ files.forEach(file => {
   }
 })
 
-const types = ['discovery', 'db', 'orm', 'dbPool', 'openfeign', 'mq', 'configservice', 'authentication', 'templateEngine', 'cache', 'jsonParser'];
+const types = [
+  'discovery',
+  'db',
+  'orm',
+  'dbPool',
+  'openfeign',
+  'mq',
+  'configservice',
+  'authentication',
+  'templateEngine',
+  'cache',
+  'jsonParser',
+  'log'
+];
 
 configurers.receive = (event, args) => {
   types.forEach(type => {
