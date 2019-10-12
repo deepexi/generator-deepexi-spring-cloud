@@ -81,7 +81,7 @@ $ yo deepexi-spring-cloud --help
 |APM|✅️SkyWalking|☑️Zipkin|☑️PinPoint|
 |分库分表|☑️Sharding-JDBC|☑️MyCAT|
 |服务器|✅Tomcat|☑️Jetty|☑️Undertow|
-|JSON解析|✅Jackson|☑️FastJson|☑️Gson|
+|JSON解析器|✅Jackson|✅️FastJson|☑️Gson|
 |模板引擎|✅Thymeleaf|☑️Freemarker|
 |对象存储|☑️AliOSS|☑️FastDFS|
 |ORM|✅MybatisPlus|✅Mapper|☑️JPA|
@@ -97,7 +97,9 @@ $ yo deepexi-spring-cloud --help
 |:-:|--|--|--|--|--|
 |Java版本|✅jdk8|
 |开发框架|✅springfox(swagger)|✅lombok|✅guava|✅common-lang3|
-|测试框架|✅junit|✅mockito|✅assertj|☑️jacoco|☑️mockserver|☑️mockneat|
+|       |✅hutool|✅joda-time|
+|测试框架|✅junit|✅mockito|✅assertj|☑️jacoco|☑️mockserver|
+|       |☑️mockneat|
 |开发相关|✅devtools|
 |部署相关|✅docker|✅filebeat|
 |其它|✅actuator|

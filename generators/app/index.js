@@ -32,6 +32,17 @@ const obj = {
     },
     option: { desc: '模板引擎', type: String, default: 'none' }
   },
+  jsonParser: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'jackson',
+        'fastjson'
+      ],
+      message: '请选择你使用的JSON解析器'
+    },
+    option: { desc: 'JSON解析器', type: String, default: 'jackson' }
+  },
   db: {
     prompting: {
       type: 'list',
@@ -259,6 +270,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
           props.conditions.crud = true;
         }
       }
+    }
+
+    if (props.jsonParser !== 'none') {
+      props.conditions[props.jsonParser] = true;
     }
 
     if (props.mq !== 'none') {

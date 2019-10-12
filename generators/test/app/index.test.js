@@ -306,7 +306,8 @@ const expects = {
   jwtShiro: new Expect(),
   thymeleaf: new Expect(),
   redis: new Expect(),
-  skywalking: new Expect()
+  skywalking: new Expect(),
+  fastjson: new Expect()
 };
 
 const required = expects.required;
@@ -619,6 +620,14 @@ skywalking.assertNoREADME = () => {
   });
 }
 
+const fastjson = expects.fastjson;
+fastjson.addProviderArtifacts([
+  'fastjson'
+])
+fastjson.addProviderClasses([
+  'config/web/FastJsonConfigurer.java'
+])
+
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
     for (const key in expects) {
@@ -808,6 +817,19 @@ describe('optional dependencies', () => {
       });
 
       assertByExpected(['required', 'demo', 'skywalking'], expects)
+    });
+  });
+
+  describe('json parser', () => {
+    describe('fastjson', () => {
+      before(() => {
+        return generate({
+          jsonParser: 'fastjson',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'fastjson'], expects)
     });
   });
 });
