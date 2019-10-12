@@ -307,7 +307,8 @@ const expects = {
   thymeleaf: new Expect(),
   redis: new Expect(),
   skywalking: new Expect(),
-  fastjson: new Expect()
+  fastjson: new Expect(),
+  gson: new Expect()
 };
 
 const required = expects.required;
@@ -628,6 +629,27 @@ fastjson.addProviderClasses([
   'config/web/FastJsonConfigurer.java'
 ])
 
+const gson = expects.gson;
+gson.addProviderArtifacts([
+  'gson'
+])
+gson.addProviderClasses([
+  'config/web/GsonConfigurer.java'
+])
+gson.assertProperties = () => {
+  it('should have properties', () => {
+    assert.strictEqual(readYamlConfigs().spring.http.converters['preferred-json-mapper'], 'gson')
+  });
+}
+gson.assertNoProperties = () => {
+  it('should have properties', () => {
+    try {
+      assert.notStrictEqual(readYamlConfigs().spring.http.converters['preferred-json-mapper'], 'gson');
+    } catch (e) {
+    }
+  });
+}
+
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
     for (const key in expects) {
@@ -830,6 +852,17 @@ describe('optional dependencies', () => {
       });
 
       assertByExpected(['required', 'demo', 'fastjson'], expects)
+    });
+
+    describe('gson', () => {
+      before(() => {
+        return generate({
+          jsonParser: 'gson',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'gson'], expects)
     });
   });
 });

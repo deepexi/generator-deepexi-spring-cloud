@@ -37,7 +37,8 @@ const obj = {
       type: 'list',
       choices: [
         'jackson',
-        'fastjson'
+        'fastjson',
+        'gson'
       ],
       message: '请选择你使用的JSON解析器'
     },
