@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.12.0...v1.13.0) (2019-10-12)
+
+
+### Features
+
+* **scaffold:** support integrate with log4j2 ([43928b8](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/43928b8))
+* **scaffold:** support integration with gson ([1c9b622](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/1c9b622))
+
+
+
 ## [1.12.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.11.0...v1.12.0) (2019-10-12)
 
 
