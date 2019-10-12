@@ -1,10 +1,10 @@
 FROM deepexi/java:v0.0.1
 
 WORKDIR /home
-
 <%
 if (apm === 'skywalking') {
-    print(`COPY ./agent/skywalking /home/agent/skywalking`)
+    print(`
+COPY ./agent/skywalking /home/agent/skywalking`)
 }
 %>
 
