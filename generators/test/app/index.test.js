@@ -404,6 +404,9 @@ required.addProviderResources([
   'application-qa.yml',
   'application-prod.yml'
 ])
+required.addProviderTestClasses([
+  'BaseTest.java'
+])
 required.addRootArtifacts([
   'versions-maven-plugin'
 ])
