@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.13.0...v1.14.0) (2019-10-14)
+
+
+### Features
+
+* **scaffold:** integrate jacoco by default ([12c4171](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/12c4171))
+* **scaffold:** integrate jfariy by default ([bedb190](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/bedb190))
+
+
+
 ## [1.13.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.12.0...v1.13.0) (2019-10-12)
 
 
