@@ -60,7 +60,8 @@ $ yo deepexi-spring-cloud --help
 
 #### 5. 其它
 
-脚手架生成后，请查看其`README.md`文档进行开发、构建或部署等操作。
+- 脚手架生成后，请查看其`README.md`文档进行开发、构建或部署等操作。
+- 通过`demo=yes`选项可以为你选择的集成项生成相应的使用示例，但仅供参考，真实项目中建议设置`demo=no`
 
 ## 功能一览
 
@@ -98,7 +99,7 @@ $ yo deepexi-spring-cloud --help
 |Java版本|✅jdk8|
 |开发框架|✅springfox(swagger)|✅lombok|✅guava|✅common-lang3|
 |       |✅hutool|✅joda-time|
-|测试框架|✅junit|✅mockito|✅assertj|☑️jacoco|☑️mockserver|
+|测试框架|✅junit|✅mockito|✅assertj|✅jacoco|☑️mockserver|
 |       |☑️mockneat|
 |开发相关|✅devtools|
 |部署相关|✅docker|✅filebeat|

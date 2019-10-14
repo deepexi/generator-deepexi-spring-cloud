@@ -78,6 +78,22 @@ function assertNoClasses (classes) {
   }
 }
 
+function assertTestClasses (classes) {
+  if (_.isArray(classes) && classes.length > 0) {
+    assert.file(classes.map(clazz => {
+      return `foo-service-provider/src/test/java/com/deepexi/foo/${clazz}`;
+    }))
+  }
+}
+
+function assertNoTestClasses (classes) {
+  if (_.isArray(classes) && classes.length > 0) {
+    assert.noFile(classes.map(clazz => {
+      return `foo-service-provider/src/test/java/com/deepexi/foo/${clazz}`;
+    }))
+  }
+}
+
 function assertResources (resources) {
   if (_.isArray(resources) && resources.length > 0) {
     assert.file(resources.map(resource => {
@@ -164,6 +180,32 @@ class Expect {
     if (this.getProviderClasses()) {
       it('should not exist provider classes', () => {
         assertNoClasses(this.getProviderClasses());
+      });
+    }
+  }
+
+  // provider test classes
+
+  addProviderTestClasses (classes) {
+    this.addFiles('provider_classes.test', classes);
+  }
+
+  getProviderTestClasses () {
+    return this.getFiles('provider_classes.test');
+  }
+
+  assertProviderTestClasses () {
+    if (this.getProviderClasses()) {
+      it('should exist provider test classes', () => {
+        assertTestClasses(this.getProviderTestClasses());
+      });
+    }
+  }
+
+  assertNoProviderTestClasses () {
+    if (this.getProviderClasses()) {
+      it('should not exist provider test classes', () => {
+        assertNoTestClasses(this.getProviderTestClasses());
       });
     }
   }
@@ -400,6 +442,10 @@ demo.addProviderClasses([
   'exception/DemoException.java',
   'converter/String2DemoControllerModelConverter.java'
 ]);
+
+demo.addProviderTestClasses([
+  'util/DemoTest.java'
+])
 
 const eureka = expects.eureka;
 eureka.addProviderArtifacts([
