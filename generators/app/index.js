@@ -36,7 +36,7 @@ const obj = {
     prompting: {
       type: 'list',
       choices: [
-        'logback',
+        { key: 'logback', display: '默认(logback)' },
         'log4j2'
       ],
       message: '请选择你使用的日志框架类型'
@@ -87,7 +87,8 @@ const obj = {
         prompting: {
           type: 'list',
           choices: [
-            'mybatis-plus',
+            { key: 'mybatis-plus', display: 'mybatis plus' },
+            // 'mybatis-plus',
             'mybatis',
             'none'
           ],
@@ -119,7 +120,7 @@ const obj = {
           type: 'list',
           choices: [
             'hystrix',
-            'sentinel',
+            { key: 'sentinel', display: 'alibaba sentinel' },
             'none'
           ],
           message: '请选择你的openfeign熔断器类型'
@@ -137,7 +138,7 @@ const obj = {
     prompting: {
       type: 'list',
       choices: [
-        'rabbitmq',
+        { key: 'rabbitmq', display: 'rabbit mq' },
         // 'rocketmq',
         'none'
       ],
@@ -149,7 +150,7 @@ const obj = {
     prompting: {
       type: 'list',
       choices: [
-        'apollo',
+        { key: 'apollo', display: '携程apollo' },
         'none'
       ],
       message: '请选择你的配置中心类型'
