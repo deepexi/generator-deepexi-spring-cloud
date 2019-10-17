@@ -12,5 +12,5 @@ script:
 after_success:
   - bash <(curl -s https://codecov.io/bash) -f coverage.lcov
 notifications:
-   webhooks: https://oapi.dingtalk.com/robot/send?access_token=827bf66d14bb896937e787ba5b6d7214b39fdede0e515acf5b959eaa1350763a
+   webhooks: https://oapi.dingtalk.com/robot/send?access_token=31a3ac1e6c62bb0d1ccbb3f91b23443bf29d2a3db88a93df463332b59695e3dc
  
