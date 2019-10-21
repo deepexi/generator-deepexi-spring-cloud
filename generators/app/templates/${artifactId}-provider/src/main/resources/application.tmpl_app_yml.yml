@@ -13,3 +13,6 @@ server:
     include-exception: true
 logging:
   file: <%='logs/${spring.application.name}.log'%>
+management:
+  server:
+    port: 8081
