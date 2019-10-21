@@ -620,7 +620,7 @@ thymeleaf.addProviderArtifacts([
   'spring-boot-starter-thymeleaf'
 ])
 thymeleaf.addProviderClasses([
-  'controller/ThymeleafDemoController.java'
+  // 'controller/ThymeleafDemoController.java'
 ])
 thymeleaf.addProviderResources([
   'templates/demo_page.html'
