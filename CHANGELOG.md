@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.15.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.14.0...v1.15.0) (2019-10-21)
+
+
+### Bug Fixes
+
+* disable thymeleaf demo for a moment ([9914c58](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/9914c58))
+
+
+### Features
+
+* **scaffold:** enable actuator endpoint on non-prod env by default ([84031cb](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/84031cb))
+* **scaffold:** specify output file name of compile ([cf345f8](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/cf345f8))
+
+
+### Tests
+
+* ignore demo assertion of thymeleaf ([9b33d82](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/9b33d82))
+
+
+
 ## [1.14.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.13.0...v1.14.0) (2019-10-14)
 
 
