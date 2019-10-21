@@ -27,8 +27,6 @@ fi
 
 h2 '准备构建Docker镜像'
 
-mv $PROJECT_HOME/$APP_NAME-provider/target/$APP_NAME-*.jar $PROJECT_HOME/$APP_NAME-provider/target/app.jar
-
 if [ ! -z $IMAGE_NAME ];then
     docker build --rm -t $IMAGE_NAME .
 else

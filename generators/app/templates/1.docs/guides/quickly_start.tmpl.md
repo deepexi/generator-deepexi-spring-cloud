@@ -40,7 +40,7 @@ sh build.sh
 
 ```bash
 $ mvn clean package
-$ java -jar ./${artifactId}-provider/target/${artifactId}-provider-{version}.jar
+$ java -jar ./${artifactId}-provider/target/app.jar
 ```
 
 ### Start via container
