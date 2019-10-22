@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.15.1](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.15.0...v1.15.1) (2019-10-22)
+
+
+### Bug Fixes
+
+* upgrade pg to v0.7.1 to fix unit test ([66762ce](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/66762ce))
+
+
+
 ## [1.15.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.14.0...v1.15.0) (2019-10-21)
 
 
