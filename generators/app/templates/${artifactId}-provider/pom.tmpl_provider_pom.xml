@@ -66,6 +66,11 @@
             <artifactId>swagger-spring-boot2-starter</artifactId>
             <version>1.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.deepexi</groupId>
+            <artifactId>pojo-converter-spring-boot-starter</artifactId>
+            <version>1.0.0-release</version>
+        </dependency>
         ${optionalDependencies}
         <dependency>
             <groupId>org.projectlombok</groupId>

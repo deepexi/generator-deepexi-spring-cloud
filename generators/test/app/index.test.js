@@ -383,8 +383,6 @@ required.addProviderClasses([
   'controller/Payload.java',
   'config/web/ApplicationErrorAttributes.java',
   'exception/BizErrorResponseStatus.java',
-  'config/web/ConverterConfigurer.java',
-  'util/ConverterUtils.java',
   'util/ValidationUtils.java',
   'domain/.gitkeep',
   'domain/dto/.gitkeep',
@@ -420,9 +418,14 @@ required.addProviderArtifacts([
   'spring-boot-maven-plugin',
   'joda-time',
   'hutool-all',
+  'pojo-converter-spring-boot-starter',
+  'swagger-spring-boot2-starter',
+
+  'spring-boot-devtools',
 
   // test dependencies
-  'spring-boot-starter-test'
+  'spring-boot-starter-test',
+  'jfairy'
 ]);
 required.assertProperties = () => {
   it('should have properties', () => {
