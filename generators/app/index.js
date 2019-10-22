@@ -17,8 +17,8 @@ const obj = {
     option: { desc: '基础包路径（为空则使用group id）', type: String, default: '' }
   },
   mavenUrl: {
-    prompting: { type: 'input', message: '请输入你的maven仓库地址', default: 'http://nexus.deepexi.top/repository/maven-public/' },
-    option: { desc: 'maven仓库url', type: String, default: 'http://nexus.deepexi.top/repository/maven-public/' }
+    prompting: { type: 'input', message: '请输入你的maven仓库地址', default: 'http://maven.aliyun.com/nexus/content/groups/public/' },
+    option: { desc: 'maven仓库url', type: String, default: 'http://maven.aliyun.com/nexus/content/groups/public/' }
   },
   templateEngine: {
     prompting: {
