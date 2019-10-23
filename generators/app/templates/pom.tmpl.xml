@@ -123,7 +123,6 @@
                         <exclude>${basePath}/domain/**</exclude>
                         <exclude>${basePath}/enums/**</exclude>
                         <exclude>${basePath}/exception/**</exclude>
-                        <exclude>${basePath}/util/ConverterUtils.class</exclude>
                         <exclude>${basePath}/util/ValidationUtils.class</exclude>
                         <exclude>${basePath}/StartupApplication.class</exclude>
                         <exclude>**/*Demo*</exclude>
