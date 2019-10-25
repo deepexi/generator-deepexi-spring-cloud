@@ -73,6 +73,38 @@
 └── pom.xml
 ```
 
+## Dependencies
+
+<%
+const dependencies = [
+    { title: 'Swagger', link: './dependencies/swagger.md' },
+    { title: 'payload', link: './dependencies/payload.md' },
+    { title: 'Bean转换器', link: './dependencies/converter.md' },
+];
+
+// const optionals = ['discovery', 'configservice', 'db', 'mq', 'authentication', 'cache', 'apm']
+const optionals = [
+    { key: 'discovery', display: '服务发现' },
+    { key: 'apm', display: 'APM' },
+    { key: 'mq', display: '消息队列' },
+    { key: 'configservice', display: '配置中心' },
+    { key: 'authentication', display: '认证机制' },
+    { key: 'cache', display: '缓存' },
+]
+
+optionals.map(optional => {
+    if (props[optional.key] && props[optional.key] !== 'none') {
+        dependencies.push({ title: optional.display, link: `./dependencies/${props[optional.key]}.md` })
+    }
+})
+
+dependencies.push({ title: '其它', link: './dependencies/others.md' });
+
+dependencies.map(dep => {
+    print(`- [${dep.title}](${dep.link})\n`);
+});
+%>
+
 ## Node.JS相关
 
 以下功能均基于Node.JS，使用前请先确保安装了[Node.JS](https://nodejs.org/zh-cn/download/)并在项目根目录下执行`npm install`。

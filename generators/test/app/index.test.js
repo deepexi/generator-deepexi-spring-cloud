@@ -369,6 +369,10 @@ required.addProjectFiles([
   '1.docs/guides/quickly_start.md',
   '1.docs/guides/reference.md',
   '1.docs/guides/dev_reference.md',
+  '1.docs/guides/dependencies/swagger.md',
+  '1.docs/guides/dependencies/payload.md',
+  '1.docs/guides/dependencies/converter.md',
+  '1.docs/guides/dependencies/others.md',
   '1.docs/sql/v1.0.0/schema.sql',
   '1.docs/sql/v1.0.0/data.sql',
   'scaffold.md',
@@ -454,6 +458,9 @@ demo.addProviderTestClasses([
 ])
 
 const eureka = expects.eureka;
+eureka.addProjectFiles([
+  '1.docs/guides/dependencies/eureka.md'
+])
 eureka.addProviderArtifacts([
   'spring-cloud-starter-netflix-eureka-client'
 ])
@@ -556,6 +563,9 @@ mybatisplus.assertOthers = () => {
 }
 
 const rabbitmq = expects.rabbitmq;
+rabbitmq.addProjectFiles([
+  '1.docs/guides/dependencies/rabbitmq.md'
+])
 rabbitmq.addProviderArtifacts([
   'spring-boot-starter-amqp'
 ])
@@ -589,6 +599,9 @@ druid.assertProperties = () => {
 }
 
 const apollo = expects.apollo;
+apollo.addProjectFiles([
+  '1.docs/guides/dependencies/apollo.md'
+])
 apollo.addProviderArtifacts([
   'apollo-client'
 ])
@@ -602,6 +615,9 @@ apollo.addProviderResources([
 ])
 
 const jwtShiro = expects.jwtShiro;
+jwtShiro.addProjectFiles([
+  '1.docs/guides/dependencies/jwt.md'
+])
 jwtShiro.addProviderArtifacts([
   'shiro-starter',
   'java-jwt'
@@ -636,6 +652,9 @@ thymeleaf.assertProperties = () => {
 }
 
 const redis = expects.redis;
+redis.addProjectFiles([
+  '1.docs/guides/dependencies/redis.md'
+])
 redis.addProviderArtifacts([
   'spring-boot-starter-data-redis',
   'spring-boot-starter-cache'
@@ -655,11 +674,10 @@ redis.assertProperties = () => {
 
 const skywalking = expects.skywalking;
 skywalking.addProjectFiles([
-  '1.docs/guides/integrate_skywalking.md'
+  '1.docs/guides/dependencies/skywalking.md'
 ])
 skywalking.assertREADME = () => {
   it('should contain content', () => {
-    assert.fileContent('README.md', /接入SkyWalking/)
     assert.fileContent('entrypoint.sh', /javaagent/)
     assert.fileContent('entrypoint.sh', /skywalking/)
     assert.fileContent('run.sh', /-e SW_SERVICE_ADDR=/)
@@ -667,7 +685,6 @@ skywalking.assertREADME = () => {
 }
 skywalking.assertNoREADME = () => {
   it('should not contain content', () => {
-    assert.noFileContent('README.md', /接入SkyWalking/)
     assert.noFileContent('entrypoint.sh', /javaagent/)
     assert.noFileContent('entrypoint.sh', /skywalking/)
     assert.noFileContent('run.sh', /-e SW_SERVICE_ADDR=/)

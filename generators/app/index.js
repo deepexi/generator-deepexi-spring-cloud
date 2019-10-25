@@ -274,6 +274,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
       }
     }
 
+    if (props.discovery !== 'none') {
+      props.conditions[props.discovery] = true;
+    }
+
     if (props.jsonParser !== 'none') {
       props.conditions[props.jsonParser] = true;
     }
