@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.15.2...v1.16.0) (2019-10-25)
+
+
+### Features
+
+* **scaffold:** support sonar integration ([63de138](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/63de138))
+
+
+
 ### [1.15.2](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.15.1...v1.15.2) (2019-10-25)
 
 
