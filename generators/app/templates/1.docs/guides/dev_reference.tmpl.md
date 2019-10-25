@@ -105,6 +105,11 @@ dependencies.map(dep => {
 });
 %>
 
+## Code Quality
+
+- [测试报告](./dependencies/jacoco.md)
+- [质量检测](./dependencies/sonar.md)
+
 ## Node.JS相关
 
 以下功能均基于Node.JS，使用前请先确保安装了[Node.JS](https://nodejs.org/zh-cn/download/)并在项目根目录下执行`npm install`。

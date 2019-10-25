@@ -100,7 +100,7 @@ $ yo deepexi-spring-cloud --help
 |开发框架|✅springfox(swagger)|✅lombok|✅guava|✅common-lang3|✅joda-time|
 |       |✅hutool|✅payload|
 |测试框架|✅junit|✅mockito|✅assertj|✅jacoco|☑️mockserver|
-|       |✅️jfairy|☑️mockneat|
+|       |✅️jfairy|☑️mockneat|✅sonar|
 |开发相关|✅devtools|
 |部署相关|✅docker|✅filebeat|
 |其它|✅actuator|

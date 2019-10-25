@@ -372,6 +372,8 @@ required.addProjectFiles([
   '1.docs/guides/dependencies/swagger.md',
   '1.docs/guides/dependencies/payload.md',
   '1.docs/guides/dependencies/converter.md',
+  '1.docs/guides/dependencies/jacoco.md',
+  '1.docs/guides/dependencies/sonar.md',
   '1.docs/guides/dependencies/others.md',
   '1.docs/sql/v1.0.0/schema.sql',
   '1.docs/sql/v1.0.0/data.sql',

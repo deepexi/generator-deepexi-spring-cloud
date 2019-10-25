@@ -11,6 +11,7 @@
     <modules>
         <module>${artifactId}-api</module>
         <module>${artifactId}-provider</module>
+        <module>cov-report</module>
     </modules>
 
     <properties>
@@ -36,6 +37,17 @@
                 <version>Finchley.SR2</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>${groupId}</groupId>
+                <artifactId>${artifactId}-api</artifactId>
+                <%='<version>${project.version}</version>'%>
+            </dependency>
+            <dependency>
+                <groupId>${groupId}</groupId>
+                <artifactId>${artifactId}-provider</artifactId>
+                <%='<version>${project.version}</version>'%>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -70,65 +82,109 @@
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>2.3</version>
             </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>cov report</id>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>check cov rules</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <rule>
-                                    <element>BUNDLE</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>INSTRUCTION</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.30</minimum>
-                                        </limit>
-                                        <limit>
-                                            <counter>CLASS</counter>
-                                            <value>MISSEDCOUNT</value>
-                                            <maximum>0</maximum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dataFile>target/jacoco.exec</dataFile>
-                    <outputDirectory>target/jacoco-ut</outputDirectory>
-                    <excludes>
-                        <!-- add excluded classes here -->
-                        <exclude>${basePath}/config/**</exclude>
-                        <exclude>${basePath}/constant/**</exclude>
-                        <exclude>${basePath}/converter/**</exclude>
-                        <exclude>${basePath}/domain/**</exclude>
-                        <exclude>${basePath}/enums/**</exclude>
-                        <exclude>${basePath}/exception/**</exclude>
-                        <exclude>${basePath}/util/ValidationUtils.class</exclude>
-                        <exclude>${basePath}/StartupApplication.class</exclude>
-                        <exclude>**/*Demo*</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>cov</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.jacoco</groupId>
+                            <artifactId>jacoco-maven-plugin</artifactId>
+                            <version>0.8.4</version>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>prepare jacoco.exec</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>cov report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>check cov rules</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <rule>
+                                            <element>BUNDLE</element>
+                                            <limits>
+                                                <limit>
+                                                    <counter>INSTRUCTION</counter>
+                                                    <value>COVEREDRATIO</value>
+                                                    <minimum>0.30</minimum>
+                                                </limit>
+                                                <limit>
+                                                    <counter>CLASS</counter>
+                                                    <value>MISSEDCOUNT</value>
+                                                    <maximum>0</maximum>
+                                                </limit>
+                                            </limits>
+                                        </rule>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <%='<dataFile>${project.build.directory}/jacoco.exec</dataFile>'%>
+                            <%='<outputDirectory>${project.build.directory}/jacoco-ut</outputDirectory>'%>
+                            <excludes>
+                                <!-- add excluded classes here -->
+                                <exclude>${basePath}/config/**</exclude>
+                                <exclude>${basePath}/constant/**</exclude>
+                                <exclude>${basePath}/converter/**</exclude>
+                                <exclude>${basePath}/domain/**</exclude>
+                                <exclude>${basePath}/enums/**</exclude>
+                                <exclude>${basePath}/exception/**</exclude>
+                                <exclude>${basePath}/util/ValidationUtils.class</exclude>
+                                <exclude>${basePath}/StartupApplication.class</exclude>
+                                <exclude>**/*Demo*</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>sonar</id>
+            <properties>
+                <sonar.host.url>http://127.0.0.1:9000</sonar.host.url>
+                <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+                <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+                <%='<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>'%>
+                <sonar.language>java</sonar.language>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>3.7.0.1746</version>
+                    </plugin>
+                </plugins>
+            </build>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 </project>
