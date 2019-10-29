@@ -310,6 +310,11 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
       props.conditions[props.apm] = true;
     }
 
+    if (!props.log) {
+      props.log = 'logback'
+    }
+    props.conditions[props.log] = true;
+
     props.openfeign = props.discovery === 'eureka';
   }
 });

@@ -24,7 +24,8 @@ const types = [
   'templateEngine',
   'cache',
   'jsonParser',
-  'log'
+  'log',
+  'apm'
 ];
 
 configurers.receive = (event, args) => {

@@ -351,7 +351,9 @@ const expects = {
   skywalking: new Expect(),
   fastjson: new Expect(),
   gson: new Expect(),
-  log4j2: new Expect()
+  log4j2: new Expect(),
+  logback: new Expect(),
+  skywalkingWithLogback: new Expect()
 };
 
 const required = expects.required;
@@ -693,6 +695,15 @@ skywalking.assertNoREADME = () => {
   });
 }
 
+const skywalkingWithLogback = expects.skywalkingWithLogback;
+skywalkingWithLogback.addProviderArtifacts([
+  'apm-toolkit-logback-1.x'
+]);
+// TODO:: assert content of appender
+// skywalkingWithLogback.assertAppender = () => {
+//   assertResources('console-appender.xml')
+// }
+
 const fastjson = expects.fastjson;
 fastjson.addProviderArtifacts([
   'fastjson'
@@ -721,6 +732,13 @@ gson.assertNoProperties = () => {
     }
   });
 }
+
+const logback = expects.logback;
+logback.addProviderResources([
+  'logback-spring.xml',
+  'console-appender.xml',
+  'file-appender.xml'
+])
 
 const log4j2 = expects.log4j2;
 log4j2.addProviderArtifacts([
@@ -755,7 +773,7 @@ describe('minimum app', () => {
     return generate()
   });
 
-  assertByExpected(['required'], expects);
+  assertByExpected(['required', 'logback'], expects);
 })
 
 describe('minimun app with demo', () => {
@@ -765,7 +783,7 @@ describe('minimun app with demo', () => {
     })
   });
 
-  assertByExpected(['required', 'demo'], expects)
+  assertByExpected(['required', 'demo', 'logback'], expects)
 });
 
 describe('optional dependencies', () => {
@@ -778,7 +796,7 @@ describe('optional dependencies', () => {
       })
     });
 
-    assertByExpected(['required', 'demo', 'eureka', 'feign'], expects)
+    assertByExpected(['required', 'demo', 'logback', 'eureka', 'feign'], expects)
 
     describe('openfeign circuit', () => {
       describe('hystrix', () => {
@@ -790,7 +808,7 @@ describe('optional dependencies', () => {
           })
         });
 
-        assertByExpected(['required', 'demo', 'hystrix', 'eureka', 'feign'], expects)
+        assertByExpected(['required', 'demo', 'logback', 'hystrix', 'eureka', 'feign'], expects)
       });
 
       describe('sentinel', () => {
@@ -802,7 +820,7 @@ describe('optional dependencies', () => {
           })
         });
 
-        assertByExpected(['required', 'demo', 'sentinel', 'eureka', 'feign'], expects)
+        assertByExpected(['required', 'demo', 'logback', 'sentinel', 'eureka', 'feign'], expects)
       });
     });
   });
@@ -817,7 +835,7 @@ describe('optional dependencies', () => {
         })
       });
 
-      assertByExpected(['required', 'demo', 'mybatis'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'mybatis'], expects)
     });
 
     describe('mybatis-plus', () => {
@@ -829,7 +847,7 @@ describe('optional dependencies', () => {
         })
       });
 
-      assertByExpected(['required', 'demo', 'mybatisplus'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'mybatisplus'], expects)
     });
 
     describe('druid', () => {
@@ -841,7 +859,7 @@ describe('optional dependencies', () => {
         })
       });
 
-      assertByExpected(['required', 'demo', 'druid'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'druid'], expects)
     });
   });
 
@@ -853,7 +871,7 @@ describe('optional dependencies', () => {
       })
     });
 
-    assertByExpected(['required', 'demo', 'rabbitmq'], expects)
+    assertByExpected(['required', 'demo', 'logback', 'rabbitmq'], expects)
   });
 
   describe('configservice', () => {
@@ -864,7 +882,7 @@ describe('optional dependencies', () => {
       })
     });
 
-    assertByExpected(['required', 'demo', 'apollo'], expects)
+    assertByExpected(['required', 'demo', 'logback', 'apollo'], expects)
   });
 
   describe('authentication', () => {
@@ -877,7 +895,7 @@ describe('optional dependencies', () => {
         })
       });
 
-      assertByExpected(['required', 'demo', 'jwtShiro'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'jwtShiro'], expects)
     });
   });
 
@@ -890,7 +908,7 @@ describe('optional dependencies', () => {
         })
       });
 
-      assertByExpected(['required', 'demo', 'thymeleaf'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'thymeleaf'], expects)
     });
   });
 
@@ -903,7 +921,7 @@ describe('optional dependencies', () => {
         })
       });
 
-      assertByExpected(['required', 'demo', 'redis'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'redis'], expects)
     });
   });
 
@@ -916,7 +934,7 @@ describe('optional dependencies', () => {
         })
       });
 
-      assertByExpected(['required', 'demo', 'skywalking'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'skywalking', 'skywalkingWithLogback'], expects)
     });
   });
 
@@ -929,7 +947,7 @@ describe('optional dependencies', () => {
         })
       });
 
-      assertByExpected(['required', 'demo', 'fastjson'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'fastjson'], expects)
     });
 
     describe('gson', () => {
@@ -940,11 +958,22 @@ describe('optional dependencies', () => {
         })
       });
 
-      assertByExpected(['required', 'demo', 'gson'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'gson'], expects)
     });
   });
 
   describe('log', () => {
+    describe('logback', () => {
+      before(() => {
+        return generate({
+          log: 'logback',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'logback', 'logback'], expects)
+    });
+
     describe('log4j2', () => {
       before(() => {
         return generate({

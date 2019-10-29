@@ -67,3 +67,23 @@ if (false) {
 |SW_SERVICE_ADDR|skywalking服务地址|无|
 
 > 注意：以上环境变量应修改`run.sh`脚本，通过`-e`参数传入
+
+## Trace ID
+
+如果启动时接入了skywalking，应用在输出日志到控制台或文件时会为每一条记录带上 `trace id`，方便在日志系统中对同一请求由不同服务产生的日志信息进行聚合。
+
+<%
+switch (log) {
+    case 'logback': {
+        print('你可以通过`resources`目录下的`logback-spring.xml` `console-appender.xml` `file-appender.xml`配置日志的输出格式。')
+        break;
+    }
+    case 'log4j2': {
+        print('TODO:: 暂不支持log4j2输出trace id，请手动配置。')
+        break;
+    }
+    default: {
+        break;
+    }
+}
+%>
