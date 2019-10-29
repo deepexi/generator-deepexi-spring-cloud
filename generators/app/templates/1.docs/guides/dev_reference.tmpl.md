@@ -11,6 +11,8 @@
 │   │   └── reference.md
 │   └── sql     // 数据库sql脚本
 │       └── v1.0.0
+├── cov-report      // 覆盖率统计报告聚合专用模块 
+│   ├── pom.xml
 ├── deepexi-spring-cloud-api
 │   ├── pom.xml
 │   └── src
