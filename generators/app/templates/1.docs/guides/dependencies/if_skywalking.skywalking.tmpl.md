@@ -41,21 +41,21 @@ if (false) {
 
 请在IDE的启动VM参数中加入以下配置
 
-    ```text
-    -javaagent:agent/skywalking/skywalking-agent.jar
-    -Dskywalking.agent.service_name=${artifactId}
-    -Dskywalking.collector.backend_service={sw_service_address}
-    ```
+```text
+-javaagent:agent/skywalking/skywalking-agent.jar
+-Dskywalking.agent.service_name=${artifactId}
+-Dskywalking.collector.backend_service={sw_service_address}
+```
 
 ### Run with *.jar
 
 请参考[Start via process](../quickly_start.md#start-via-process)，并加入以下启动参数
 
-    ```text
-    -javaagent:{project_home}/agent/skywalking/skywalking-agent.jar
-    -Dskywalking.agent.service_name=${artifactId}
-    -Dskywalking.collector.backend_service={sw_service_address}
-    ```
+```text
+-javaagent:{project_home}/agent/skywalking/skywalking-agent.jar
+-Dskywalking.agent.service_name=${artifactId}
+-Dskywalking.collector.backend_service={sw_service_address}
+```
 
 ### Run with Docker
 

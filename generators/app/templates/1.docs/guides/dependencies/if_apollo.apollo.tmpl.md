@@ -10,29 +10,29 @@
 
 修改配置，指定meta-server地址
 
-    ```yaml
-    # bootstrap.yml
-    apollo:
-    bootstrap:
-        enabled: true
-        namespaces: application
-    meta: 'http://{meta-server-url}'
-    ```
+```yaml
+# bootstrap.yml
+apollo:
+bootstrap:
+    enabled: true
+    namespaces: application
+meta: 'http://{meta-server-url}'
+```
 
 然后在IDE的启动VM参数中加入以下配置
 
-    ```text
-    -Denv={env}
-    ```
+```text
+-Denv={env}
+```
 
 ### Run with *.jar
 
 请参考[Start via process](../quickly_start.md#start-via-process)，并加入以下启动参数
 
-    ```text
-    -Denv={env}
-    -Dapollo.meta=http://{meta-server-url}
-    ```
+```text
+-Denv={env}
+-Dapollo.meta=http://{meta-server-url}
+```
 
 ### Run with Docker
 
