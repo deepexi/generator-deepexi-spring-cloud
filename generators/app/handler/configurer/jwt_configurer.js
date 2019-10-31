@@ -16,7 +16,7 @@ module.exports = {
           dependency: [
             { groupId: 'com.github.taccisum' },
             { artifactId: 'shiro-starter' },
-            { version: '2.1.0' }
+            { version: '2.2.0' }
           ]
         })
       }
