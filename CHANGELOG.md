@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.16.0...v1.17.0) (2019-11-09)
+
+
+### Bug Fixes
+
+* let apm none by default ([143b242](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/143b242))
+
+
+### Features
+
+* **scaffold:** support log with trace id for logback ([848b602](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/848b602))
+
+
+
 ## [1.16.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.15.2...v1.16.0) (2019-10-25)
 
 
