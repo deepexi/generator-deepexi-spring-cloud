@@ -228,7 +228,7 @@ const obj = {
       ],
       message: '请选择你使用的APM类型'
     },
-    option: { desc: '缓存', type: String, default: 'skywalking' },
+    option: { desc: 'APM', type: String, default: 'none' },
     child: {
       swVersion: {
         prompting: { type: 'input', default: '6.4.0', message: '请填写你使用的skywalking版本' },
