@@ -25,7 +25,8 @@ const types = [
   'cache',
   'jsonParser',
   'log',
-  'apm'
+  'apm',
+  'monitor'
 ];
 
 configurers.receive = (event, args) => {

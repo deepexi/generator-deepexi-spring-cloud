@@ -241,6 +241,17 @@ const obj = {
       }
     }
   },
+  monitor: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'prometheus',
+        'none'
+      ],
+      message: '请选择你使用的监控中心类型'
+    },
+    option: { desc: '监控中心', type: String, default: 'none' }
+  },
   demo: {
     prompting: {
       type: 'confirm',
@@ -308,6 +319,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
 
     if (props.apm !== 'none') {
       props.conditions[props.apm] = true;
+    }
+
+    if (props.monitor !== 'none') {
+      props.conditions[props.monitor] = true;
     }
 
     if (!props.log) {
