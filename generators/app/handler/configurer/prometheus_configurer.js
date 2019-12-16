@@ -25,7 +25,7 @@ module.exports = {
               endpoints: {
                 web: {
                   exposure: {
-                    include: '\'health, info, prometheus\''
+                    include: 'health, info, prometheus'
                   }
                 }
               }

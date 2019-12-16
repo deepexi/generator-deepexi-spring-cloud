@@ -753,7 +753,7 @@ prometheus2.addProviderArtifacts(
 )
 prometheus2.assertProperties = () => {
   it('should have properties', () => {
-    assert.strictEqual(readYamlConfigs('prod').management.endpoints.web.exposure.include, '\'health, info, prometheus\'')
+    assert.strictEqual(readYamlConfigs('prod').management.endpoints.web.exposure.include, 'health, info, prometheus')
   });
 }
 

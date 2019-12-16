@@ -4,3 +4,8 @@ server:
   error:
     include-stacktrace: never
     include-exception: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'health, info'
