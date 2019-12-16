@@ -747,11 +747,11 @@ log4j2.addProviderArtifacts([
   'spring-boot-starter-logging'
 ])
 
-const prometheus2 = expects.prometheus;
-prometheus2.addProviderArtifacts(
+const prometheus = expects.prometheus;
+prometheus.addProviderArtifacts(
   ['micrometer-registry-prometheus', 'micrometer-core']
 )
-prometheus2.assertProperties = () => {
+prometheus.assertProperties = () => {
   it('should have properties', () => {
     assert.strictEqual(readYamlConfigs('prod').management.endpoints.web.exposure.include, 'health, info, prometheus')
   });

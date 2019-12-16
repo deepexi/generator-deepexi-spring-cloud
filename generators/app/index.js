@@ -248,7 +248,7 @@ const obj = {
         'prometheus',
         'none'
       ],
-      message: '请选择你使用的监控中心类型'
+      message: '是否整合prometheus'
     },
     option: { desc: '监控中心', type: String, default: 'none' }
   },
