@@ -353,7 +353,8 @@ const expects = {
   gson: new Expect(),
   log4j2: new Expect(),
   logback: new Expect(),
-  skywalkingWithLogback: new Expect()
+  skywalkingWithLogback: new Expect(),
+  prometheus: new Expect()
 };
 
 const required = expects.required;
@@ -746,6 +747,16 @@ log4j2.addProviderArtifacts([
   'spring-boot-starter-logging'
 ])
 
+const prometheus2 = expects.prometheus;
+prometheus2.addProviderArtifacts(
+  ['micrometer-registry-prometheus', 'micrometer-core']
+)
+prometheus2.assertProperties = () => {
+  it('should have properties', () => {
+    assert.strictEqual(readYamlConfigs('prod').management.endpoints.web.exposure.include, '\'health, info, prometheus\'')
+  });
+}
+
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
     for (const key in expects) {
@@ -983,6 +994,19 @@ describe('optional dependencies', () => {
       });
 
       assertByExpected(['required', 'demo', 'log4j2'], expects)
+    });
+  });
+
+  describe('monitor', () => {
+    describe('prometheus', () => {
+      before(() => {
+        return generate({
+          monitor: 'prometheus',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'logback', 'prometheus'], expects);
     });
   });
 });

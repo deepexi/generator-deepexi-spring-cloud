@@ -17,16 +17,15 @@ module.exports = {
         ]
       })
     },
-
     configureApplicationYaml (yaml, env) {
       switch (env) {
-        case 'local': {
+        case 'prod': {
           _.merge(yaml, {
             management: {
               endpoints: {
                 web: {
                   exposure: {
-                    include: 'prometheus'
+                    include: '\'health, info, prometheus\''
                   }
                 }
               }
