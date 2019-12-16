@@ -241,16 +241,13 @@ const obj = {
       }
     }
   },
-  monitor: {
+  prometheus: {
     prompting: {
-      type: 'list',
-      choices: [
-        'prometheus',
-        'none'
-      ],
-      message: '是否整合prometheus'
+      type: 'confirm',
+      message: '是否整合prometheus（默认no）',
+      default: false
     },
-    option: { desc: '监控中心', type: String, default: 'none' }
+    option: { desc: '监控中心', type: Boolean, default: false }
   },
   demo: {
     prompting: {
@@ -319,10 +316,6 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
 
     if (props.apm !== 'none') {
       props.conditions[props.apm] = true;
-    }
-
-    if (props.monitor !== 'none') {
-      props.conditions[props.monitor] = true;
     }
 
     if (!props.log) {
