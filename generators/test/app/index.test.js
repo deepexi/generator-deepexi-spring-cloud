@@ -113,7 +113,7 @@ function assertNoResources (resources) {
 function readYamlConfigs (env) {
   if (env) {
     if (env === 'bootstrap' || env === 'boot') {
-      return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/bootstrap.yml`)) || {};
+      return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/bootstrap.yml`)) || { apollo: {} };
     }
     return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/application-${env}.yml`)) || {};
   }
