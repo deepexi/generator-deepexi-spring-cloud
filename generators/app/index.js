@@ -241,6 +241,80 @@ const obj = {
       }
     }
   },
+  docker: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'Jib',
+        'Dockerfile',
+        'dockerfile-maven-plugin'
+      ],
+      message: '请选择镜像构建方式'
+    },
+    option: { desc: '数据库', type: String, default: 'Jib' },
+    child: {
+      jdk: {
+        prompting: {
+          type: 'list',
+          choices: [
+            'deepexi/java:v0.0.1',
+            'fabric8/java-jboss-openjdk8-jdk',
+            'openjdk:alpine'
+          ],
+          message: '请选择 JDK'
+        },
+        option: { desc: '数据库连接池', type: String, default: 'deepexi/java:v0.0.1' }
+      },
+      repoName: {
+        prompting: { type: 'input', default: '', message: '请输入镜像仓库名（默认无）' },
+        option: { desc: '镜像仓库名', type: String, default: '' },
+        callbacks: {
+          trigger: [
+            new Trigger.NoAnyAnswerTrigger('docker', 'Dockerfile')
+          ]
+        }
+      },
+      imageName: {
+        prompting: { type: 'input', default: '', message: '请输入镜像名（默认 artifactId）' },
+        option: { desc: '镜像名', type: String, default: '' },
+        callbacks: {
+          trigger: [
+            new Trigger.NoAnyAnswerTrigger('docker', 'Dockerfile')
+          ]
+        }
+      },
+      dockerAuth: {
+        prompting: { type: 'list', choices: ['none', 'need'], message: '请输入是否需要认证' },
+        option: { desc: 'docker认证', type: String, default: 'none' },
+        child: {
+          dockerUsername: {
+            prompting: { type: 'input', default: '', message: '请输入docker账户名（默认仓库名）' },
+            option: { desc: 'docker账户名', type: String, default: '' },
+            callbacks: {
+              trigger: [
+                new Trigger.AnyAnswerTrigger('dockerAuth', 'need')
+              ]
+            }
+          },
+          dockerPassword: {
+            prompting: { type: 'input', default: '', message: '请输入docker账户密码' },
+            option: { desc: 'docker账户密码', type: String, default: '' },
+            callbacks: {
+              trigger: [
+                new Trigger.AnyAnswerTrigger('dockerAuth', 'need')
+              ]
+            }
+          }
+        },
+        callbacks: {
+          trigger: [
+            new Trigger.AnyAnswerTrigger('docker', 'Jib')
+          ]
+        }
+      }
+    }
+
+  },
   demo: {
     prompting: {
       type: 'confirm',
@@ -294,7 +368,7 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
       props.conditions[props.authentication] = true;
     }
 
-    if (props.security !== 'none') {
+    if (props.security && props.security !== 'none') {
       props.conditions[props.security] = true;
     }
 
@@ -313,8 +387,30 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
     if (!props.log) {
       props.log = 'logback'
     }
+
+    if (props.docker) {
+      if (props.docker !== 'dockerfile-maven-plugin') {
+        props.conditions[props.docker] = true;
+      } else {
+        props.conditions['dockerMvn'] = true;
+      }
+    }
+
+    if (props.repoName) {
+      props.repoName = props.repoName + '/';
+    }
+
+    if (!props.imageName) {
+      props.imageName = props.artifactId;
+    }
+
+    if (!props.dockerUsername) {
+      props.dockerUsername = props.repoName;
+    }
+
     props.conditions[props.log] = true;
 
     props.openfeign = props.discovery === 'eureka';
+    console.log(props.conditions);
   }
 });
