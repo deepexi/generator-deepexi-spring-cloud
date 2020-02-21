@@ -12,3 +12,4 @@ package-lock.json
 
 push.sh
 test_proj/
+.idea/
