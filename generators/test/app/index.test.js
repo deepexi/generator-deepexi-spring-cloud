@@ -353,7 +353,8 @@ const expects = {
   gson: new Expect(),
   log4j2: new Expect(),
   logback: new Expect(),
-  skywalkingWithLogback: new Expect()
+  skywalkingWithLogback: new Expect(),
+  mongodb: new Expect()
 };
 
 const required = expects.required;
@@ -746,6 +747,16 @@ log4j2.addProviderArtifacts([
   'spring-boot-starter-logging'
 ])
 
+const mongodb = expects.mongodb;
+mongodb.addProviderArtifacts([
+  'spring-boot-starter-data-mongodb'
+])
+mongodb.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs().spring.data.mongodb);
+  });
+}
+
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
     for (const key in expects) {
@@ -984,5 +995,16 @@ describe('optional dependencies', () => {
 
       assertByExpected(['required', 'demo', 'log4j2'], expects)
     });
+  });
+
+  describe('nosql', () => {
+    before(() => {
+      return generate({
+        nosql: 'mongodb',
+        demo: true
+      })
+    });
+
+    assertByExpected(['required', 'demo', 'logback', 'mongodb'], expects)
   });
 });

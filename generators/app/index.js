@@ -241,6 +241,17 @@ const obj = {
       }
     }
   },
+  nosql: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'mongodb',
+        'none'
+      ],
+      message: '请选择你要引入的NoSQL类型',
+    },
+    option: { desc: 'NoSQL', type: String, default: 'none' }
+  },
   demo: {
     prompting: {
       type: 'confirm',
