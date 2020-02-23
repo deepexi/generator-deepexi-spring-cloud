@@ -411,6 +411,5 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
     props.conditions[props.log] = true;
 
     props.openfeign = props.discovery === 'eureka';
-    console.log(props.conditions);
   }
 });

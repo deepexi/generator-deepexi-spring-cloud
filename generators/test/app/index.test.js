@@ -120,6 +120,24 @@ function readYamlConfigs (env) {
   return yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')) || {};
 }
 
+function assertJib (resources) {
+  if (_.isArray(resources) && resources.length > 0) {
+    assert.file(resources.map(resource => {
+      return `foo-service-provider/${resource}`;
+    }))
+  }
+}
+
+function assertProviderPlugins (artifacts) {
+  if (_.isArray(artifacts) && artifacts.length > 0) {
+    assert.fileContent(
+      artifacts.map(artifact => {
+        return ['foo-service-provider/pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
+      })
+    )
+  }
+}
+
 class Expect {
   addFiles (name, files) {
     if (!_.isArray(this[name])) {
@@ -220,6 +238,14 @@ class Expect {
     return this.getFiles('provider_resources');
   }
 
+  addJibResource (resources) {
+    this.addFiles('provider_jib', resources);
+  }
+
+  getJibResource () {
+    return this.getFiles('provider_jib');
+  }
+
   assertProviderResources () {
     if (this.getProviderResources()) {
       it('should exist provider resources', () => {
@@ -232,6 +258,14 @@ class Expect {
     if (this.getProviderResources()) {
       it('should not exist provider resources', () => {
         assertNoResources(this.getProviderResources());
+      });
+    }
+  }
+
+  assertJib () {
+    if (this.getJibResource()) {
+      it('should exist jib ', () => {
+        assertJib(this.getJibResource());
       });
     }
   }
@@ -284,6 +318,14 @@ class Expect {
     if (this.getProviderArtifacts()) {
       it('should not exist provider artifacts', () => {
         assertNoProviderArtifacts(this.getProviderArtifacts());
+      });
+    }
+  }
+
+  assertProviderPlugins () {
+    if (this.getProviderArtifacts()) {
+      it('should exist provider plugin', () => {
+        assertProviderPlugins(this.getProviderArtifacts())
       });
     }
   }
@@ -353,7 +395,8 @@ const expects = {
   gson: new Expect(),
   log4j2: new Expect(),
   logback: new Expect(),
-  skywalkingWithLogback: new Expect()
+  skywalkingWithLogback: new Expect(),
+  docker: new Expect()
 };
 
 const required = expects.required;
@@ -746,6 +789,15 @@ log4j2.addProviderArtifacts([
   'spring-boot-starter-logging'
 ])
 
+const docker = expects.docker;
+docker.addProviderArtifacts([
+  'jib-maven-plugin'
+])
+docker.addJibResource([
+  'jib/entrypoint.sh'
+])
+docker.assertJib();
+
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
     for (const key in expects) {
@@ -985,4 +1037,17 @@ describe('optional dependencies', () => {
       assertByExpected(['required', 'demo', 'log4j2'], expects)
     });
   });
+
+  describe('docker', () => {
+    describe('jdk', () => {
+      before(() => {
+        return generate({
+          docker: 'Jib',
+          jdk: 'jdk'
+        })
+      });
+
+      assertByExpected(['jdk'], expects)
+    });
+  })
 });
