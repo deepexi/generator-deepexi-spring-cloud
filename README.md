@@ -82,7 +82,6 @@ $ yo deepexi-spring-cloud --help
 |APM|✅️SkyWalking|☑️Zipkin|☑️PinPoint|
 |分库分表|☑️Sharding-JDBC|☑️MyCAT|
 |服务器|✅Tomcat|☑️Jetty|☑️Undertow|
-|监控|✅Prometheus|
 |JSON解析器|✅Jackson|✅️FastJson|✅️Gson|
 |模板引擎|✅Thymeleaf|☑️Freemarker|
 |对象存储|☑️AliOSS|☑️FastDFS|
