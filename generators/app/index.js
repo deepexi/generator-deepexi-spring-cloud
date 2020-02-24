@@ -244,10 +244,10 @@ const obj = {
   prometheus: {
     prompting: {
       type: 'confirm',
-      message: '是否整合prometheus（默认no）',
+      message: '是否整合 prometheus（默认no）',
       default: false
     },
-    option: { desc: '监控中心', type: Boolean, default: false }
+    option: { desc: 'Prometheus', type: Boolean, default: false }
   },
   demo: {
     prompting: {
