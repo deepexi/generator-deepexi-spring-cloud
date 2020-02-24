@@ -91,6 +91,7 @@ $ yo deepexi-spring-cloud --help
 |WebSocket|☑️Spring Boot Websocket|
 |Bean转换器|✅SpringMVC Converter|☑️MapStruct|
 |DeepEXI产品|☑️sPaaS|
+|其它|✅️Prometheus|
 
 ### 固有项
 
