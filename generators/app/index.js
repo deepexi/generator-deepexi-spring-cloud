@@ -258,6 +258,9 @@ const obj = {
           type: 'list',
           choices: [
             'deepexi/java:v0.0.1',
+            'deepexi/java-skywalking:v0.0.2',
+            'deepexi/java-ansible:v0.0.1',
+            'deepexi/java-ansible-skywalking:v0.0.1',
             'fabric8/java-jboss-openjdk8-jdk',
             'openjdk:alpine'
           ],
