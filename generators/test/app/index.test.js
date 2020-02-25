@@ -120,14 +120,6 @@ function readYamlConfigs (env) {
   return yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')) || {};
 }
 
-function assertJib (resources) {
-  if (_.isArray(resources) && resources.length > 0) {
-    assert.file(resources.map(resource => {
-      return `foo-service-provider/${resource}`;
-    }))
-  }
-}
-
 function assertProviderPlugins (artifacts) {
   if (_.isArray(artifacts) && artifacts.length > 0) {
     assert.fileContent(
@@ -238,14 +230,6 @@ class Expect {
     return this.getFiles('provider_resources');
   }
 
-  addJibResource (resources) {
-    this.addFiles('provider_jib', resources);
-  }
-
-  getJibResource () {
-    return this.getFiles('provider_jib');
-  }
-
   assertProviderResources () {
     if (this.getProviderResources()) {
       it('should exist provider resources', () => {
@@ -258,14 +242,6 @@ class Expect {
     if (this.getProviderResources()) {
       it('should not exist provider resources', () => {
         assertNoResources(this.getProviderResources());
-      });
-    }
-  }
-
-  assertJib () {
-    if (this.getJibResource()) {
-      it('should exist jib ', () => {
-        assertJib(this.getJibResource());
       });
     }
   }
@@ -394,11 +370,13 @@ const expects = {
   fastjson: new Expect(),
   gson: new Expect(),
   log4j2: new Expect(),
-  logback: new Expect(),
   skywalkingWithLogback: new Expect(),
-  docker: new Expect()
+  logback: new Expect(),
+  docker: new Expect(),
+  jib: new Expect(),
+  dockerFile: new Expect(),
+  dockerFileMvn: new Expect()
 };
-
 const required = expects.required;
 required.addProjectFiles([
   'pom.xml',
@@ -406,8 +384,6 @@ required.addProjectFiles([
   'filebeat.yml',
   'start-fb.sh',
   'start-code.sh',
-  'Dockerfile',
-  'entrypoint.sh',
   'run.sh',
   'LICENSE',
   'README.md',
@@ -503,7 +479,6 @@ demo.addProviderClasses([
 demo.addProviderTestClasses([
   'util/DemoTest.java'
 ])
-
 const eureka = expects.eureka;
 eureka.addProjectFiles([
   '1.docs/guides/dependencies/eureka.md'
@@ -782,21 +757,62 @@ logback.addProviderResources([
   'console-appender.xml',
   'file-appender.xml'
 ])
-
 const log4j2 = expects.log4j2;
 log4j2.addProviderArtifacts([
   'spring-boot-starter-log4j2',
   'spring-boot-starter-logging'
 ])
 
-const docker = expects.docker;
-docker.addProviderArtifacts([
+const jib = expects.jib;
+jib.addJibResource = function (resources) {
+  this.addFiles('provider_jib', resources);
+}
+jib.getJibResource = function () {
+  return this.getFiles('provider_jib');
+}
+jib.addJibResource([
+  'entrypoint.sh'
+])
+jib.addProviderArtifacts([
   'jib-maven-plugin'
 ])
-docker.addJibResource([
-  'jib/entrypoint.sh'
+jib.assertJib = function () {
+  it('should exist jib', () => {
+    const jibResource = this.getJibResource();
+    assert.file(jibResource.map(resource => {
+      return `foo-service-provider/jib/${resource}`;
+    }))
+  });
+}
+
+const dockerFile = expects.dockerFile;
+dockerFile.addProjectFiles([
+  'Dockerfile',
+  'entrypoint.sh'
 ])
-docker.assertJib();
+
+const dockerFileMvn = expects.dockerFileMvn;
+dockerFileMvn.addProviderFiles = function (resources) {
+  this.addFiles('provider_files', resources);
+}
+dockerFileMvn.getProviderFiles = function () {
+  return this.getFiles('provider_files');
+}
+dockerFileMvn.addProviderFiles([
+  'Dockerfile',
+  'entrypoint.sh'
+]);
+dockerFileMvn.addProviderArtifacts([
+  'dockerfile-maven-plugin'
+])
+dockerFileMvn.assertProviderFiles = function () {
+  it('should exist provider files', () => {
+    const providerFiles = this.getProviderFiles();
+    assert.file(providerFiles.map(resource => {
+      return `foo-service-provider/${resource}`;
+    }))
+  });
+}
 
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
@@ -1038,16 +1054,38 @@ describe('optional dependencies', () => {
     });
   });
 
-  describe('docker', () => {
-    describe('jdk', () => {
+  describe('Docker', () => {
+    describe('Jib', () => {
       before(() => {
         return generate({
           docker: 'Jib',
-          jdk: 'jdk'
+          jdk: 'deepexi/java:v0.0.1'
         })
       });
 
-      assertByExpected(['jdk'], expects)
+      assertByExpected(['required', 'logback', 'jib'], expects)
+    });
+
+    describe('DockerFile', () => {
+      before(() => {
+        return generate({
+          docker: 'Dockerfile',
+          jdk: 'deepexi/java:v0.0.1'
+        })
+      });
+
+      assertByExpected(['required', 'logback', 'dockerFile'], expects)
+    });
+
+    describe('DockerFileMvn', () => {
+      before(() => {
+        return generate({
+          docker: 'dockerfile-maven-plugin',
+          jdk: 'deepexi/java'
+        })
+      });
+
+      assertByExpected(['required', 'logback', 'dockerFileMvn'], expects)
     });
   })
 });
