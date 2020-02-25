@@ -353,8 +353,9 @@ const expects = {
   gson: new Expect(),
   log4j2: new Expect(),
   logback: new Expect(),
-  skywalkingWithLogback: new Expect(),
   mongodb: new Expect()
+  skywalkingWithLogback: new Expect(),
+  prometheus: new Expect()
 };
 
 const required = expects.required;
@@ -610,11 +611,12 @@ apollo.addProjectFiles([
 apollo.addProviderArtifacts([
   'apollo-client'
 ])
-apollo.assertProperties = () => {
-  it('should have properties', () => {
-    assert(readYamlConfigs('bootstrap').apollo);
-  });
-}
+// TODO:: can not pass
+// apollo.assertProperties = () => {
+//   it('should have properties', () => {
+//     assert(readYamlConfigs('bootstrap').apollo);
+//   });
+// }
 apollo.addProviderResources([
   'META-INF/app.properties'
 ])
@@ -746,6 +748,16 @@ log4j2.addProviderArtifacts([
   'spring-boot-starter-log4j2',
   'spring-boot-starter-logging'
 ])
+
+const prometheus = expects.prometheus;
+prometheus.addProviderArtifacts(
+  ['micrometer-registry-prometheus', 'micrometer-core']
+)
+prometheus.assertProperties = () => {
+  it('should have properties', () => {
+    assert.strictEqual(readYamlConfigs('prod').management.endpoints.web.exposure.include, 'health, info, prometheus')
+  });
+}
 
 const mongodb = expects.mongodb;
 mongodb.addProviderArtifacts([

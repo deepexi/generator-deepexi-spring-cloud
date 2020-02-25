@@ -241,6 +241,14 @@ const obj = {
       }
     }
   },
+  prometheus: {
+    prompting: {
+      type: 'confirm',
+      message: '是否整合 prometheus（默认no）',
+      default: false
+    },
+    option: { desc: 'Prometheus', type: Boolean, default: false }
+  },
   nosql: {
     prompting: {
       type: 'list',

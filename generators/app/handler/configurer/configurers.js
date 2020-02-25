@@ -25,8 +25,8 @@ const types = [
   'cache',
   'jsonParser',
   'log',
-  'apm',
   'nosql'
+  'prometheus'
 ];
 
 configurers.receive = (event, args) => {
