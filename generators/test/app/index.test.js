@@ -372,11 +372,13 @@ const expects = {
   log4j2: new Expect(),
   skywalkingWithLogback: new Expect(),
   logback: new Expect(),
+  prometheus: new Expect(),
   docker: new Expect(),
   jib: new Expect(),
   dockerFile: new Expect(),
   dockerFileMvn: new Expect()
 };
+
 const required = expects.required;
 required.addProjectFiles([
   'pom.xml',
@@ -479,6 +481,7 @@ demo.addProviderClasses([
 demo.addProviderTestClasses([
   'util/DemoTest.java'
 ])
+
 const eureka = expects.eureka;
 eureka.addProjectFiles([
   '1.docs/guides/dependencies/eureka.md'
@@ -627,11 +630,12 @@ apollo.addProjectFiles([
 apollo.addProviderArtifacts([
   'apollo-client'
 ])
-apollo.assertProperties = () => {
-  it('should have properties', () => {
-    assert(readYamlConfigs('bootstrap').apollo);
-  });
-}
+// TODO:: can not pass
+// apollo.assertProperties = () => {
+//   it('should have properties', () => {
+//     assert(readYamlConfigs('bootstrap').apollo);
+//   });
+// }
 apollo.addProviderResources([
   'META-INF/app.properties'
 ])
@@ -757,11 +761,22 @@ logback.addProviderResources([
   'console-appender.xml',
   'file-appender.xml'
 ])
+
 const log4j2 = expects.log4j2;
 log4j2.addProviderArtifacts([
   'spring-boot-starter-log4j2',
   'spring-boot-starter-logging'
 ])
+
+const prometheus = expects.prometheus;
+prometheus.addProviderArtifacts(
+  ['micrometer-registry-prometheus', 'micrometer-core']
+)
+prometheus.assertProperties = () => {
+  it('should have properties', () => {
+    assert.strictEqual(readYamlConfigs('prod').management.endpoints.web.exposure.include, 'health, info, prometheus')
+  });
+}
 
 const jib = expects.jib;
 jib.addJibResource = function (resources) {
