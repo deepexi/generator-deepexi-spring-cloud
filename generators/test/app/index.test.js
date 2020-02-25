@@ -375,8 +375,8 @@ const expects = {
   prometheus: new Expect(),
   docker: new Expect(),
   jib: new Expect(),
-  dockerFile: new Expect(),
-  dockerFileMvn: new Expect()
+  dockerfile: new Expect(),
+  dockerfileMvn: new Expect()
 };
 
 const required = expects.required;
@@ -702,20 +702,6 @@ const skywalking = expects.skywalking;
 skywalking.addProjectFiles([
   '1.docs/guides/dependencies/skywalking.md'
 ])
-skywalking.assertREADME = () => {
-  it('should contain content', () => {
-    assert.fileContent('entrypoint.sh', /javaagent/)
-    assert.fileContent('entrypoint.sh', /skywalking/)
-    assert.fileContent('run.sh', /-e SW_SERVICE_ADDR=/)
-  });
-}
-skywalking.assertNoREADME = () => {
-  it('should not contain content', () => {
-    assert.noFileContent('entrypoint.sh', /javaagent/)
-    assert.noFileContent('entrypoint.sh', /skywalking/)
-    assert.noFileContent('run.sh', /-e SW_SERVICE_ADDR=/)
-  });
-}
 
 const skywalkingWithLogback = expects.skywalkingWithLogback;
 skywalkingWithLogback.addProviderArtifacts([
@@ -778,6 +764,8 @@ prometheus.assertProperties = () => {
   });
 }
 
+// const docker = expects.docker;
+
 const jib = expects.jib;
 jib.addJibResource = function (resources) {
   this.addFiles('provider_jib', resources);
@@ -800,27 +788,27 @@ jib.assertJib = function () {
   });
 }
 
-const dockerFile = expects.dockerFile;
-dockerFile.addProjectFiles([
+const dockerfile = expects.dockerfile;
+dockerfile.addProjectFiles([
   'Dockerfile',
   'entrypoint.sh'
 ])
 
-const dockerFileMvn = expects.dockerFileMvn;
-dockerFileMvn.addProviderFiles = function (resources) {
+const dockerfileMvn = expects.dockerfileMvn;
+dockerfileMvn.addProviderFiles = function (resources) {
   this.addFiles('provider_files', resources);
 }
-dockerFileMvn.getProviderFiles = function () {
+dockerfileMvn.getProviderFiles = function () {
   return this.getFiles('provider_files');
 }
-dockerFileMvn.addProviderFiles([
+dockerfileMvn.addProviderFiles([
   'Dockerfile',
   'entrypoint.sh'
 ]);
-dockerFileMvn.addProviderArtifacts([
+dockerfileMvn.addProviderArtifacts([
   'dockerfile-maven-plugin'
 ])
-dockerFileMvn.assertProviderFiles = function () {
+dockerfileMvn.assertProviderFiles = function () {
   it('should exist provider files', () => {
     const providerFiles = this.getProviderFiles();
     assert.file(providerFiles.map(resource => {
@@ -1013,11 +1001,13 @@ describe('optional dependencies', () => {
       before(() => {
         return generate({
           apm: 'skywalking',
+          docker: 'Dockerfile',
+          jdk: 'deepexi/java:v0.0.1',
           demo: true
         })
       });
 
-      assertByExpected(['required', 'demo', 'logback', 'skywalking', 'skywalkingWithLogback'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'skywalking', 'skywalkingWithLogback', 'dockerfile'], expects)
     });
   });
 
@@ -1082,25 +1072,49 @@ describe('optional dependencies', () => {
     });
 
     describe('DockerFile', () => {
-      before(() => {
-        return generate({
-          docker: 'Dockerfile',
-          jdk: 'deepexi/java:v0.0.1'
-        })
-      });
+      describe('Dockerfile with skywalking', () => {
+        before(() => {
+          return generate({
+            docker: 'Dockerfile',
+            jdk: 'deepexi/java:v0.0.1',
+            apm: 'skywalking'
+          })
+        });
 
-      assertByExpected(['required', 'logback', 'dockerFile'], expects)
+        assertByExpected(['required', 'logback', 'dockerfile', 'skywalking', 'skywalkingWithLogback'], expects)
+
+        it('should contain content', () => {
+          assert.fileContent('entrypoint.sh', /javaagent/)
+          assert.fileContent('entrypoint.sh', /skywalking/)
+          assert.fileContent('run.sh', /-e SW_SERVICE_ADDR=/)
+        });
+      })
+
+      describe('Dockerfile without skywalking', () => {
+        before(() => {
+          return generate({
+            docker: 'Dockerfile',
+            jdk: 'deepexi/java:v0.0.1'
+          })
+        });
+
+        it('should not contain content', () => {
+          assert.noFileContent('entrypoint.sh', /javaagent/)
+          assert.noFileContent('entrypoint.sh', /skywalking/)
+          assert.noFileContent('run.sh', /-e SW_SERVICE_ADDR=/)
+        });
+      })
     });
 
     describe('DockerFileMvn', () => {
       before(() => {
         return generate({
           docker: 'dockerfile-maven-plugin',
-          jdk: 'deepexi/java'
+          jdk: 'deepexi/java:v0.0.1'
         })
       });
 
-      assertByExpected(['required', 'logback', 'dockerFileMvn'], expects)
+      assertByExpected(['required', 'logback', 'dockerfileMvn'], expects)
     });
   })
 });
