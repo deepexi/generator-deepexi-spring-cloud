@@ -1009,7 +1009,7 @@ describe('optional dependencies', () => {
     });
   });
 
-  describe('nosql', () => {
+  describe('mongodb', () => {
     before(() => {
       return generate({
         mongodb: true,
@@ -1017,6 +1017,6 @@ describe('optional dependencies', () => {
       })
     });
 
-    assertByExpected(['required', 'demo', 'logback', 'mongodb'], expects)
+    assertByExpected(['required', 'demo', 'mongodb'], expects)
   });
 });
