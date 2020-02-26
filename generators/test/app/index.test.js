@@ -1002,7 +1002,7 @@ describe('optional dependencies', () => {
         return generate({
           apm: 'skywalking',
           docker: 'Dockerfile',
-          jdk: 'deepexi/java:v0.0.1',
+          jdk: 'openjdk:8',
           demo: true
         })
       });
@@ -1064,7 +1064,7 @@ describe('optional dependencies', () => {
       before(() => {
         return generate({
           docker: 'Jib',
-          jdk: 'deepexi/java:v0.0.1'
+          jdk: 'openjdk:8'
         })
       });
 
@@ -1076,7 +1076,7 @@ describe('optional dependencies', () => {
         before(() => {
           return generate({
             docker: 'Dockerfile',
-            jdk: 'deepexi/java:v0.0.1',
+            jdk: 'openjdk:8',
             apm: 'skywalking'
           })
         });
@@ -1094,7 +1094,7 @@ describe('optional dependencies', () => {
         before(() => {
           return generate({
             docker: 'Dockerfile',
-            jdk: 'deepexi/java:v0.0.1'
+            jdk: 'openjdk:8'
           })
         });
 
@@ -1110,7 +1110,7 @@ describe('optional dependencies', () => {
       before(() => {
         return generate({
           docker: 'dockerfile-maven-plugin',
-          jdk: 'deepexi/java:v0.0.1'
+          jdk: 'openjdk:8'
         })
       });
 

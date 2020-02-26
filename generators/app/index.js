@@ -245,28 +245,23 @@ const obj = {
     prompting: {
       type: 'list',
       choices: [
-        'Jib',
+        { key: 'Jib', display: 'Jib (推荐使用)' },
         'Dockerfile',
         'dockerfile-maven-plugin'
       ],
       message: '请选择镜像构建方式'
     },
-    option: { desc: '数据库', type: String, default: 'Jib' },
+    option: { desc: '镜像构建方式', type: String, default: 'Dockerfile' },
     child: {
       jdk: {
         prompting: {
           type: 'list',
           choices: [
-            'deepexi/java:v0.0.1',
-            'deepexi/java-skywalking:v0.0.2',
-            'deepexi/java-ansible:v0.0.1',
-            'deepexi/java-ansible-skywalking:v0.0.1',
-            'fabric8/java-jboss-openjdk8-jdk',
-            'openjdk:alpine'
+            'openjdk:8'
           ],
           message: '请选择 JDK'
         },
-        option: { desc: '数据库连接池', type: String, default: 'deepexi/java:v0.0.1' }
+        option: { desc: 'Dockerfile FROM', type: String, default: 'openjdk:8' }
       },
       repoName: {
         prompting: { type: 'input', default: '', message: '请输入镜像仓库名（默认无）' },
@@ -283,35 +278,6 @@ const obj = {
         callbacks: {
           trigger: [
             new Trigger.NoAnyAnswerTrigger('docker', 'Dockerfile')
-          ]
-        }
-      },
-      dockerAuth: {
-        prompting: { type: 'list', choices: ['none', 'need'], message: '请输入是否需要认证' },
-        option: { desc: 'docker认证', type: String, default: 'none' },
-        child: {
-          dockerUsername: {
-            prompting: { type: 'input', default: '', message: '请输入docker账户名（默认仓库名）' },
-            option: { desc: 'docker账户名', type: String, default: '' },
-            callbacks: {
-              trigger: [
-                new Trigger.AnyAnswerTrigger('dockerAuth', 'need')
-              ]
-            }
-          },
-          dockerPassword: {
-            prompting: { type: 'input', default: '', message: '请输入docker账户密码' },
-            option: { desc: 'docker账户密码', type: String, default: '' },
-            callbacks: {
-              trigger: [
-                new Trigger.AnyAnswerTrigger('dockerAuth', 'need')
-              ]
-            }
-          }
-        },
-        callbacks: {
-          trigger: [
-            new Trigger.AnyAnswerTrigger('docker', 'Jib')
           ]
         }
       }

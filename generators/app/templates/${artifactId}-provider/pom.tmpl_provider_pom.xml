@@ -113,15 +113,6 @@
             let jib = '';
 
             if ( docker === 'Jib' ) {
-                <!--     可自行修改相关配置           -->
-               let auth = '';
-
-               if ( dockerAuth === 'need' ) {
-                 auth = `<auth>
-                            <username>${dockerUsername}</username>
-                            <password>${dockerPassword}</password>
-                        </auth>`;
-               }
 
                jib = `
                 <plugin>
@@ -134,7 +125,6 @@
                     </from>
                     <to>
                         <image>${repoName}${imageName}:\$\{project.version\}</image>
-                        ${auth}
                     </to>
                     <container>
                         <appRoot>/home</appRoot>
