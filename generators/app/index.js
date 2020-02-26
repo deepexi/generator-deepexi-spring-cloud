@@ -249,16 +249,13 @@ const obj = {
     },
     option: { desc: 'Prometheus', type: Boolean, default: false }
   },
-  nosql: {
+  mongodb: {
     prompting: {
-      type: 'list',
-      choices: [
-        'mongodb',
-        'none'
-      ],
-      message: '请选择你要引入的NoSQL类型',
+      type: 'confirm',
+      message: '是否整合 mongodb（默认no）',
+      default: false
     },
-    option: { desc: 'NoSQL', type: String, default: 'none' }
+    option: { desc: 'mongodb', type: Boolean, default: false }
   },
   demo: {
     prompting: {

@@ -353,7 +353,7 @@ const expects = {
   gson: new Expect(),
   log4j2: new Expect(),
   logback: new Expect(),
-  mongodb: new Expect()
+  mongodb: new Expect(),
   skywalkingWithLogback: new Expect(),
   prometheus: new Expect()
 };
@@ -1012,7 +1012,7 @@ describe('optional dependencies', () => {
   describe('nosql', () => {
     before(() => {
       return generate({
-        nosql: 'mongodb',
+        mongodb: true,
         demo: true
       })
     });

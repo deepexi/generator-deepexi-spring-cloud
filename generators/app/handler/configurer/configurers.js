@@ -25,7 +25,8 @@ const types = [
   'cache',
   'jsonParser',
   'log',
-  'nosql'
+  'apm',
+  'mongodb',
   'prometheus'
 ];
 
