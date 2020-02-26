@@ -1017,6 +1017,6 @@ describe('optional dependencies', () => {
       })
     });
 
-    assertByExpected(['required', 'demo', 'mongodb'], expects)
+    assertByExpected(['required', 'demo', 'logback', 'mongodb'], expects)
   });
 });
