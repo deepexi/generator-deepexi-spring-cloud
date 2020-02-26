@@ -780,10 +780,10 @@ jib.addProviderArtifacts([
   'jib-maven-plugin'
 ])
 jib.assertJib = function () {
-  it('should exist jib', () => {
+  it('should exist scripts of jib', () => {
     const jibResource = this.getJibResource();
     assert.file(jibResource.map(resource => {
-      return `foo-service-provider/jib/${resource}`;
+      return `foo-service-provider/scripts/${resource}`;
     }))
   });
 }
@@ -809,10 +809,10 @@ dockerfileMvn.addProviderArtifacts([
   'dockerfile-maven-plugin'
 ])
 dockerfileMvn.assertProviderFiles = function () {
-  it('should exist provider files', () => {
+  it('should exist scripts of provider files', () => {
     const providerFiles = this.getProviderFiles();
     assert.file(providerFiles.map(resource => {
-      return `foo-service-provider/${resource}`;
+      return `foo-service-provider/scripts/${resource}`;
     }))
   });
 }
