@@ -366,10 +366,13 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
     }
 
     if (props.docker) {
-      if (props.docker !== 'dockerfile-maven-plugin') {
+      if (props.docker === 'Dockerfile') {
         props.conditions[props.docker] = true;
       } else {
-        props.conditions['dockerMvn'] = true;
+        props.conditions['dockerScripts'] = true;
+        if (props.docker === 'dockerfile-maven-plugin') {
+          props.conditions['dockerMvn'] = true;
+        }
       }
     }
 
@@ -379,10 +382,6 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
 
     if (!props.imageName) {
       props.imageName = props.artifactId;
-    }
-
-    if (!props.dockerUsername) {
-      props.dockerUsername = props.repoName;
     }
 
     props.conditions[props.log] = true;

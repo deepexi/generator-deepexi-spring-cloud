@@ -8,9 +8,9 @@ COPY ../agent/skywalking /home/agent/skywalking`)
 }
 %>
 
-COPY ./${artifactId}-provider/target/app.jar /home
+COPY ./target/app.jar /home
 
-ADD entrypoint.sh /
+ADD scripts/entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh
 
