@@ -354,7 +354,8 @@ const expects = {
   log4j2: new Expect(),
   logback: new Expect(),
   skywalkingWithLogback: new Expect(),
-  prometheus: new Expect()
+  prometheus: new Expect(),
+  quartz: new Expect()
 };
 
 const required = expects.required;
@@ -758,6 +759,16 @@ prometheus.assertProperties = () => {
   });
 }
 
+const quartz = expects.quartz;
+quartz.addProviderArtifacts(
+  ['spring-boot-starter-quartz']
+)
+quartz.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs().spring.quartz);
+  });
+}
+
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
     for (const key in expects) {
@@ -996,5 +1007,15 @@ describe('optional dependencies', () => {
 
       assertByExpected(['required', 'demo', 'log4j2'], expects)
     });
+  });
+
+  describe('quartz', () => {
+    before(() => {
+      return generate({
+        quartz: true,
+        demo: true
+      })
+    });
+    assertByExpected(['required', 'demo', 'logback', 'quartz'], expects)
   });
 });

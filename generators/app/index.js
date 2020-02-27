@@ -249,6 +249,14 @@ const obj = {
     },
     option: { desc: 'Prometheus', type: Boolean, default: false }
   },
+  quartz: {
+    prompting: {
+      type: 'confirm',
+      message: '是否整合 quartz（默认no）',
+      default: false
+    },
+    option: { desc: 'quartz', type: Boolean, default: false }
+  },
   demo: {
     prompting: {
       type: 'confirm',
