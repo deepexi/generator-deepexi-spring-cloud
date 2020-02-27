@@ -16,6 +16,7 @@ fi
     `;
 }
 
+tmpl += `
 cmd=\$\{cmd\}'
             -jar app.jar $@
 '
