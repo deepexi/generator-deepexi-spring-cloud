@@ -13,6 +13,12 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        if ( docker !== 'Dockerfile' ) {
+            print('<docker.tag>v1.0.0</docker.tag>')
+        }
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
@@ -124,7 +130,7 @@
                         <image>${jdk}</image>
                     </from>
                     <to>
-                        <image>${repoName}${imageName}:\$\{project.version\}</image>
+                        <image>${repoName}${imageName}:\$\{docker.tag\}</image>
                     </to>
                     <container>
                         <appRoot>/home</appRoot>
@@ -174,7 +180,7 @@
                         </executions>
                         <configuration>
                             <repository>${repoName}${imageName}</repository>
-                            <tag>\$\{project.version\}</tag>
+                            <tag>\$\{docker.tag\}</tag>
                             <dockerfile>scripts/Dockerfile</dockerfile>
                             <buildArgs>
                                 <JAR_FILE>target/\$\{project.build.finalName\}.jar</JAR_FILE>

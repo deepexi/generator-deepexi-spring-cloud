@@ -42,9 +42,13 @@ container_name=$project_name                  # container name
 h1 '准备启动应用'$project_name'（基于Docker）'
 
 if [ ! -z $build ];then
-    PROJECT_HOME=$proj_home \
-    IMAGE_NAME=$img_output \
-    APP_NAME=$project_name \
+    PROJECT_HOME=$proj_home \ <%
+  if ( docker === 'Dockerfile') {
+      print(`
+    IMAGE_NAME=$img_output \\
+    APP_NAME=$project_name \\`)
+  }
+%>
     VERSION=$version \
     sh build.sh
 

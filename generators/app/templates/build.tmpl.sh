@@ -9,14 +9,14 @@ h2 '准备构建项目'
 
 if which mvn ; then
     info '使用本地maven构建项目'
-    mvn clean package -DskipTests
+    mvn clean package -DskipTests <% if ( docker !== 'Dockerfile') { print('-Ddocker.tag=$VERSION') } %>
 else
     info '使用maven镜像['$img_mvn']构建项目'
     docker run --rm \
         -v $m2_cache:/root/.m2 \
         -v $PROJECT_HOME:/usr/src/mymaven \
         -w /usr/src/mymaven \
-        $img_mvn mvn clean package -DskipTests
+        $img_mvn mvn clean package -DskipTests <% if ( docker !== 'Dockerfile') { print('-Ddocker.tag=$VERSION') } %>
 fi
 if [ $? -eq 0 ];then
     success '项目构建成功'
@@ -25,6 +25,11 @@ else
     exit 1
 fi
 
+<%
+
+if (docker === 'Dockerfile') {
+
+  print(`
 h2 '准备构建Docker镜像'
 
 if [ ! -z $IMAGE_NAME ];then
@@ -32,3 +37,8 @@ if [ ! -z $IMAGE_NAME ];then
 else
     docker build --rm -t $APP_NAME:v$VERSION .
 fi
+  `)
+
+}
+
+%>

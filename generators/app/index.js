@@ -254,13 +254,7 @@ const obj = {
     option: { desc: '镜像构建方式', type: String, default: 'Dockerfile' },
     child: {
       jdk: {
-        prompting: {
-          type: 'list',
-          choices: [
-            'openjdk:8'
-          ],
-          message: '请选择 JDK'
-        },
+        prompting: { type: 'input', default: 'openjdk:8', message: '请输入 JDK ' },
         option: { desc: 'Dockerfile FROM', type: String, default: 'openjdk:8' }
       },
       repoName: {
