@@ -55,3 +55,4 @@ $ sh start-code.sh [-bl] [-p port] [-v version]
 - -v: 指定构建镜像的版本号（默认1.0.0）
 
 如果需要自定义启动命令，可以自行修改[`run.sh`](/run.sh)。
+(不推荐使用start-code.sh)
