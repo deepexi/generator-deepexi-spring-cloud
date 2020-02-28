@@ -793,6 +793,20 @@ dockerfile.addProjectFiles([
   'Dockerfile',
   'entrypoint.sh'
 ])
+dockerfile.assertContent = function () {
+  it('should exist contents', () => {
+    assert.fileContent([
+      ['build.sh', /准备构建Docker镜像/]
+    ])
+  });
+}
+dockerfile.assertNoContent = function () {
+  it('should not exist contents', () => {
+    assert.noFileContent([
+      ['build.sh', /准备构建Docker镜像/]
+    ])
+  });
+}
 
 const dockerfileMvn = expects.dockerfileMvn;
 dockerfileMvn.addProviderFiles = function (resources) {
