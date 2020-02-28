@@ -796,14 +796,16 @@ dockerfile.addProjectFiles([
 dockerfile.assertContent = function () {
   it('should exist contents', () => {
     assert.fileContent([
-      ['build.sh', /准备构建Docker镜像/]
+      ['build.sh', /准备构建Docker镜像/],
+      ['start-code.sh', /APP_NAME=\$project_name/]
     ])
   });
 }
 dockerfile.assertNoContent = function () {
   it('should not exist contents', () => {
     assert.noFileContent([
-      ['build.sh', /准备构建Docker镜像/]
+      ['build.sh', /准备构建Docker镜像/],
+      ['start-code.sh', /APP_NAME=\$project_name/]
     ])
   });
 }
