@@ -22,10 +22,23 @@ if [[ -n \$\{DEBUG\} ]]; then
         -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9999
     '
 fi
+`
 
-cmd=\$\{cmd\}'
+tmpl +=`
+cmd=\$\{cmd\}\'`
+
+if(docker === 'Jib') {
+tmpl += `
+            -cp resources/:classes/:libs/*
+                ${basePackage}.StartupApplication $@
+\'`
+} else {
+tmpl += `
             -jar app.jar $@
-'
+\'`
+}
+
+tmpl += `
 
 echo \$\{cmd\}
 eval \$\{cmd\}
