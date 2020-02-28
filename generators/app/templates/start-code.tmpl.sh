@@ -7,7 +7,7 @@ source ./common.sh
 output_log=
 build=
 port=8080
-version='1.0.0'
+version=
 
 while getopts lbp:v: opt
 do
@@ -49,7 +49,9 @@ if [ ! -z $build ];then
     APP_NAME=$project_name \\`)
   }
 %>
-    VERSION=$version \
+    if [ ! -z $version ];then
+        VERSION=$version \
+    fi
     sh build.sh
 
     if [ $? -eq 0 ];then
