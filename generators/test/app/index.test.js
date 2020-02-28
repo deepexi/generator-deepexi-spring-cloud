@@ -386,7 +386,6 @@ required.addProjectFiles([
   '.gitignore',
   'filebeat.yml',
   'start-fb.sh',
-  'start-code.sh',
   'run.sh',
   'LICENSE',
   'README.md',
@@ -792,7 +791,8 @@ jib.assertJib = function () {
 const dockerfile = expects.dockerfile;
 dockerfile.addProjectFiles([
   'Dockerfile',
-  'entrypoint.sh'
+  'entrypoint.sh',
+  'start-code.sh',
 ])
 dockerfile.assertContent = () => {
   it('should not exist contents', () => {
