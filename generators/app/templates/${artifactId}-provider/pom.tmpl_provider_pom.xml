@@ -16,7 +16,7 @@
     <properties>
 <%
     if ( docker !== 'Dockerfile' ) {
-        print('<docker.repository>\$\{project.parent.version\}</docker.repository>')
+        print('<docker.repository>\$\{project.parent.name\}</docker.repository>')
         print('<docker.tag>\$\{project.version\}</docker.tag>')
     }
 %>
