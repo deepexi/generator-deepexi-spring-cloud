@@ -256,24 +256,6 @@ const obj = {
       jdk: {
         prompting: { type: 'input', default: 'openjdk:8', message: '请输入 JDK ' },
         option: { desc: 'Dockerfile FROM', type: String, default: 'openjdk:8' }
-      },
-      repoName: {
-        prompting: { type: 'input', default: '', message: '请输入镜像仓库名（默认无）' },
-        option: { desc: '镜像仓库名', type: String, default: '' },
-        callbacks: {
-          trigger: [
-            new Trigger.NoAnyAnswerTrigger('docker', 'Dockerfile')
-          ]
-        }
-      },
-      imageName: {
-        prompting: { type: 'input', default: '', message: '请输入镜像名（默认 artifactId）' },
-        option: { desc: '镜像名', type: String, default: '' },
-        callbacks: {
-          trigger: [
-            new Trigger.NoAnyAnswerTrigger('docker', 'Dockerfile')
-          ]
-        }
       }
     }
 
@@ -368,14 +350,6 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
           props.conditions['dockerMvn'] = true;
         }
       }
-    }
-
-    if (props.repoName) {
-      props.repoName = props.repoName + '/';
-    }
-
-    if (!props.imageName) {
-      props.imageName = props.artifactId;
     }
 
     props.conditions[props.log] = true;
