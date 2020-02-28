@@ -14,9 +14,11 @@
     </parent>
 
     <properties>
-        if ( docker !== 'Dockerfile' ) {
-            print('<docker.tag>\$\{project.version\}</docker.tag>')
-        }
+<%
+    if ( docker !== 'Dockerfile' ) {
+        print('<docker.tag>\$\{project.version\}</docker.tag>')
+    }
+%>
     </properties>
 
     <dependencies>
