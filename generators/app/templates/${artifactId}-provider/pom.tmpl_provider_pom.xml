@@ -16,6 +16,7 @@
     <properties>
 <%
     if ( docker !== 'Dockerfile' ) {
+        print('<docker.repository>\$\{project.parent.version\}</docker.repository>')
         print('<docker.tag>\$\{project.version\}</docker.tag>')
     }
 %>
@@ -132,7 +133,7 @@
                         <image>${jdk}</image>
                     </from>
                     <to>
-                        <image>\$\{project.artifactId\}:\$\{docker.tag\}</image>
+                        <image>\$\{docker.repository\}:\$\{docker.tag\}</image>
                     </to>
                     <container>
                         <appRoot>/home</appRoot>
@@ -181,7 +182,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <repository>\$\{project.artifactId\}</repository>
+                            <repository>\$\{docker.repository\}</repository>
                             <tag>\$\{docker.tag\}</tag>
                             <dockerfile>scripts/Dockerfile</dockerfile>
                             <buildArgs>
