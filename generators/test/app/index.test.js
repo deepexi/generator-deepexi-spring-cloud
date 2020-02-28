@@ -795,29 +795,16 @@ dockerfile.addProjectFiles([
   'entrypoint.sh'
 ])
 dockerfile.assertContent = () => {
-  it('should exist contents', () => {
-    assert.fileContent([
-      ['build.sh', /准备构建Docker镜像/],
-      ['start-code.sh', /APP_NAME=\$project_name/]
-    ])
-  });
-
   it('should not exist contents', () => {
     assert.noFileContent([
-      ['foo-service-provider/pom.xml', /docker\.tag/]
+      ['foo-service-provider/pom.xml', /docker\.repository/]
     ])
   });
 }
 dockerfile.assertNoContent = () => {
-  it('should not exist contents', () => {
-    assert.noFileContent([
-      ['build.sh', /准备构建Docker镜像/],
-      ['start-code.sh', /APP_NAME=\$project_name/]
-    ])
-  });
   it('should exist contents', () => {
     assert.fileContent([
-      ['foo-service-provider/pom.xml', /docker\.tag/]
+      ['foo-service-provider/pom.xml', /docker\.repository/]
     ])
   });
 }
