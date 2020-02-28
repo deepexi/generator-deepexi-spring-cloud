@@ -376,7 +376,8 @@ const expects = {
   docker: new Expect(),
   jib: new Expect(),
   dockerfile: new Expect(),
-  dockerfileMvn: new Expect()
+  dockerfileMvn: new Expect(),
+  remoteDebug: new Expect()
 };
 
 const required = expects.required;
@@ -793,7 +794,7 @@ dockerfile.addProjectFiles([
   'Dockerfile',
   'entrypoint.sh'
 ])
-dockerfile.assertContent = function () {
+dockerfile.assertContent = () => {
   it('should exist contents', () => {
     assert.fileContent([
       ['build.sh', /准备构建Docker镜像/],
@@ -801,7 +802,7 @@ dockerfile.assertContent = function () {
     ])
   });
 }
-dockerfile.assertNoContent = function () {
+dockerfile.assertNoContent = () => {
   it('should not exist contents', () => {
     assert.noFileContent([
       ['build.sh', /准备构建Docker镜像/],
@@ -830,6 +831,15 @@ dockerfileMvn.assertProviderFiles = function () {
     assert.file(providerFiles.map(resource => {
       return `foo-service-provider/scripts/${resource}`;
     }))
+  });
+}
+
+const remoteDebug = expects.remoteDebug;
+remoteDebug.assertContent = () => {
+  it('should exist contents', () => {
+    assert.fileContent([
+      ['entrypoint.sh', /address=9999/]
+    ])
   });
 }
 
@@ -1132,5 +1142,16 @@ describe('optional dependencies', () => {
 
       assertByExpected(['required', 'logback', 'dockerfileMvn'], expects)
     });
+  })
+
+  describe('RemoteDebug', () => {
+    before(() => {
+      return generate({
+        docker: 'Dockerfile',
+        demo: true
+      })
+    });
+
+    assertByExpected(['required', 'remoteDebug', 'logback', 'demo', 'dockerfile'], expects)
   })
 });
