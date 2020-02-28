@@ -29,7 +29,7 @@ else
     info '未检查到本地 maven，将通过 maven 容器['\$\{img_mvn\}']构建项目'
 
     docker_cmd='docker run --rm
-        -v $m2_cache:/root/.m2
+        -v '\$\{m2_cache\}':/root/.m2
         -v '\$\{project_home\}':/usr/src/mymaven'
     # 为了在容器中使用 docker，需要将宿主机的相关文件挂载到容器中
     docker_cmd=\$\{docker_cmd\}'
