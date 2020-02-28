@@ -792,7 +792,7 @@ const dockerfile = expects.dockerfile;
 dockerfile.addProjectFiles([
   'Dockerfile',
   'entrypoint.sh',
-  'start-code.sh',
+  'start-code.sh'
 ])
 dockerfile.assertContent = () => {
   it('should not exist contents', () => {
