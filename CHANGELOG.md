@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.18.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.17.0...v1.18.0) (2020-03-02)
+
+
+### Features
+
+* enhancements for docker ([#18](https://github.com/deepexi/generator-deepexi-spring-cloud/issues/18)) ([19c6bb8](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/19c6bb8))
+* support integration with prometheus([#11](https://github.com/deepexi/generator-deepexi-spring-cloud/issues/11)) ([db297a5](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/db297a5))
+
+
+
 ## [1.17.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.16.0...v1.17.0) (2019-11-09)
 
 

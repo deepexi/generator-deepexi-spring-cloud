@@ -28,3 +28,13 @@ bold() { printf "${bold}%s${reset}\n" "$@"
 }
 note() { printf "\n${underline}${bold}${blue}Note:${reset} ${blue}%s${reset}\n" "$@"
 }
+
+# 判断上一条执行的命令状态并输出相应提示文字
+function asset_last() {
+    if [[ $? -eq 0 ]];then
+        success $1
+    else
+        error $2
+        exit 1
+    fi
+}
