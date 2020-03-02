@@ -241,6 +241,25 @@ const obj = {
       }
     }
   },
+  docker: {
+    prompting: {
+      type: 'list',
+      choices: [
+        { key: 'Jib', display: 'Jib (推荐使用)' },
+        'Dockerfile',
+        'dockerfile-maven-plugin'
+      ],
+      message: '请选择镜像构建方式'
+    },
+    option: { desc: '镜像构建方式', type: String, default: 'Dockerfile' },
+    child: {
+      jdk: {
+        prompting: { type: 'input', default: 'openjdk:8', message: '请输入 JDK ' },
+        option: { desc: 'Dockerfile FROM', type: String, default: 'openjdk:8' }
+      }
+    }
+
+  },
   prometheus: {
     prompting: {
       type: 'confirm',
@@ -302,7 +321,7 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
       props.conditions[props.authentication] = true;
     }
 
-    if (props.security !== 'none') {
+    if (props.security && props.security !== 'none') {
       props.conditions[props.security] = true;
     }
 
@@ -321,6 +340,18 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
     if (!props.log) {
       props.log = 'logback'
     }
+
+    if (props.docker) {
+      if (props.docker === 'Dockerfile') {
+        props.conditions[props.docker] = true;
+      } else {
+        props.conditions['dockerScripts'] = true;
+        if (props.docker === 'dockerfile-maven-plugin') {
+          props.conditions['dockerMvn'] = true;
+        }
+      }
+    }
+
     props.conditions[props.log] = true;
 
     props.openfeign = props.discovery === 'eureka';

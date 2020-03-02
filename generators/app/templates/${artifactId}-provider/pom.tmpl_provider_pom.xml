@@ -13,6 +13,15 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
+    <properties>
+<%
+    if ( docker !== 'Dockerfile' ) {
+        print('<docker.repository>\$\{project.parent.name\}</docker.repository>')
+        print('<docker.tag>\$\{project.version\}</docker.tag>')
+    }
+%>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
@@ -109,6 +118,83 @@
                     </execution>
                 </executions>
             </plugin>
+            <%
+            let jib = '';
+
+            if ( docker === 'Jib' ) {
+
+               jib = `
+                <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <configuration>
+                    <from>
+                        <image>${jdk}</image>
+                    </from>
+                    <to>
+                        <image>\$\{docker.repository\}:\$\{docker.tag\}</image>
+                    </to>
+                    <container>
+                        <appRoot>/home</appRoot>
+                        <workingDirectory>/home</workingDirectory>
+                        <entrypoint>
+                            <arg>/bin/sh</arg>
+                            <arg>-c</arg>
+                            <arg>/entrypoint.sh</arg>
+                        </entrypoint>
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                    </container>
+                    <extraDirectories>
+                        <paths>scripts</paths>
+                        <permissions>
+                            <permission>
+                                <file>/entrypoint.sh</file>
+                                <mode>755</mode>
+                            </permission>
+                        </permissions>
+                    </extraDirectories>
+                    <allowInsecureRegistries>false</allowInsecureRegistries>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>dockerBuild</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+               `;
+            } else if ( docker === 'dockerfile-maven-plugin' ) {
+                jib = `
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>1.4.13</version>
+                        <executions>
+                            <execution>
+                                <id>default</id>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <repository>\$\{docker.repository\}</repository>
+                            <tag>\$\{docker.tag\}</tag>
+                            <dockerfile>scripts/Dockerfile</dockerfile>
+                            <buildArgs>
+                                <JAR_FILE>target/\$\{project.build.finalName\}.jar</JAR_FILE>
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                    `;
+            }
+            print(jib);
+
+            %>
         </plugins>
     </build>
 </project>

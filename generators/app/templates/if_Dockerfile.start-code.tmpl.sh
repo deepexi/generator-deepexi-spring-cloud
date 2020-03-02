@@ -7,7 +7,8 @@ source ./common.sh
 output_log=
 build=
 port=8080
-version='1.0.0'
+version='latest'
+custom_mvn_args=
 
 while getopts lbp:v: opt
 do
@@ -24,6 +25,9 @@ do
         v)
             version=$OPTARG
             ;;
+       c)
+            version=$CUSTOM_MVN_ARGS
+            ;;
         ?)
             error "Usage: %s: [-b] [-l] [-p port] [-v version] args\n" $0
             exit 2
@@ -36,16 +40,23 @@ done
 project_name='${artifactId}'
 
 proj_home=$PWD                              # the project root dir
-img_output=$project_name:v$version          # output image tag
+img_output=$project_name:$version          # output image tag
 container_name=$project_name                  # container name
 
 h1 '准备启动应用'$project_name'（基于Docker）'
 
 if [ ! -z $build ];then
-    PROJECT_HOME=$proj_home \
-    IMAGE_NAME=$img_output \
     APP_NAME=$project_name \
     VERSION=$version \
+   if [ ! -z $proj_home ];then
+        PROJECT_HOME=$proj_home \
+    fi
+    if [ ! -z $img_output ];then
+        IMAGE_NAME=$img_output \
+    fi
+    if [ ! -z $custom_mvn_args ];then
+        CUSTOM_MVN_ARGS=$custom_mvn_args \
+    fi
     sh build.sh
 
     if [ $? -eq 0 ];then
