@@ -113,11 +113,21 @@ function assertNoResources (resources) {
 function readYamlConfigs (env) {
   if (env) {
     if (env === 'bootstrap' || env === 'boot') {
-      return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/bootstrap.yml`)) || {};
+      return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/bootstrap.yml`)) || { apollo: {} };
     }
     return yaml.safeLoad(fs.readFileSync(`foo-service-provider/src/main/resources/application-${env}.yml`)) || {};
   }
   return yaml.safeLoad(fs.readFileSync('foo-service-provider/src/main/resources/application.yml')) || {};
+}
+
+function assertProviderPlugins (artifacts) {
+  if (_.isArray(artifacts) && artifacts.length > 0) {
+    assert.fileContent(
+      artifacts.map(artifact => {
+        return ['foo-service-provider/pom.xml', new RegExp('<artifactId>' + artifact + '<\\/artifactId>')];
+      })
+    )
+  }
 }
 
 class Expect {
@@ -288,6 +298,14 @@ class Expect {
     }
   }
 
+  assertProviderPlugins () {
+    if (this.getProviderArtifacts()) {
+      it('should exist provider plugin', () => {
+        assertProviderPlugins(this.getProviderArtifacts())
+      });
+    }
+  }
+
   assertAll () {
     const keys = [];
     Object.getOwnPropertyNames(Object.getPrototypeOf(this)).map(name => {
@@ -352,10 +370,16 @@ const expects = {
   fastjson: new Expect(),
   gson: new Expect(),
   log4j2: new Expect(),
+  skywalkingWithLogback: new Expect(),
   logback: new Expect(),
   mongodb: new Expect(),
   skywalkingWithLogback: new Expect(),
-  prometheus: new Expect()
+  prometheus: new Expect(),
+  docker: new Expect(),
+  jib: new Expect(),
+  dockerfile: new Expect(),
+  dockerfileMvn: new Expect(),
+  remoteDebug: new Expect()
 };
 
 const required = expects.required;
@@ -364,9 +388,6 @@ required.addProjectFiles([
   '.gitignore',
   'filebeat.yml',
   'start-fb.sh',
-  'start-code.sh',
-  'Dockerfile',
-  'entrypoint.sh',
   'run.sh',
   'LICENSE',
   'README.md',
@@ -683,20 +704,6 @@ const skywalking = expects.skywalking;
 skywalking.addProjectFiles([
   '1.docs/guides/dependencies/skywalking.md'
 ])
-skywalking.assertREADME = () => {
-  it('should contain content', () => {
-    assert.fileContent('entrypoint.sh', /javaagent/)
-    assert.fileContent('entrypoint.sh', /skywalking/)
-    assert.fileContent('run.sh', /-e SW_SERVICE_ADDR=/)
-  });
-}
-skywalking.assertNoREADME = () => {
-  it('should not contain content', () => {
-    assert.noFileContent('entrypoint.sh', /javaagent/)
-    assert.noFileContent('entrypoint.sh', /skywalking/)
-    assert.noFileContent('run.sh', /-e SW_SERVICE_ADDR=/)
-  });
-}
 
 const skywalkingWithLogback = expects.skywalkingWithLogback;
 skywalkingWithLogback.addProviderArtifacts([
@@ -766,6 +773,83 @@ mongodb.addProviderArtifacts([
 mongodb.assertProperties = () => {
   it('should have properties', () => {
     assert(readYamlConfigs().spring.data.mongodb);
+  });
+}
+
+// const docker = expects.docker;
+
+const jib = expects.jib;
+jib.addJibResource = function (resources) {
+  this.addFiles('provider_jib', resources);
+}
+jib.getJibResource = function () {
+  return this.getFiles('provider_jib');
+}
+jib.addJibResource([
+  'entrypoint.sh'
+])
+jib.addProviderArtifacts([
+  'jib-maven-plugin'
+])
+jib.assertJib = function () {
+  it('should exist scripts of jib', () => {
+    const jibResource = this.getJibResource();
+    assert.file(jibResource.map(resource => {
+      return `foo-service-provider/scripts/${resource}`;
+    }))
+  });
+}
+
+const dockerfile = expects.dockerfile;
+dockerfile.addProjectFiles([
+  'Dockerfile',
+  'entrypoint.sh',
+  'start-code.sh'
+])
+dockerfile.assertContent = () => {
+  it('should not exist contents', () => {
+    assert.noFileContent([
+      ['foo-service-provider/pom.xml', /docker\.repository/]
+    ])
+  });
+}
+dockerfile.assertNoContent = () => {
+  it('should exist contents', () => {
+    assert.fileContent([
+      ['foo-service-provider/pom.xml', /docker\.repository/]
+    ])
+  });
+}
+
+const dockerfileMvn = expects.dockerfileMvn;
+dockerfileMvn.addProviderFiles = function (resources) {
+  this.addFiles('provider_files', resources);
+}
+dockerfileMvn.getProviderFiles = function () {
+  return this.getFiles('provider_files');
+}
+dockerfileMvn.addProviderFiles([
+  'Dockerfile',
+  'entrypoint.sh'
+]);
+dockerfileMvn.addProviderArtifacts([
+  'dockerfile-maven-plugin'
+])
+dockerfileMvn.assertProviderFiles = function () {
+  it('should exist scripts of provider files', () => {
+    const providerFiles = this.getProviderFiles();
+    assert.file(providerFiles.map(resource => {
+      return `foo-service-provider/scripts/${resource}`;
+    }))
+  });
+}
+
+const remoteDebug = expects.remoteDebug;
+remoteDebug.assertContent = () => {
+  it('should exist contents', () => {
+    assert.fileContent([
+      ['entrypoint.sh', /address=9999/]
+    ])
   });
 }
 
@@ -953,11 +1037,13 @@ describe('optional dependencies', () => {
       before(() => {
         return generate({
           apm: 'skywalking',
+          docker: 'Dockerfile',
+          jdk: 'openjdk:8',
           demo: true
         })
       });
 
-      assertByExpected(['required', 'demo', 'logback', 'skywalking', 'skywalkingWithLogback'], expects)
+      assertByExpected(['required', 'demo', 'logback', 'skywalking', 'skywalkingWithLogback', 'dockerfile'], expects)
     });
   });
 
@@ -1019,4 +1105,74 @@ describe('optional dependencies', () => {
 
     assertByExpected(['required', 'demo', 'logback', 'mongodb'], expects)
   });
+
+  describe('Docker', () => {
+    describe('Jib', () => {
+      before(() => {
+        return generate({
+          docker: 'Jib',
+          jdk: 'openjdk:8'
+        })
+      });
+
+      assertByExpected(['required', 'logback', 'jib'], expects)
+    });
+
+    describe('DockerFile', () => {
+      describe('Dockerfile with skywalking', () => {
+        before(() => {
+          return generate({
+            docker: 'Dockerfile',
+            jdk: 'openjdk:8',
+            apm: 'skywalking'
+          })
+        });
+
+        assertByExpected(['required', 'logback', 'dockerfile', 'skywalking', 'skywalkingWithLogback'], expects)
+
+        it('should contain content', () => {
+          assert.fileContent('entrypoint.sh', /javaagent/)
+          assert.fileContent('entrypoint.sh', /skywalking/)
+          assert.fileContent('run.sh', /-e SW_SERVICE_ADDR=/)
+        });
+      })
+
+      describe('Dockerfile without skywalking', () => {
+        before(() => {
+          return generate({
+            docker: 'Dockerfile',
+            jdk: 'openjdk:8'
+          })
+        });
+
+        it('should not contain content', () => {
+          assert.noFileContent('entrypoint.sh', /javaagent/)
+          assert.noFileContent('entrypoint.sh', /skywalking/)
+          assert.noFileContent('run.sh', /-e SW_SERVICE_ADDR=/)
+        });
+      })
+    });
+
+    describe('DockerFileMvn', () => {
+      before(() => {
+        return generate({
+          docker: 'dockerfile-maven-plugin',
+          jdk: 'openjdk:8'
+        })
+      });
+
+      assertByExpected(['required', 'logback', 'dockerfileMvn'], expects)
+    });
+  })
+
+  describe('RemoteDebug', () => {
+    before(() => {
+      return generate({
+        docker: 'Dockerfile',
+        demo: true
+      })
+    });
+
+    assertByExpected(['required', 'remoteDebug', 'logback', 'demo', 'dockerfile'], expects)
+  })
 });

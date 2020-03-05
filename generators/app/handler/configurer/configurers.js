@@ -27,7 +27,8 @@ const types = [
   'log',
   'apm',
   'mongodb',
-  'prometheus'
+  'prometheus',
+  'docker'
 ];
 
 configurers.receive = (event, args) => {

@@ -30,5 +30,5 @@ h2 '准备构建Docker镜像'
 if [ ! -z $IMAGE_NAME ];then
     docker build --rm -t $IMAGE_NAME .
 else
-    docker build --rm -t $APP_NAME:v$VERSION .
+    docker build --rm -t $APP_NAME:$VERSION .
 fi
