@@ -373,7 +373,6 @@ const expects = {
   skywalkingWithLogback: new Expect(),
   logback: new Expect(),
   mongodb: new Expect(),
-  skywalkingWithLogback: new Expect(),
   prometheus: new Expect(),
   docker: new Expect(),
   jib: new Expect(),
