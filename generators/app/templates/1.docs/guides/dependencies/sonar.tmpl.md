@@ -4,13 +4,18 @@
 
 ## 如何接入 
 
-通过 `pom.xml` 的 `sonar` profile 配置 `sonar.host.url` 为你的sonar服务地址
+`pom.xml` 中 `sonar` profile 配置：
+ - `sonar.host.url` 为你的 sonar 服务地址
+ - `sonar.username` && `sonar.password` sonar的用户名与密码 (可用 sonar.login 替代)
+ - `sonar.login` 为 sonar 服务的访问 Token (sonar 页面 -> 用户头像下拉框 -> My Account -> Security -> Tokens)
+ - [更多配置项](https://docs.sonarqube.org/latest/analysis/analysis-parameters/)
 
 ```xml
 <profile>
     <id>sonar</id>
     <properties>
         <sonar.host.url>http://{sonar-url}</sonar.host.url>
+        <sonar.login>{sonar-token}</sonar.login>
     </properties>
 </profile>
 ```
@@ -19,6 +24,11 @@
 
 ```shell
 $ mvn clean verify sonar:sonar
+```
+如果集成了 Jib/Dockerfile-maven-plugin 则需要 Skip 
+```shell script
+mvn clean package -Djib.skip
+mvn clean package -Ddockerfile.skip
 ```
 
 如果你使用IDE，也可以直接在IDE先执行 `root -> Lifecycle -> verify`，再执行 `root -> Plugins -> sonar -> sonar:sonar`。
