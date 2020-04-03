@@ -25,11 +25,6 @@
 ```shell
 $ mvn clean verify sonar:sonar
 ```
-如果集成了 Jib/Dockerfile-maven-plugin 则需要 Skip 
-```shell script
-mvn clean package -Djib.skip
-mvn clean package -Ddockerfile.skip
-```
 
 如果你使用IDE，也可以直接在IDE先执行 `root -> Lifecycle -> verify`，再执行 `root -> Plugins -> sonar -> sonar:sonar`。
 
