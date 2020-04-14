@@ -388,7 +388,6 @@ required.addProjectFiles([
   '.gitignore',
   'filebeat.yml',
   'start-fb.sh',
-  'run.sh',
   'LICENSE',
   'README.md',
   '1.docs/guides/quickly_start.md',
@@ -804,6 +803,7 @@ const dockerfile = expects.dockerfile;
 dockerfile.addProjectFiles([
   'Dockerfile',
   'entrypoint.sh',
+  'run.sh',
   'start-code.sh'
 ])
 dockerfile.assertContent = () => {

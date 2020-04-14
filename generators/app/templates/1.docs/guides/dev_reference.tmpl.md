@@ -63,10 +63,7 @@
 ├── LICENSE     // 协议信息
 ├── commitlint.config.js
 ├── common.sh
-├── Dockerfile
 ├── build.sh        // 项目构建脚本
-├── run.sh          // 运行脚本
-├── start-code.sh   // 项目启动脚本
 ├── filebeat.yml
 ├── start-fb.sh     // filebeat启动脚本
 ├── scaffold.md     // 脚手架信息
