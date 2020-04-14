@@ -1,0 +1,19 @@
+image: maven:3.6.3-jdk-8
+
+stages:
+  - test
+  - sonar
+
+test-job:
+  stage: test
+  before_script:
+    - mvn clean
+  script:
+    - mvn verify <% if (docker === 'Jib') { print('-Djib.skip' ) } else if (docker === 'dockerfile-maven-plugin') { print('-Ddockerfile.skip') }  %>
+
+sonar-job:
+  stage: sonar
+  script:
+    - mvn sonar:sonar
+  variables:
+    GIT_CHECKOUT: "false"
