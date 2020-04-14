@@ -1,0 +1,8 @@
+# mongodb commandline operation grammar
+#  creat db： use DATABASE_NAME
+#  create collection: db.createCollection("COLLECTION_NAME")
+
+use devops
+db.createCollection("user")
+db.user.save({username:'demo', password: 'demo'})
+db.user.save({username:'Jack', password: 'Jack'})

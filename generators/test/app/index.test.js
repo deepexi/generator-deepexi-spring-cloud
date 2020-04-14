@@ -372,6 +372,7 @@ const expects = {
   log4j2: new Expect(),
   skywalkingWithLogback: new Expect(),
   logback: new Expect(),
+  mongodb: new Expect(),
   prometheus: new Expect(),
   docker: new Expect(),
   jib: new Expect(),
@@ -765,6 +766,16 @@ prometheus.assertProperties = () => {
   });
 }
 
+const mongodb = expects.mongodb;
+mongodb.addProviderArtifacts([
+  'spring-boot-starter-data-mongodb'
+])
+mongodb.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs().spring.data.mongodb);
+  });
+}
+
 // const docker = expects.docker;
 
 const jib = expects.jib;
@@ -1084,6 +1095,17 @@ describe('optional dependencies', () => {
 
       assertByExpected(['required', 'demo', 'log4j2'], expects)
     });
+  });
+
+  describe('mongodb', () => {
+    before(() => {
+      return generate({
+        mongodb: true,
+        demo: true
+      })
+    });
+
+    assertByExpected(['required', 'demo', 'logback', 'mongodb'], expects)
   });
 
   describe('Docker', () => {

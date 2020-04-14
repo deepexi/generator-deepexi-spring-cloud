@@ -40,7 +40,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha generators/test/app/*.test.js generators/test/app/**/*.test.js --reporter spec",
+    "test": "mocha --timeout 10000 generators/test/app/*.test.js generators/test/app/**/*.test.js --reporter spec",
     "lint": "eslint .",
     "cov": "nyc npm run test && nyc report --reporter=text-lcov > coverage.lcov",
     "commit": "npx git-cz",
