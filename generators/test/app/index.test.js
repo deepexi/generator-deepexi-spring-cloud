@@ -372,12 +372,14 @@ const expects = {
   log4j2: new Expect(),
   skywalkingWithLogback: new Expect(),
   logback: new Expect(),
+  mongodb: new Expect(),
   prometheus: new Expect(),
   docker: new Expect(),
   jib: new Expect(),
   dockerfile: new Expect(),
   dockerfileMvn: new Expect(),
-  remoteDebug: new Expect()
+  remoteDebug: new Expect(),
+  gitlabCISonar: new Expect()
 };
 
 const required = expects.required;
@@ -386,7 +388,6 @@ required.addProjectFiles([
   '.gitignore',
   'filebeat.yml',
   'start-fb.sh',
-  'run.sh',
   'LICENSE',
   'README.md',
   '1.docs/guides/quickly_start.md',
@@ -400,8 +401,8 @@ required.addProjectFiles([
   '1.docs/guides/dependencies/others.md',
   '1.docs/sql/v1.0.0/schema.sql',
   '1.docs/sql/v1.0.0/data.sql',
+  '.gitlab-ci.yml',
   'scaffold.md',
-
   'package.json',
   'commitlint.config.js'
 ])
@@ -764,6 +765,16 @@ prometheus.assertProperties = () => {
   });
 }
 
+const mongodb = expects.mongodb;
+mongodb.addProviderArtifacts([
+  'spring-boot-starter-data-mongodb'
+])
+mongodb.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs().spring.data.mongodb);
+  });
+}
+
 // const docker = expects.docker;
 
 const jib = expects.jib;
@@ -792,6 +803,7 @@ const dockerfile = expects.dockerfile;
 dockerfile.addProjectFiles([
   'Dockerfile',
   'entrypoint.sh',
+  'run.sh',
   'start-code.sh'
 ])
 dockerfile.assertContent = () => {
@@ -840,6 +852,8 @@ remoteDebug.assertContent = () => {
     ])
   });
 }
+
+// const gitlabCISonar = expects.gitlabCISonar;
 
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
@@ -1083,6 +1097,17 @@ describe('optional dependencies', () => {
     });
   });
 
+  describe('mongodb', () => {
+    before(() => {
+      return generate({
+        mongodb: true,
+        demo: true
+      })
+    });
+
+    assertByExpected(['required', 'demo', 'logback', 'mongodb'], expects)
+  });
+
   describe('Docker', () => {
     describe('Jib', () => {
       before(() => {
@@ -1151,5 +1176,58 @@ describe('optional dependencies', () => {
     });
 
     assertByExpected(['required', 'remoteDebug', 'logback', 'demo', 'dockerfile'], expects)
+  })
+
+  describe('GitlabCISonar', () => {
+    describe('With Normal', () => {
+      before(() => {
+        return generate({
+          docker: 'Dockerfile',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'logback', 'demo', 'dockerfile', 'gitlabCISonar'], expects)
+
+      it('should exist contents', function () {
+        assert.fileContent([
+          ['.gitlab-ci.yml', /sonar:sonar/]
+        ])
+      });
+    })
+
+    describe('With Skip Jib', () => {
+      before(() => {
+        return generate({
+          docker: 'Jib',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'logback', 'demo', 'jib', 'gitlabCISonar'], expects)
+
+      it('should exist contents ', function () {
+        assert.fileContent([
+          ['.gitlab-ci.yml', /-Djib\.skip/]
+        ])
+      });
+    })
+
+    describe('With Skip Dockerfile-Maven-Plugin', () => {
+      before(() => {
+        return generate({
+          docker: 'dockerfile-maven-plugin',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'logback', 'demo', 'dockerfileMvn', 'gitlabCISonar'], expects)
+
+      it('should exist contents ', function () {
+        assert.fileContent([
+          ['.gitlab-ci.yml', /-Ddockerfile\.skip/]
+        ])
+      });
+    })
   })
 });

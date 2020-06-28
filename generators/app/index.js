@@ -268,6 +268,14 @@ const obj = {
     },
     option: { desc: 'Prometheus', type: Boolean, default: false }
   },
+  mongodb: {
+    prompting: {
+      type: 'confirm',
+      message: '是否整合 mongodb（默认no）',
+      default: false
+    },
+    option: { desc: 'mongodb', type: Boolean, default: false }
+  },
   demo: {
     prompting: {
       type: 'confirm',
