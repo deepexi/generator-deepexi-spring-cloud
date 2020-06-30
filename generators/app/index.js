@@ -108,6 +108,7 @@ const obj = {
       type: 'list',
       choices: [
         'eureka',
+        'nacos',
         // 'zookeeper',
         'none'
       ],

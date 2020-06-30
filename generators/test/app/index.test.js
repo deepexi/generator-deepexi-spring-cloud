@@ -379,7 +379,8 @@ const expects = {
   dockerfile: new Expect(),
   dockerfileMvn: new Expect(),
   remoteDebug: new Expect(),
-  gitlabCISonar: new Expect()
+  gitlabCISonar: new Expect(),
+  nacos: new Expect()
 };
 
 const required = expects.required;
@@ -631,12 +632,12 @@ apollo.addProjectFiles([
 apollo.addProviderArtifacts([
   'apollo-client'
 ])
-// TODO:: can not pass
-// apollo.assertProperties = () => {
-//   it('should have properties', () => {
-//     assert(readYamlConfigs('bootstrap').apollo);
-//   });
-// }
+
+apollo.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs('bootstrap').apollo);
+  });
+}
 apollo.addProviderResources([
   'META-INF/app.properties'
 ])
@@ -853,6 +854,18 @@ remoteDebug.assertContent = () => {
   });
 }
 
+const nacos = expects.nacos;
+nacos.addProjectFiles([
+  '1.docs/guides/dependencies/nacos.md'
+])
+nacos.addProviderArtifacts([
+  'spring-cloud-starter-alibaba-nacos-config'
+])
+nacos.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs('bootstrap').spring.cloud.nacos.config);
+  });
+}
 // const gitlabCISonar = expects.gitlabCISonar;
 
 function assertByExpected (expected, expects) {
@@ -933,6 +946,17 @@ describe('optional dependencies', () => {
       });
     });
   });
+
+  describe('nacos', () => {
+    before(() => {
+      return generate({
+        discovery: 'nacos',
+        demo: true
+      })
+    });
+
+    assertByExpected(['required', 'demo', 'logback', 'nacos'], expects)
+  })
 
   describe('mysql', () => {
     describe('mybatis', () => {
