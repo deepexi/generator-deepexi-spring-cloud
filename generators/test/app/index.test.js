@@ -355,6 +355,7 @@ const expects = {
   required: new Expect(),
   demo: new Expect(),
   eureka: new Expect(),
+  consul: new Expect(),
   feign: new Expect(),
   hystrix: new Expect(),
   sentinel: new Expect(),
@@ -494,6 +495,20 @@ eureka.assertProperties = () => {
   it('should have properties', () => {
     assert(readYamlConfigs().eureka.client);
     assert(readYamlConfigs('local').eureka.client);
+  });
+}
+
+const consul = expects.consul;
+consul.addProjectFiles([
+  '1.docs/guides/dependencies/consul.md'
+])
+consul.addProviderArtifacts([
+  'spring-cloud-starter-consul-discovery'
+])
+consul.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs().spring.cloud.consul);
+    assert(readYamlConfigs('local').spring.cloud.consul.discovery);
   });
 }
 
@@ -932,6 +947,17 @@ describe('optional dependencies', () => {
         assertByExpected(['required', 'demo', 'logback', 'sentinel', 'eureka', 'feign'], expects)
       });
     });
+  });
+
+  describe('consul', () => {
+    before(() => {
+      return generate({
+        discovery: 'consul',
+        demo: true
+      })
+    });
+
+    assertByExpected(['required', 'demo', 'logback', 'consul'], expects)
   });
 
   describe('mysql', () => {
