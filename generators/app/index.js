@@ -277,14 +277,19 @@ const obj = {
     },
     option: { desc: 'mongodb', type: Boolean, default: false }
   },
-  quartz: {
+
+  schedule: {
     prompting: {
-      type: 'confirm',
-      message: '是否整合 quartz（默认no）',
-      default: false
+      type: 'list',
+      choices: [
+        'quartz',
+        'none'
+      ],
+      message: '请选择你使用的任务调度类型'
     },
-    option: { desc: 'quartz', type: Boolean, default: false }
+    option: { desc: '任务调度', type: String, default: 'none' }
   },
+
   demo: {
     prompting: {
       type: 'confirm',
@@ -367,6 +372,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
           props.conditions['dockerMvn'] = true;
         }
       }
+    }
+
+    if (props.schedule !== 'none') {
+      props.conditions[props.schedule] = true;
     }
 
     props.conditions[props.log] = true;

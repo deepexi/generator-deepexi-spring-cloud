@@ -380,7 +380,7 @@ const expects = {
   dockerfileMvn: new Expect(),
   remoteDebug: new Expect(),
   gitlabCISonar: new Expect(),
-  nacos: new Expect()
+  nacos: new Expect(),
   quartz: new Expect()
 };
 
@@ -1269,7 +1269,7 @@ describe('optional dependencies', () => {
   describe('quartz', () => {
     before(() => {
       return generate({
-        quartz: true,
+        schedule: 'quartz',
         demo: true
       })
     });

@@ -28,8 +28,8 @@ const types = [
   'apm',
   'mongodb',
   'prometheus',
-  'docker'
-  'quartz'
+  'docker',
+  'schedule'
 ];
 
 configurers.receive = (event, args) => {
