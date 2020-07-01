@@ -70,7 +70,7 @@ $ yo deepexi-spring-cloud --help
 |**类型**||||||
 |:-:|--|--|--|--|--|
 |注册中心|✅eureka|☑️consul|✅nacos|
-|配置中心|✅Apollo|☑️Disconfig|☑️Config|
+|配置中心|✅Apollo|☑️Disconfig|☑️Config|✅nacos|
 |消息队列|✅RabbitMQ|☑️RocketMQ|
 |任务调度|☑️ES Job|☑️XXL-Job|☑️SiaTask|☑️Quartz|
 |RDBMS|✅MySQL|☑️PG SQL|☑️SQL Server|
