@@ -26,7 +26,9 @@ const types = [
   'jsonParser',
   'log',
   'apm',
+  'mongodb',
   'prometheus',
+  'docker'
   'quartz'
 ];
 

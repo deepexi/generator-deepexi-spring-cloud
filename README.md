@@ -69,12 +69,12 @@ $ yo deepexi-spring-cloud --help
 
 |**类型**||||||
 |:-:|--|--|--|--|--|
-|注册中心|✅eureka|☑️consul|☑️nacos|
+|注册中心|✅eureka|☑️consul|✅nacos|
 |配置中心|✅Apollo|☑️Disconfig|☑️Config|
 |消息队列|✅RabbitMQ|☑️RocketMQ|
 |任务调度|☑️ES Job|☑️XXL-Job|☑️SiaTask|✅Quartz|
 |RDBMS|✅MySQL|☑️PG SQL|☑️SQL Server|
-|NoSQL|✅Redis|☑️MongoDB|
+|NoSQL|✅Redis|✅MongoDB|
 |连接池|✅Druid|☑️Hikari|
 |认证机制|✅JWT|
 |权限控制|✅Shiro|☑️Spring Security|
