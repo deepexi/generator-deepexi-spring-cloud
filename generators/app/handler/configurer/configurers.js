@@ -48,7 +48,7 @@ configurers.receive = (event, args) => {
           case 'configure_optional_dependencies': {
             if (configurer.configureProviderPomDependencies) {
               debug(`configure provider pom dependencies for ${type}[${typeVal}]`);
-              configurer.configureProviderPomDependencies(args.optionalDependencies, args.props);
+              configurer.configureProviderPomDependencies(args.optionalDependencies, args.props, type);
             }
             break;
           }

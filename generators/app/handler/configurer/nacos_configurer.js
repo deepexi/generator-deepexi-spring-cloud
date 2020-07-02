@@ -3,25 +3,25 @@ const _ = require('lodash');
 module.exports = {
   key: 'nacos',
   fn: {
-    configureProviderPomDependencies (optionalDependencies, props) {
-      if (props.openNacosDiscovery) {
+    configureProviderPomDependencies (optionalDependencies, props, type) {
+      if (props.openNacosDiscovery && type === 'discovery') {
         optionalDependencies.push({
           dependency: [
             { groupId: 'com.alibaba.cloud' },
             { artifactId: 'spring-cloud-starter-alibaba-nacos-discovery' },
             { version: '2.0.2.RELEASE' }
           ]
-        })
+        });
       }
 
-      if (props.openNacosConfigservice) {
+      if (props.openNacosConfigservice && type === 'configservice') {
         optionalDependencies.push({
           dependency: [
             { groupId: 'com.alibaba.cloud' },
             { artifactId: 'spring-cloud-starter-alibaba-nacos-config' },
             { version: '2.0.2.RELEASE' }
           ]
-        })
+        });
       }
     },
 
