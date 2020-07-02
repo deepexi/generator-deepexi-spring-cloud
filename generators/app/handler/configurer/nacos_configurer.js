@@ -24,19 +24,62 @@ module.exports = {
         })
       }
     },
+
+    configureApplicationYaml (yaml, env, props) {
+      if (props.openNacosDiscovery) {
+        switch (env) {
+          case 'local': {
+            _.merge(yaml, {
+              spring: {
+                cloud: {
+                  nacos: {
+                    discovery: {
+                      enabled: false
+                    }
+                  }
+                }
+              }
+            });
+            break;
+          }
+
+          case 'default': {
+            _.merge(yaml, {
+              spring: {
+                cloud: {
+                  nacos: {
+                    discovery: {
+                      'server-addr': '127.0.0.1:8848'
+                    }
+                  }
+                }
+              }
+            });
+            break;
+          }
+
+          default: {
+            break;
+          }
+        }
+      }
+    },
+
     configureBootstrapYaml (yaml, props) {
-      _.merge(yaml, {
-        spring: {
-          cloud: {
-            nacos: {
-              config: {
-                'server-addr': '127.0.0.1:8848',
-                'file-extension': 'properties'
+      if (props.openNacosConfigservice) {
+        _.merge(yaml, {
+          spring: {
+            cloud: {
+              nacos: {
+                config: {
+                  'server-addr': '127.0.0.1:8848',
+                  'file-extension': 'properties'
+                }
               }
             }
           }
-        }
-      });
+        });
+      }
     }
   }
 }
