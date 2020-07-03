@@ -7,7 +7,7 @@
 配置 Nacos
 
  <%
-if (openNacosDiscovery) {
+if (nacosDiscovery) {
 print(`
 ### 启用服务发现
 **application.yml**
@@ -33,7 +33,7 @@ spring:
 \`\`\`
 `)
 }
-if (openNacosConfigservice) {
+if (nacosConfigservice) {
 print(`
 ### 启用配置管理
 **bootstrap.yml**

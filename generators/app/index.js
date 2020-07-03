@@ -366,8 +366,8 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
 
     props.openfeign = props.discovery === 'eureka';
 
-    props.openNacosDiscovery = props.discovery === 'nacos';
+    props.nacosDiscovery = props.discovery === 'nacos';
 
-    props.openNacosConfigservice = props.configservice === 'nacos';
+    props.nacosConfigservice = props.configservice === 'nacos';
   }
 });

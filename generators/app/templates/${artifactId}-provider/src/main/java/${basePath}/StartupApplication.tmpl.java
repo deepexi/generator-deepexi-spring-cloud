@@ -6,17 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 if (openfeign) {
     print(`import org.springframework.cloud.openfeign.EnableFeignClients;`);
 }
-if (openNacosDiscovery) {
-    print(`import org.springframework.cloud.client.discovery.EnableDiscoveryClient;`);
-}
 %>
 
 <%
 if (openfeign) {
     print(`@EnableFeignClients`);
-}
-if (openNacosDiscovery) {
-    print(`@EnableDiscoveryClient`);
 }
 %>
 @SpringBootApplication
