@@ -20,7 +20,8 @@ module.exports = {
                 consul: {
                   discovery: {
                     'register': false,
-                    'enabled': false
+                    'enabled': false,
+                    'register-health-check': false
                   }
                 }
               }
