@@ -4,7 +4,7 @@ module.exports = {
   key: 'nacos',
   fn: {
     configureProviderPomDependencies (optionalDependencies, props, type) {
-      if (props.openNacosDiscovery && type === 'discovery') {
+      if (props.nacosDiscovery && type === 'discovery') {
         optionalDependencies.push({
           dependency: [
             { groupId: 'com.alibaba.cloud' },
@@ -14,7 +14,7 @@ module.exports = {
         });
       }
 
-      if (props.openNacosConfigservice && type === 'configservice') {
+      if (props.nacosConfigservice && type === 'configservice') {
         optionalDependencies.push({
           dependency: [
             { groupId: 'com.alibaba.cloud' },
@@ -26,7 +26,7 @@ module.exports = {
     },
 
     configureApplicationYaml (yaml, env, props) {
-      if (props.openNacosDiscovery) {
+      if (props.nacosDiscovery) {
         switch (env) {
           case 'local': {
             _.merge(yaml, {
@@ -66,7 +66,7 @@ module.exports = {
     },
 
     configureBootstrapYaml (yaml, props) {
-      if (props.openNacosConfigservice) {
+      if (props.nacosConfigservice) {
         _.merge(yaml, {
           spring: {
             cloud: {

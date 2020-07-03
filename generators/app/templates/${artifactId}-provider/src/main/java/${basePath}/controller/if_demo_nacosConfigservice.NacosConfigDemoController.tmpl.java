@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/config")
 @RefreshScope
 @Payload
-public class NacosDemoController {
+public class NacosConfigDemoController {
 
 <%
     let tmpl = `    @Value("\$\{useLocalCache:false\}")`;
