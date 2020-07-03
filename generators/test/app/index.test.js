@@ -862,7 +862,7 @@ nacosDiscovery.addProviderArtifacts([
 ])
 nacosDiscovery.assertProperties = () => {
   it('should have properties', () => {
-    assert(readYamlConfigs('bootstrap').spring.cloud.nacos.config);
+    assert(readYamlConfigs('local').spring.cloud.nacos.discovery);
   });
 }
 
