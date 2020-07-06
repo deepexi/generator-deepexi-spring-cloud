@@ -21,7 +21,8 @@ module.exports = {
                   discovery: {
                     'register': false,
                     'enabled': false,
-                    'register-health-check': false
+                    'register-health-check': false,
+                    'prefer-ip-address': true
                   }
                 }
               }
