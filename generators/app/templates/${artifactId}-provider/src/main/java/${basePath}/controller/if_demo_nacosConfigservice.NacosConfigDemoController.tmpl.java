@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class NacosConfigDemoController {
 
 <%
-    let tmpl = `    @Value("\$\{useLocalCache:false\}")`;
+    let tmpl = `    @Value("\$\{demo.nacos.username:nacos\}")`;
     print(tmpl)
 %>
-    private boolean useLocalCache;
+    private String username;
 
 
     @GetMapping("/get")
-    public boolean get() {
-        return useLocalCache;
+    public String get() {
+        return username;
     }
 }
