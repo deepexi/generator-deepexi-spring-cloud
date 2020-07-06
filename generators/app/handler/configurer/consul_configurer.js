@@ -21,8 +21,7 @@ module.exports = {
                   discovery: {
                     'register': false,
                     'enabled': false,
-                    'register-health-check': false,
-                    'prefer-ip-address': true
+                    'register-health-check': false
                   }
                 }
               }
@@ -36,7 +35,10 @@ module.exports = {
               cloud: {
                 consul: {
                   host: 'localhost',
-                  port: 8500
+                  port: 8500,
+                  discovery: {
+                    'prefer-ip-address': true
+                  }
                 }
               }
             }

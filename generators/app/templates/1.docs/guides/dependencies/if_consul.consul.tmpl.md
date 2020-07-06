@@ -54,5 +54,7 @@ spring:
  </dependency>
 ```
 
+同时，为了便于排查问题，prefer-ip-address 默认配置为 true
+
 
 更多 consul 配置，请参考[官方文档](https://cloud.spring.io/spring-cloud-consul/2.2.x/reference/html/)
