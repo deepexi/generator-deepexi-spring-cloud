@@ -262,6 +262,19 @@ const obj = {
     }
 
   },
+
+  schedule: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'quartz',
+        'none'
+      ],
+      message: '请选择你使用的任务调度类型'
+    },
+    option: { desc: '任务调度', type: String, default: 'none' }
+  },
+
   prometheus: {
     prompting: {
       type: 'confirm',
@@ -277,18 +290,6 @@ const obj = {
       default: false
     },
     option: { desc: 'mongodb', type: Boolean, default: false }
-  },
-
-  schedule: {
-    prompting: {
-      type: 'list',
-      choices: [
-        'quartz',
-        'none'
-      ],
-      message: '请选择你使用的任务调度类型'
-    },
-    option: { desc: '任务调度', type: String, default: 'none' }
   },
 
   demo: {
