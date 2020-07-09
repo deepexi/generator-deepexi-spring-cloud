@@ -7,7 +7,17 @@ if (openfeign) {
     print(`import org.springframework.cloud.openfeign.EnableFeignClients;`);
 }
 %>
+<%
+if (distributedTransaction) {
+    print(`import com.codingapi.txlcn.tc.config.EnableDistributedTransaction;`);
+}
+%>
 
+<%
+if (distributedTransaction) {
+    print(`@EnableDistributedTransaction`);
+}
+%>
 @SpringBootApplication
 <%
 if (openfeign) {

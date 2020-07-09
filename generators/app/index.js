@@ -146,6 +146,17 @@ const obj = {
     },
     option: { desc: '消息中间件', type: String, default: 'none' }
   },
+  distributedTransaction: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'lcn',
+        'none'
+      ],
+      message: '请选择你使用的分布式事务类型'
+    },
+    option: { desc: '分布式事务', type: String, default: 'none' }
+  },
   configservice: {
     prompting: {
       type: 'list',
@@ -319,6 +330,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
 
     if (props.mq !== 'none') {
       props.conditions[props.mq] = true;
+    }
+
+    if (props.distributedTransaction !== 'none') {
+      props.conditions[props.distributedTransaction] = true;
     }
 
     if (props.configservice !== 'none') {
