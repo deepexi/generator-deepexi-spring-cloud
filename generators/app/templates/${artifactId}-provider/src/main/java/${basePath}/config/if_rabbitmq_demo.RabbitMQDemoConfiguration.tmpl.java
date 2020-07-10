@@ -1,6 +1,6 @@
 package ${basePackage}.config;
 
-import ${basePackage}.service.MQDemoService;
+import ${basePackage}.service.MqDemoService;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -9,9 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+/**
+ * @author deepexi
+ */
 @Configuration
-@Import(RabbitMQDemoConfiguration.Receiver.class)
-public class RabbitMQDemoConfiguration {
+@Import(RabbitMqDemoConfiguration.Receiver.class)
+public class RabbitMqDemoConfiguration {
     @Bean
     public Queue test() {
         return new Queue("test.queue");
@@ -20,10 +23,10 @@ public class RabbitMQDemoConfiguration {
     @RabbitListener(queues = "test.queue")
     public class Receiver {
         @Autowired
-        private MQDemoService service;
+        private MqDemoService service;
 
         @RabbitHandler
-        public void process(MQDemoService.ContentDto data) {
+        public void process(MqDemoService.ContentDto data) {
             service.consume(data);
         }
     }

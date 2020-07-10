@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
+/**
+ * @author deepexi
+ */
 @Component
 @Slf4j
 public class ApplicationMetaObjectHandler implements MetaObjectHandler {
@@ -28,9 +31,17 @@ public class ApplicationMetaObjectHandler implements MetaObjectHandler {
         this.setUpdateFieldValByName("updatedBy", runtimeData.getUserId(), metaObject);
     }
 
-    public interface RuntimeData {
+   public interface RuntimeData {
+        /**
+         * 获得用户id
+         * @return userId
+         */
         String getUserId();
 
+        /**
+         * 获得租户id
+         * @return tenantId
+         */
         String getTenantId();
     }
 }

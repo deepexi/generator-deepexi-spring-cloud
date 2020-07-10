@@ -4,7 +4,10 @@ import com.github.taccisum.shiro.web.autoconfigure.stateless.support.jwt.JWTPrin
 import com.github.taccisum.shiro.web.autoconfigure.stateless.support.jwt.Payload;
 import org.apache.shiro.SecurityUtils;
 
-public abstract class AuthUtils {
+/**
+ * @author deepexi
+ */
+public abstract class AbstractAuthUtils {
     public static String getToken() {
         return getPrincipal().getToken();
     }

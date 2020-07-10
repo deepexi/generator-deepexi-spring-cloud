@@ -373,6 +373,7 @@ const expects = {
   skywalkingWithLogback: new Expect(),
   logback: new Expect(),
   mongodb: new Expect(),
+  p3c: new Expect(),
   prometheus: new Expect(),
   docker: new Expect(),
   jib: new Expect(),
@@ -418,7 +419,7 @@ required.addProviderClasses([
   'domain/dto/.gitkeep',
   'domain/entity/.gitkeep',
   'domain/query/.gitkeep',
-  'domain/query/PaginationRequest.java',
+  'domain/query/BasePaginationRequest.java',
   'domain/vo/.gitkeep',
   'domain/vo/Pagination.java'
 ]);
@@ -607,8 +608,8 @@ rabbitmq.assertDemoFiles = () => {
   it('should exist demo files', () => {
     assertClasses([
       'controller/MQDemoController.java',
-      'service/MQDemoService.java',
-      'service/impl/RabbitMQDemoServiceImpl.java',
+      'service/MqDemoService.java',
+      'service/impl/RabbitMqDemoServiceImpl.java',
       'config/RabbitMQDemoConfiguration.java'
     ])
   });
@@ -651,7 +652,7 @@ jwtShiro.addProviderArtifacts([
 ])
 jwtShiro.addProviderClasses([
   'config/ShiroConfiguration.java',
-  'util/AuthUtils.java'
+  'util/AbstractAuthUtils.java'
 ])
 jwtShiro.assertProperties = () => {
   it('should have properties', () => {
@@ -775,6 +776,18 @@ mongodb.assertProperties = () => {
   });
 }
 
+const p3c = expects.p3c;
+p3c.addRootArtifacts(
+  [
+    'p3c-pmd',
+    'maven-pmd-plugin',
+    'maven-project-info-reports-plugin'
+  ])
+p3c.assertProperties = () => {
+  it('should exist root artifacts',() => {
+    assert(p3c.getRootArtifacts());
+  })
+};
 // const docker = expects.docker;
 
 const jib = expects.jib;
@@ -1106,6 +1119,17 @@ describe('optional dependencies', () => {
     });
 
     assertByExpected(['required', 'demo', 'logback', 'mongodb'], expects)
+  });
+
+  describe('mongodb', () => {
+    before(() => {
+      return generate({
+        p3c: true,
+        demo: true
+      })
+    });
+
+    assertByExpected(['required', 'demo', 'logback', 'p3c'], expects)
   });
 
   describe('Docker', () => {

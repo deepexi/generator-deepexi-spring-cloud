@@ -11,6 +11,9 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author deepexi
+ */
 @Data
 public class Pagination<T> {
     @ApiModelProperty(value = "总行数", required = true)

@@ -8,6 +8,9 @@ import springfox.documentation.spring.web.json.Json;
 
 import java.lang.reflect.Type;
 
+/**
+ * @author deepexi
+ */
 @Configuration
 public class GsonConfigurer implements WebMvcConfigurer {
     @Bean

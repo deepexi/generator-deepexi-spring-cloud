@@ -8,6 +8,9 @@ if (openfeign) {
 }
 %>
 
+/**
+ * @author deepexi
+ */
 @SpringBootApplication
 <%
 if (openfeign) {

@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author deepexi
+ */
 @Configuration
 public class ReturnValueConfigurer implements InitializingBean {
     @Autowired
@@ -59,7 +62,7 @@ public class ReturnValueConfigurer implements InitializingBean {
 
         @Override
         public void handleReturnValue(Object o, MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest) throws Exception {
-            Map<String, Object> result = new HashMap<>();
+            Map<String, Object> result = new HashMap<>(16);
             result.put("success", true);
             result.put("code", "1");
             result.put("payload", o);

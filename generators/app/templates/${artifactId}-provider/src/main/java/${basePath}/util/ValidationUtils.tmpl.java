@@ -9,6 +9,9 @@ import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import javax.validation.Validator;
 
+/**
+ * @author deepexi
+ */
 @Component
 public class ValidationUtils {
     private static Validator validator;

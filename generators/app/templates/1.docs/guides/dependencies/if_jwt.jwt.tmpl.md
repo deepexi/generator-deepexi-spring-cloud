@@ -2,13 +2,13 @@
 
 ## 如何使用
 
-在代码中通过[AuthUtils](/${basePath}/util/AuthUtils.java)相关方法使用token
+在代码中通过[AbstractAuthUtils](/${basePath}/util/AbstractAuthUtils.java)相关方法使用token
 
 ```java
 // 获取用户传入的token
-AuthUtils.getToken()
+AbstractAuthUtils.getToken()
 // 获取用户传入的token解析后的payload
-AuthUtils.getPayload()
+AbstractAuthUtils.getPayload()
 ```
 
 ## 相关配置
