@@ -18,12 +18,12 @@ if (distributedTransaction) {
     print(`@EnableDistributedTransaction`);
 }
 %>
-@SpringBootApplication
 <%
 if (openfeign) {
     print(`@EnableFeignClients`);
 }
 %>
+@SpringBootApplication
 public class StartupApplication {
     public static void main(String[] args) {
         SpringApplication.run(StartupApplication.class, args);
