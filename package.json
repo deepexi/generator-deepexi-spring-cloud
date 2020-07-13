@@ -1,65 +1,65 @@
 {
-  "name": "generator-deepexi-spring-cloud",
-  "version": "1.19.0",
-  "description": "deepexi spring cloud scaffold tool",
-  "files": [
-    "generators"
-  ],
-  "keywords": [
-    "yeoman-generator",
-    "scaffold",
-    "generator",
-    "deepexi",
-    "java",
-    "spring cloud",
-    "sc"
-  ],
-  "dependencies": {
-    "debug": "^4.1.1",
-    "js-yaml": "^3.13.1",
-    "moment": "^2.24.0",
-    "prettify-xml": "^1.2.0",
-    "xml": "^1.0.1",
-    "yeoman-generator": "^1.1.1",
-    "yo-power-generator": "^0.7.1"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^8.0.0",
-    "@commitlint/config-conventional": "^8.0.0",
-    "eslint": "^5.16.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^2.0.0",
-    "husky": "^2.7.0",
-    "nyc": "^14.1.1",
-    "standard-version": "^6.0.1"
-  },
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha --timeout 10000 generators/test/app/*.test.js generators/test/app/**/*.test.js --reporter spec",
-    "lint": "eslint .",
-    "cov": "nyc npm run test && nyc report --reporter=text-lcov > coverage.lcov",
-    "commit": "npx git-cz",
-    "release": "standard-version"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": "npm test"
-    }
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/deepexi/generator-deepexi-spring-cloud.git"
-  },
-  "bugs": {
-    "url": "https://github.com/deepexi/generator-deepexi-spring-cloud/issues"
-  },
-  "homepage": "https://github.com/deepexi/generator-deepexi-spring-cloud#readme",
-  "author": "taccisum",
-  "license": "ISC"
+	"name": "generator-deepexi-spring-cloud",
+	"version": "1.19.0",
+	"description": "deepexi spring cloud scaffold tool",
+	"files": [
+		"generators"
+	],
+	"keywords": [
+		"yeoman-generator",
+		"scaffold",
+		"generator",
+		"deepexi",
+		"java",
+		"spring cloud",
+		"sc"
+	],
+	"dependencies": {
+		"debug": "^4.1.1",
+		"js-yaml": "^3.13.1",
+		"moment": "^2.24.0",
+		"prettify-xml": "^1.2.0",
+		"xml": "^1.0.1",
+		"yeoman-generator": "^1.1.1",
+		"yo-power-generator": "^0.7.1"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^8.0.0",
+		"@commitlint/config-conventional": "^8.0.0",
+		"eslint": "^5.16.0",
+		"eslint-config-standard": "^12.0.0",
+		"eslint-plugin-import": "^2.17.3",
+		"eslint-plugin-node": "^9.1.0",
+		"eslint-plugin-promise": "^4.1.1",
+		"eslint-plugin-standard": "^4.0.0",
+		"yeoman-assert": "^3.1.1",
+		"yeoman-test": "^2.0.0",
+		"husky": "^2.7.0",
+		"nyc": "^14.1.1",
+		"standard-version": "^6.0.1"
+	},
+	"main": "index.js",
+	"scripts": {
+		"test": "mocha --timeout 10000 generators/test/app/*.test.js generators/test/app/**/*.test.js --reporter spec",
+		"lint": "eslint .",
+		"cov": "nyc npm run test && nyc report --reporter=text-lcov > coverage.lcov",
+		"commit": "npx git-cz",
+		"release": "standard-version"
+	},
+	"husky": {
+		"hooks": {
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+			"pre-push": "npm test"
+		}
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/deepexi/generator-deepexi-spring-cloud.git"
+	},
+	"bugs": {
+		"url": "https://github.com/deepexi/generator-deepexi-spring-cloud/issues"
+	},
+	"homepage": "https://github.com/deepexi/generator-deepexi-spring-cloud#readme",
+	"author": "taccisum",
+	"license": "ISC"
 }

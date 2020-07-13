@@ -1,7 +1,7 @@
 module.exports = {
 
   isBootstrapYaml (name) {
-    return /(^|\/)bootstrap\..*\.?ya?ml/.test(name);
+    return /(^|\\|\/)bootstrap\..*\.?ya?ml/.test(name);
   },
 
   extractApplicationYamlEnv (name) {
