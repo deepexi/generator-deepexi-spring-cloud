@@ -381,7 +381,7 @@ const expects = {
   remoteDebug: new Expect(),
   gitlabCISonar: new Expect(),
   nacosDiscovery: new Expect(),
-  nacosConfigservice: new Expect()
+  nacosConfigservice: new Expect(),
   shardingsphere: new Expect()
 };
 
