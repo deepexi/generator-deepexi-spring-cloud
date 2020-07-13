@@ -29,7 +29,7 @@ cmd=\$\{cmd\}\'`
 
 if(docker === 'Jib') {
 tmpl += `
-            -cp resources/:classes/:libs/*
+            -cp /home/resources/:/home/classes/:/home/libs/*
                 ${basePackage}.StartupApplication $@
 \'`
 } else {
