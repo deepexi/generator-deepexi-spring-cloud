@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const path = require('path');
 const Trigger = require('yo-power-generator').Trigger;
@@ -17,7 +17,11 @@ const obj = {
     option: { desc: '基础包路径（为空则使用group id）', type: String, default: '' }
   },
   mavenUrl: {
-    prompting: { type: 'input', message: '请输入你的maven仓库地址', default: 'http://maven.aliyun.com/nexus/content/groups/public/' },
+    prompting: {
+      type: 'input',
+      message: '请输入你的maven仓库地址',
+      default: 'http://maven.aliyun.com/nexus/content/groups/public/'
+    },
     option: { desc: 'maven仓库url', type: String, default: 'http://maven.aliyun.com/nexus/content/groups/public/' }
   },
   templateEngine: {
@@ -35,10 +39,7 @@ const obj = {
   log: {
     prompting: {
       type: 'list',
-      choices: [
-        { key: 'logback', display: '默认(logback)' },
-        'log4j2'
-      ],
+      choices: [ { key: 'logback', display: '默认(logback)' }, 'log4j2' ],
       message: '请选择你使用的日志框架类型'
     },
     option: { desc: '日志框架', type: String, default: 'logback' }
@@ -46,22 +47,23 @@ const obj = {
   jsonParser: {
     prompting: {
       type: 'list',
-      choices: [
-        'jackson',
-        'fastjson',
-        'gson'
-      ],
+      choices: [ 'jackson', 'fastjson', 'gson' ],
       message: '请选择你使用的JSON解析器'
     },
     option: { desc: 'JSON解析器', type: String, default: 'jackson' }
   },
+  ddbm: {
+    prompting: {
+      type: 'list',
+      choices: [ 'shardingsphere', 'none' ],
+      message: '请选择你使用的分布式数据库中间件'
+    },
+    option: { desc: '分布式数据库中间件(distributed database middleware)', type: String, default: 'none' }
+  },
   db: {
     prompting: {
       type: 'list',
-      choices: [
-        'mysql',
-        'none'
-      ],
+      choices: [ 'mysql', 'none' ],
       message: '请选择你使用的数据库'
     },
     option: { desc: '数据库', type: String, default: 'none' },
@@ -78,9 +80,7 @@ const obj = {
         },
         option: { desc: '数据库连接池', type: String, default: 'none' },
         callbacks: {
-          trigger: [
-            new Trigger.AnyAnswerTrigger('db', 'mysql')
-          ]
+          trigger: [ new Trigger.AnyAnswerTrigger('db', 'mysql') ]
         }
       },
       orm: {
@@ -96,9 +96,7 @@ const obj = {
         },
         option: { desc: 'ORM框架', type: String, default: 'none' },
         callbacks: {
-          trigger: [
-            new Trigger.AnyAnswerTrigger('db', 'mysql')
-          ]
+          trigger: [ new Trigger.AnyAnswerTrigger('db', 'mysql') ]
         }
       }
     }
@@ -120,18 +118,12 @@ const obj = {
       feignCircuit: {
         prompting: {
           type: 'list',
-          choices: [
-            'hystrix',
-            { key: 'sentinel', display: 'alibaba sentinel' },
-            'none'
-          ],
+          choices: [ 'hystrix', { key: 'sentinel', display: 'alibaba sentinel' }, 'none' ],
           message: '请选择你的openfeign熔断器类型'
         },
         option: { desc: 'feign熔断降级', type: String, default: 'hystrix' },
         callbacks: {
-          trigger: [
-            new Trigger.AnyAnswerTrigger('discovery', 'eureka')
-          ]
+          trigger: [ new Trigger.AnyAnswerTrigger('discovery', 'eureka') ]
         }
       }
     }
@@ -163,10 +155,7 @@ const obj = {
   authentication: {
     prompting: {
       type: 'list',
-      choices: [
-        'jwt',
-        'none'
-      ],
+      choices: [ 'jwt', 'none' ],
       message: '请选择你采用的认证机制类型'
     },
     option: { desc: '认证机制', type: String, default: 'jwt' },
@@ -175,9 +164,7 @@ const obj = {
         prompting: { type: 'input', default: 'deepexi', message: '请填写你的jwt issue' },
         option: { desc: 'jwt issue', type: String, default: 'deepexi' },
         callbacks: {
-          trigger: [
-            new Trigger.AnyAnswerTrigger('authentication', 'jwt')
-          ]
+          trigger: [ new Trigger.AnyAnswerTrigger('authentication', 'jwt') ]
         }
       },
       security: {
@@ -191,9 +178,7 @@ const obj = {
         },
         option: { desc: '认证框架', type: String, default: 'shiro' },
         callbacks: {
-          trigger: [
-            new Trigger.NoAnyAnswerTrigger('authentication', 'none')
-          ]
+          trigger: [ new Trigger.NoAnyAnswerTrigger('authentication', 'none') ]
         }
       }
     }
@@ -237,9 +222,7 @@ const obj = {
         prompting: { type: 'input', default: '6.4.0', message: '请填写你使用的skywalking版本' },
         option: { desc: 'skywalking版本', type: String, default: '6.4.0' },
         callbacks: {
-          trigger: [
-            new Trigger.AnyAnswerTrigger('apm', 'skywalking')
-          ]
+          trigger: [ new Trigger.AnyAnswerTrigger('apm', 'skywalking') ]
         }
       }
     }
@@ -247,11 +230,7 @@ const obj = {
   docker: {
     prompting: {
       type: 'list',
-      choices: [
-        { key: 'Jib', display: 'Jib (推荐使用)' },
-        'Dockerfile',
-        'dockerfile-maven-plugin'
-      ],
+      choices: [ { key: 'Jib', display: 'Jib (推荐使用)' }, 'Dockerfile', 'dockerfile-maven-plugin' ],
       message: '请选择镜像构建方式'
     },
     option: { desc: '镜像构建方式', type: String, default: 'Dockerfile' },
@@ -261,7 +240,6 @@ const obj = {
         option: { desc: 'Dockerfile FROM', type: String, default: 'openjdk:8' }
       }
     }
-
   },
   prometheus: {
     prompting: {
@@ -287,14 +265,14 @@ const obj = {
     },
     option: { desc: '生成demo', type: Boolean, default: false }
   }
-}
+};
 
 module.exports = require('yo-power-generator').getGenerator(obj, {
   description: 'deepexi spring cloud scaffold',
   handlerDir: path.join(__dirname, 'handler'),
   templateDir: path.join(__dirname, 'templates'),
   afterPropsSet (props) {
-    props.version = require('../../package.json').version
+    props.version = require('../../package.json').version;
     props.cli = `yo generator-deepexi-spring-cloud -c ${props.cli}`;
 
     if (!props.basePackage) {
@@ -303,11 +281,19 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
     props.basePath = props.basePackage.replace(/\./g, '/');
 
     props.conditions = {};
+
+    if (props.ddbm && props.ddbm !== 'none') {
+      props.conditions[props.ddbm] = true;
+    }
+
     if (props.db && props.db !== 'none') {
       if (props.orm && props.orm !== 'none') {
         props.conditions[props.orm] = true;
         if (props.demo) {
           props.conditions.crud = true;
+          props.conditions.shardingsphereCrud = props.ddbm === 'shardingsphere';
+          props.conditions.shardingsphereMybatis = props.orm === 'mybatis';
+          props.conditions.shardingsphereMybatisPlus = props.orm === 'mybatis-plus';
         }
       }
     }
@@ -349,7 +335,7 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
     }
 
     if (!props.log) {
-      props.log = 'logback'
+      props.log = 'logback';
     }
 
     if (props.docker) {

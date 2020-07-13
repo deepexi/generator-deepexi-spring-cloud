@@ -382,7 +382,8 @@ const expects = {
   remoteDebug: new Expect(),
   gitlabCISonar: new Expect(),
   nacosDiscovery: new Expect(),
-  nacosConfigservice: new Expect()
+  nacosConfigservice: new Expect(),
+  shardingsphere: new Expect()
 };
 
 const required = expects.required;
@@ -889,6 +890,21 @@ nacosConfigservice.assertProperties = () => {
     assert(readYamlConfigs('bootstrap').spring.cloud.nacos.config);
   });
 }
+const shardingsphere = expects.shardingsphere;
+shardingsphere.addProjectFiles([
+  '1.docs/guides/dependencies/shardingsphere.md'
+]);
+
+shardingsphere.addProviderArtifacts([
+  'sharding-jdbc-spring-boot-starter'
+]);
+
+shardingsphere.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs('local').spring.shardingsphere)
+  })
+}
+
 // const gitlabCISonar = expects.gitlabCISonar;
 
 function assertByExpected (expected, expects) {
@@ -1238,7 +1254,7 @@ describe('optional dependencies', () => {
 
       assertByExpected(['required', 'logback', 'dockerfileMvn'], expects)
     });
-  })
+  });
 
   describe('RemoteDebug', () => {
     before(() => {
@@ -1249,7 +1265,7 @@ describe('optional dependencies', () => {
     });
 
     assertByExpected(['required', 'remoteDebug', 'logback', 'demo', 'dockerfile'], expects)
-  })
+  });
 
   describe('GitlabCISonar', () => {
     describe('With Normal', () => {
@@ -1302,5 +1318,18 @@ describe('optional dependencies', () => {
         ])
       });
     })
-  })
+  });
+
+  describe('ddbm', () => {
+    describe('shardingsphere', () => {
+      before(() => {
+        return generate({
+          ddbm: 'shardingsphere',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'logback', 'shardingsphere'], expects)
+    });
+  });
 });

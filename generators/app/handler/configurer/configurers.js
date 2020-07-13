@@ -1,16 +1,16 @@
 const fs = require('fs');
 const path = require('path');
-const debug = require('debug')('generator:th:configurers')
+const debug = require('debug')('generator:th:configurers');
 
 const configurers = {};
 
 const files = fs.readdirSync(__dirname);
-files.forEach(file => {
+files.forEach((file) => {
   const obj = require(path.join(__dirname, file));
   if (obj.key && obj.fn) {
     configurers[obj.key] = obj.fn;
   }
-})
+});
 
 const types = [
   'discovery',
@@ -28,11 +28,12 @@ const types = [
   'apm',
   'mongodb',
   'prometheus',
-  'docker'
+  'docker',
+  'ddbm'
 ];
 
 configurers.receive = (event, args) => {
-  types.forEach(type => {
+  types.forEach((type) => {
     const typeVal = args.props[type];
     if (typeVal) {
       let configurer;
@@ -68,12 +69,12 @@ configurers.receive = (event, args) => {
             break;
           }
           default: {
-            break
+            break;
           }
         }
       }
     }
-  })
-}
+  });
+};
 
 module.exports = configurers;

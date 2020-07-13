@@ -5,11 +5,8 @@ module.exports = {
   fn: {
     configureProviderPomDependencies (optionalDependencies) {
       optionalDependencies.push({
-        dependency: [
-          { groupId: 'org.springframework.boot' },
-          { artifactId: 'spring-boot-starter-amqp' }
-        ]
-      })
+        dependency: [ { groupId: 'org.springframework.boot' }, { artifactId: 'spring-boot-starter-amqp' } ]
+      });
     },
     configureApplicationYaml (yaml, env) {
       switch (env) {
@@ -35,4 +32,4 @@ module.exports = {
       }
     }
   }
-}
+};
