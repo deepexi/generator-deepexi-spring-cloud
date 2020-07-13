@@ -380,6 +380,8 @@ const expects = {
   dockerfileMvn: new Expect(),
   remoteDebug: new Expect(),
   gitlabCISonar: new Expect(),
+  nacosDiscovery: new Expect(),
+  nacosConfigservice: new Expect()
   shardingsphere: new Expect()
 };
 
@@ -632,12 +634,12 @@ apollo.addProjectFiles([
 apollo.addProviderArtifacts([
   'apollo-client'
 ])
-// TODO:: can not pass
-// apollo.assertProperties = () => {
-//   it('should have properties', () => {
-//     assert(readYamlConfigs('bootstrap').apollo);
-//   });
-// }
+
+apollo.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs('bootstrap').apollo);
+  });
+}
 apollo.addProviderResources([
   'META-INF/app.properties'
 ])
@@ -854,6 +856,25 @@ remoteDebug.assertContent = () => {
   });
 }
 
+const nacosDiscovery = expects.nacosDiscovery;
+nacosDiscovery.addProviderArtifacts([
+  'spring-cloud-starter-alibaba-nacos-discovery'
+])
+nacosDiscovery.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs('local').spring.cloud.nacos.discovery);
+  });
+}
+
+const nacosConfigservice = expects.nacosConfigservice;
+nacosConfigservice.addProviderArtifacts([
+  'spring-cloud-starter-alibaba-nacos-config'
+])
+nacosConfigservice.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs('bootstrap').spring.cloud.nacos.config);
+  });
+}
 const shardingsphere = expects.shardingsphere;
 shardingsphere.addProjectFiles([
   '1.docs/guides/dependencies/shardingsphere.md'
@@ -912,41 +933,54 @@ describe('minimun app with demo', () => {
 });
 
 describe('optional dependencies', () => {
-  describe('eureka', () => {
-    before(() => {
-      return generate({
-        discovery: 'eureka',
-        feignCircuit: 'none',
-        demo: true
-      })
+  describe('discovery', () => {
+    describe('eureka', () => {
+      before(() => {
+        return generate({
+          discovery: 'eureka',
+          feignCircuit: 'none',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'logback', 'eureka', 'feign'], expects)
+
+      describe('openfeign circuit', () => {
+        describe('hystrix', () => {
+          before(() => {
+            return generate({
+              discovery: 'eureka',
+              feignCircuit: 'hystrix',
+              demo: true
+            })
+          });
+
+          assertByExpected(['required', 'demo', 'logback', 'hystrix', 'eureka', 'feign'], expects)
+        });
+
+        describe('sentinel', () => {
+          before(() => {
+            return generate({
+              discovery: 'eureka',
+              feignCircuit: 'sentinel',
+              demo: true
+            })
+          });
+
+          assertByExpected(['required', 'demo', 'logback', 'sentinel', 'eureka', 'feign'], expects)
+        });
+      });
     });
 
-    assertByExpected(['required', 'demo', 'logback', 'eureka', 'feign'], expects)
-
-    describe('openfeign circuit', () => {
-      describe('hystrix', () => {
-        before(() => {
-          return generate({
-            discovery: 'eureka',
-            feignCircuit: 'hystrix',
-            demo: true
-          })
-        });
-
-        assertByExpected(['required', 'demo', 'logback', 'hystrix', 'eureka', 'feign'], expects)
+    describe('nacos', () => {
+      before(() => {
+        return generate({
+          discovery: 'nacos',
+          demo: true
+        })
       });
 
-      describe('sentinel', () => {
-        before(() => {
-          return generate({
-            discovery: 'eureka',
-            feignCircuit: 'sentinel',
-            demo: true
-          })
-        });
-
-        assertByExpected(['required', 'demo', 'logback', 'sentinel', 'eureka', 'feign'], expects)
-      });
+      assertByExpected(['required', 'demo', 'logback', 'nacosDiscovery'], expects)
     });
   });
 
@@ -1000,14 +1034,27 @@ describe('optional dependencies', () => {
   });
 
   describe('configservice', () => {
-    before(() => {
-      return generate({
-        configservice: 'apollo',
-        demo: true
-      })
+    describe('apollo', () => {
+      before(() => {
+        return generate({
+          configservice: 'apollo',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'logback', 'apollo'], expects)
     });
 
-    assertByExpected(['required', 'demo', 'logback', 'apollo'], expects)
+    describe('nacos', () => {
+      before(() => {
+        return generate({
+          configservice: 'nacos',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'logback', 'nacosConfigservice'], expects)
+    });
   });
 
   describe('authentication', () => {
