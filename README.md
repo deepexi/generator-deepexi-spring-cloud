@@ -80,7 +80,7 @@ $ yo deepexi-spring-cloud --help
 |权限控制|✅Shiro|☑️Spring Security|
 |分布式事务|☑️TCC-Transaction|☑️LCN|
 |APM|✅️SkyWalking|☑️Zipkin|☑️PinPoint|
-|分库分表|☑️Sharding-JDBC|☑️MyCAT|
+|分库分表|✅Sharding-JDBC|☑️MyCAT|
 |服务器|✅Tomcat|☑️Jetty|☑️Undertow|
 |JSON解析器|✅Jackson|✅️FastJson|✅️Gson|
 |模板引擎|✅Thymeleaf|☑️Freemarker|

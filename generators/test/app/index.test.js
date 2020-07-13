@@ -379,7 +379,8 @@ const expects = {
   dockerfile: new Expect(),
   dockerfileMvn: new Expect(),
   remoteDebug: new Expect(),
-  gitlabCISonar: new Expect()
+  gitlabCISonar: new Expect(),
+  shardingsphere: new Expect()
 };
 
 const required = expects.required;
@@ -853,6 +854,21 @@ remoteDebug.assertContent = () => {
   });
 }
 
+const shardingsphere = expects.shardingsphere;
+shardingsphere.addProjectFiles([
+  '1.docs/guides/dependencies/shardingsphere.md'
+]);
+
+shardingsphere.addProviderArtifacts([
+  'sharding-jdbc-spring-boot-starter'
+]);
+
+shardingsphere.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs('local').spring.shardingsphere)
+  })
+}
+
 // const gitlabCISonar = expects.gitlabCISonar;
 
 function assertByExpected (expected, expects) {
@@ -1165,7 +1181,7 @@ describe('optional dependencies', () => {
 
       assertByExpected(['required', 'logback', 'dockerfileMvn'], expects)
     });
-  })
+  });
 
   describe('RemoteDebug', () => {
     before(() => {
@@ -1176,7 +1192,7 @@ describe('optional dependencies', () => {
     });
 
     assertByExpected(['required', 'remoteDebug', 'logback', 'demo', 'dockerfile'], expects)
-  })
+  });
 
   describe('GitlabCISonar', () => {
     describe('With Normal', () => {
@@ -1229,5 +1245,20 @@ describe('optional dependencies', () => {
         ])
       });
     })
-  })
+  });
+
+  describe('ddbm', () => {
+    describe('shardingsphere', () => {
+      before(() => {
+        return generate({
+          ddbm: 'shardingsphere',
+          db: 'mysql',
+          orm: 'mybatis',
+          demo: true
+        })
+      });
+
+      assertByExpected(['required', 'demo', 'logback', 'shardingsphere'], expects)
+    });
+  });
 });
