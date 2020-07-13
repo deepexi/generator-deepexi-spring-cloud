@@ -109,6 +109,7 @@ const obj = {
       choices: [
         'eureka',
         'consul',
+        'nacos',
         // 'zookeeper',
         'none'
       ],
@@ -152,6 +153,7 @@ const obj = {
       type: 'list',
       choices: [
         { key: 'apollo', display: '携程apollo' },
+        'nacos',
         'none'
       ],
       message: '请选择你的配置中心类型'
@@ -364,5 +366,9 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
     props.conditions[props.log] = true;
 
     props.openfeign = props.discovery === 'eureka';
+
+    props.nacosDiscovery = props.discovery === 'nacos';
+
+    props.nacosConfigservice = props.configservice === 'nacos';
   }
 });
