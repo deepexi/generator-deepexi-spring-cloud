@@ -1252,8 +1252,6 @@ describe('optional dependencies', () => {
       before(() => {
         return generate({
           ddbm: 'shardingsphere',
-          db: 'mysql',
-          orm: 'mybatis',
           demo: true
         })
       });
