@@ -1,5 +1,7 @@
 package ${basePackage}.config.web;
 
+import cn.hutool.http.HttpStatus;
+import com.deepexi.constant.HttpConstant;
 import ${basePackage}.exception.BizErrorResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -10,7 +12,11 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
+/**
+ * @author deepexi
+ */
 @Component
 public class ApplicationErrorAttributes extends DefaultErrorAttributes {
 
@@ -23,7 +29,7 @@ public class ApplicationErrorAttributes extends DefaultErrorAttributes {
     public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
         Map<String, Object> attributes = super.getErrorAttributes(webRequest, includeStackTrace);
 
-        if (webRequest.getHeader("Accept").matches(".*text/html.*")) {
+         if (Objects.requireNonNull(webRequest.getHeader(HttpConstant.HEADER_NAME)).matches(HttpConstant.TEXT_HTML)) {
             return attributes;
         }
 
@@ -32,7 +38,7 @@ public class ApplicationErrorAttributes extends DefaultErrorAttributes {
         resultAttributes.put("message", attributes.get("message"));
 
         int status = Integer.parseInt(attributes.get("status").toString());
-        if (status >= 400 && status < 500) {
+         if (status >= HttpStatus.HTTP_BAD_REQUEST && status < HttpStatus.HTTP_INTERNAL_ERROR) {
             Throwable error = getError(webRequest);
             if (error != null) {
                 BizErrorResponseStatus annotation = AnnotationUtils.findAnnotation(error.getClass(), BizErrorResponseStatus.class);

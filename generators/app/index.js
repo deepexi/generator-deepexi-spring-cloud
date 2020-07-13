@@ -279,6 +279,14 @@ const obj = {
     },
     option: { desc: 'mongodb', type: Boolean, default: false }
   },
+  p3c: {
+    prompting: {
+      type: 'confirm',
+      message: '是否整合 阿里巴巴Java代码规约插件 p3c（默认no）',
+      default: false
+    },
+    option: { desc: 'p3c', type: Boolean, default: false }
+  },
   demo: {
     prompting: {
       type: 'confirm',

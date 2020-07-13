@@ -4,6 +4,9 @@ import ${basePackage}.controller.DemoController;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author deepexi
+ */
 @Component
 public class String2DemoControllerModelConverter implements Converter<String, DemoController.Model> {
     @Override

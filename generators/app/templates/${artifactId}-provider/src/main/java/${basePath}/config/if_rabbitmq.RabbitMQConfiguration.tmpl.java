@@ -7,8 +7,11 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author deepexi
+ */
 @Configuration
-public class RabbitMQConfiguration {
+public class RabbitMqConfiguration {
     @Bean
     public MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter() {

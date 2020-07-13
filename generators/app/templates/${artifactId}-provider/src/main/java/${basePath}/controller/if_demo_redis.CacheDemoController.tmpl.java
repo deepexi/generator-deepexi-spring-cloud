@@ -5,6 +5,9 @@ import ${basePackage}.service.StringCacheDemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author deepexi
+ */
 @RestController
 @RequestMapping("demo/cache")
 @Payload

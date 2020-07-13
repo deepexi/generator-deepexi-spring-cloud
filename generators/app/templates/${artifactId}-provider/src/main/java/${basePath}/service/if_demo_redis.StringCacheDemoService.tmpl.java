@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/**
+ * @author deepexi
+ */
 @Service
 @CacheConfig(cacheNames = "string_demo")
 public class StringCacheDemoService {

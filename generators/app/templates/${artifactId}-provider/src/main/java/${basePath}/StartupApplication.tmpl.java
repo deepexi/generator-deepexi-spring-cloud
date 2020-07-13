@@ -8,6 +8,9 @@ if (openfeign) {
 }
 %>
 
+/**
+ * @author deepexi
+ */
 <%
 if (openfeign) {
     print(`@EnableFeignClients`);

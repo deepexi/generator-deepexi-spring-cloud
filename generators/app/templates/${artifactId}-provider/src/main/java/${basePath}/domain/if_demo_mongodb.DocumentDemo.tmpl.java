@@ -8,6 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 
+/**
+ * @author deepexi
+ */
 @Data
 @Accessors(chain = true)
 @Document(collection = "user")

@@ -13,6 +13,9 @@ import java.io.Serializable;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * @author deepexi
+ */
 @Service
 @CacheConfig(cacheNames = "object_demo")
 public class ObjectCacheDemoService {

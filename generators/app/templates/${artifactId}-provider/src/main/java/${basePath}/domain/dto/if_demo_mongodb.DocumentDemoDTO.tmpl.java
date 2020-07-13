@@ -5,6 +5,9 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author deepexi
+ */
 @Data
 @Accessors(chain = true)
 public class DocumentDemoDTO {

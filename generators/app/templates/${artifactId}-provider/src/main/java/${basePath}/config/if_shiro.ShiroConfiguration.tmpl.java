@@ -12,6 +12,9 @@ import org.apache.shiro.realm.Realm;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author deepexi
+ */
 @Slf4j
 @Configuration
 public class ShiroConfiguration {

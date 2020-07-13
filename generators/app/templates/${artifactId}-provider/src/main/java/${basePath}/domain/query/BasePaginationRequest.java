@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
+/**
+ * @author deepexi
+ */
 @Data
-public abstract class PaginationRequest {
+public abstract class BasePaginationRequest {
     @ApiParam(value = "index", example = "1")
     private Integer index = 1;
     @ApiParam(value = "size", example = "20")
