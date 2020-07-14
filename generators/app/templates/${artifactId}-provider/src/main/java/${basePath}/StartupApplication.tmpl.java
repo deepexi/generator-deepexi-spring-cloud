@@ -8,13 +8,13 @@ if (openfeign) {
 }
 %>
 <%
-if (distributedTransaction) {
+if (lcnDistributedTransaction) {
     print(`import com.codingapi.txlcn.tc.config.EnableDistributedTransaction;`);
 }
 %>
 
 <%
-if (distributedTransaction) {
+if (lcnDistributedTransaction) {
     print(`@EnableDistributedTransaction`);
 }
 %>

@@ -385,5 +385,7 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
     props.nacosDiscovery = props.discovery === 'nacos';
 
     props.nacosConfigservice = props.configservice === 'nacos';
+
+    props.lcnDistributedTransaction = props.distributedTransaction === 'lcn';
   }
 });
