@@ -382,7 +382,8 @@ const expects = {
   remoteDebug: new Expect(),
   gitlabCISonar: new Expect(),
   nacosDiscovery: new Expect(),
-  nacosConfigservice: new Expect()
+  nacosConfigservice: new Expect(),
+  websocket: new Expect()
 };
 
 const required = expects.required;
@@ -891,6 +892,11 @@ nacosConfigservice.assertProperties = () => {
 }
 // const gitlabCISonar = expects.gitlabCISonar;
 
+const websocket = expects.websocket;
+websocket.addProviderArtifacts([
+  'spring-boot-starter-websocket'
+])
+
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
     for (const key in expects) {
@@ -1303,4 +1309,15 @@ describe('optional dependencies', () => {
       });
     })
   })
+
+  describe('websocket', () => {
+    before(() => {
+      return generate({
+        websocket: true,
+        demo: true
+      })
+    });
+
+    assertByExpected(['required', 'demo', 'logback', 'websocket'], expects)
+  });
 });

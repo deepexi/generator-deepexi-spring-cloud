@@ -88,7 +88,7 @@ $ yo deepexi-spring-cloud --help
 |ORM|✅MybatisPlus|✅Mapper|☑️JPA|
 |日志系统|✅Logback|✅Log4j2|
 |DDD|
-|WebSocket|☑️Spring Boot Websocket|
+|WebSocket|✅Spring Boot Websocket|
 |Bean转换器|✅SpringMVC Converter|☑️MapStruct|
 |DeepEXI产品|☑️sPaaS|
 |其它|✅️Prometheus|
