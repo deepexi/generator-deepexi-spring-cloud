@@ -28,7 +28,8 @@ const types = [
   'apm',
   'mongodb',
   'prometheus',
-  'docker'
+  'docker',
+  'websocket'
 ];
 
 configurers.receive = (event, args) => {

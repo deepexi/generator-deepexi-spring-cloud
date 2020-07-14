@@ -279,6 +279,14 @@ const obj = {
     },
     option: { desc: 'mongodb', type: Boolean, default: false }
   },
+  websocket: {
+    prompting: {
+      type: 'confirm',
+      message: '是否整合 websocket（默认no）',
+      default: false
+    },
+    option: { desc: 'websocket', type: Boolean, default: false }
+  },
   demo: {
     prompting: {
       type: 'confirm',
