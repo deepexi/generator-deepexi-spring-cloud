@@ -19,6 +19,7 @@ const types = [
   'dbPool',
   'openfeign',
   'mq',
+  'distributedTransaction',
   'configservice',
   'authentication',
   'templateEngine',

@@ -362,6 +362,7 @@ const expects = {
   mybatis: new Expect(),
   mybatisplus: new Expect(),
   rabbitmq: new Expect(),
+  lcn: new Expect(),
   druid: new Expect(),
   apollo: new Expect(),
   jwtShiro: new Expect(),
@@ -514,6 +515,17 @@ consul.assertProperties = () => {
     assert(readYamlConfigs('local').spring.cloud.consul.discovery);
   });
 }
+
+const lcn = expects.lcn;
+lcn.addProjectFiles([
+  '1.docs/guides/dependencies/lcn.md'
+])
+lcn.addProviderArtifacts([
+  'txlcn-tc'
+])
+lcn.addProviderArtifacts([
+  'txlcn-txmsg-netty'
+])
 
 const feign = expects.feign;
 feign.addProviderClasses([
@@ -1052,6 +1064,17 @@ describe('optional dependencies', () => {
     });
 
     assertByExpected(['required', 'demo', 'logback', 'rabbitmq'], expects)
+  });
+
+  describe('lcn', () => {
+    before(() => {
+      return generate({
+        distributedTransaction: 'lcn',
+        demo: true
+      })
+    });
+
+    assertByExpected(['required', 'demo', 'logback', 'lcn'], expects)
   });
 
   describe('configservice', () => {

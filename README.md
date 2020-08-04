@@ -78,7 +78,7 @@ $ yo deepexi-spring-cloud --help
 |连接池|✅Druid|☑️Hikari|
 |认证机制|✅JWT|
 |权限控制|✅Shiro|☑️Spring Security|
-|分布式事务|☑️TCC-Transaction|☑️LCN|
+|分布式事务|☑️TCC-Transaction|✅LCN|
 |APM|✅️SkyWalking|☑️Zipkin|☑️PinPoint|
 |分库分表|☑️Sharding-JDBC|☑️MyCAT|
 |服务器|✅Tomcat|☑️Jetty|☑️Undertow|
