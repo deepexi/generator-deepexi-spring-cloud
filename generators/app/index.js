@@ -263,6 +263,19 @@ const obj = {
     }
 
   },
+
+  schedule: {
+    prompting: {
+      type: 'list',
+      choices: [
+        'quartz',
+        'none'
+      ],
+      message: '请选择你使用的任务调度类型'
+    },
+    option: { desc: '任务调度', type: String, default: 'none' }
+  },
+
   prometheus: {
     prompting: {
       type: 'confirm',
@@ -361,6 +374,10 @@ module.exports = require('yo-power-generator').getGenerator(obj, {
           props.conditions['dockerMvn'] = true;
         }
       }
+    }
+
+    if (props.schedule !== 'none') {
+      props.conditions[props.schedule] = true;
     }
 
     props.conditions[props.log] = true;
