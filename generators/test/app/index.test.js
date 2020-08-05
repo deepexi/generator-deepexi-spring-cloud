@@ -382,7 +382,8 @@ const expects = {
   remoteDebug: new Expect(),
   gitlabCISonar: new Expect(),
   nacosDiscovery: new Expect(),
-  nacosConfigservice: new Expect()
+  nacosConfigservice: new Expect(),
+  quartz: new Expect()
 };
 
 const required = expects.required;
@@ -891,6 +892,16 @@ nacosConfigservice.assertProperties = () => {
 }
 // const gitlabCISonar = expects.gitlabCISonar;
 
+const quartz = expects.quartz;
+quartz.addProviderArtifacts(
+  ['spring-boot-starter-quartz']
+)
+quartz.assertProperties = () => {
+  it('should have properties', () => {
+    assert(readYamlConfigs().spring.quartz);
+  });
+}
+
 function assertByExpected (expected, expects) {
   describe('required files or classes', () => {
     for (const key in expects) {
@@ -1303,4 +1314,14 @@ describe('optional dependencies', () => {
       });
     })
   })
+
+  describe('quartz', () => {
+    before(() => {
+      return generate({
+        schedule: 'quartz',
+        demo: true
+      })
+    });
+    assertByExpected(['required', 'demo', 'logback', 'quartz'], expects)
+  });
 });
