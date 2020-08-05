@@ -2,8 +2,18 @@
 	"name": "generator-deepexi-spring-cloud",
 	"version": "1.19.0",
 	"description": "deepexi spring cloud scaffold tool",
-	"files": [ "generators" ],
-	"keywords": [ "yeoman-generator", "scaffold", "generator", "deepexi", "java", "spring cloud", "sc" ],
+	"files": [
+		"generators"
+	],
+	"keywords": [
+		"yeoman-generator",
+		"scaffold",
+		"generator",
+		"deepexi",
+		"java",
+		"spring cloud",
+		"sc"
+	],
 	"dependencies": {
 		"debug": "^4.1.1",
 		"js-yaml": "^3.13.1",
