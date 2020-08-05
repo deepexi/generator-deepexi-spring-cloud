@@ -3,12 +3,15 @@ package ${basePackage}.service.impl;
 import ${basePackage}.domain.dto.JobDemoCronDTO;
 import ${basePackage}.domain.dto.JobDemoInfoDTO;
 import ${basePackage}.service.JobDemoService;
-import ${basePackage}.util.JobUtils;
+import ${basePackage}.job.DemoJob;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author deepexi
+ */
 @Service
 @Slf4j
 public class JobDemoServiceImpl implements JobDemoService {
@@ -19,7 +22,7 @@ public class JobDemoServiceImpl implements JobDemoService {
     @Override
     public void save(JobDemoCronDTO dto) throws Exception {
         JobDetail jobDetail = JobBuilder
-                .newJob(JobUtils.getClass(dto.getJobClassName()).getClass())
+                .newJob(DemoJob.class)
                 .withIdentity(dto.getJobClassName(), dto.getJobGroupName())
                 .build();
         CronScheduleBuilder cron = CronScheduleBuilder.cronSchedule(dto.getCronExpression());
