@@ -292,6 +292,7 @@ const obj = {
     },
     option: { desc: 'mongodb', type: Boolean, default: false }
   },
+
   demo: {
     prompting: {
       type: 'confirm',
