@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.20.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.19.0...v1.20.0) (2020-08-06)
+
+
+### Features
+
+* **scaffold:** support  integration with quartz ([0039fa4](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/0039fa493b86f5d647d7607acdcfcbb8698b4f8f))
+* **scaffold:** support for integration with consul ([#28](https://github.com/deepexi/generator-deepexi-spring-cloud/issues/28)) ([1b677de](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/1b677dea277806e2f9de005a1c881659ab1011c8))
+* **scaffold:** support integrate discovery & config with nacos ([05867e2](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/05867e2d1426dc0e8f9619d865fe359b624eab79))
+
+
+### Bug Fixes
+
+* build.sh and jib ([#26](https://github.com/deepexi/generator-deepexi-spring-cloud/issues/26)) ([fa9c0f7](https://github.com/deepexi/generator-deepexi-spring-cloud/commit/fa9c0f7534cbc0851a3f6523ed69a07bf3ee0692))
+
 ## [1.19.0](https://github.com/deepexi/generator-deepexi-spring-cloud/compare/v1.18.0...v1.19.0) (2020-04-14)
 
 
